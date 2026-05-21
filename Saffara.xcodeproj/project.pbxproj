@@ -24,18 +24,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C9DBD1602FBCD4210095921B /* sports_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sports_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9DBD1762FBCD4240095921B /* sports_appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sports_appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9DBD1802FBCD4240095921B /* sports_appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sports_appUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9DBD1602FBCD4210095921B /* Saffara.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Saffara.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9DBD1762FBCD4240095921B /* SaffaraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SaffaraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9DBD1802FBCD4240095921B /* SaffaraUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SaffaraUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C9DBD1882FBCD4240095921B /* Exceptions for "sports_app" folder in "sports_app" target */ = {
+		C9DBD1882FBCD4240095921B /* Exceptions for "sports_app" folder in "Saffara" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = C9DBD15F2FBCD4210095921B /* sports_app */;
+			target = C9DBD15F2FBCD4210095921B /* Saffara */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -43,7 +43,7 @@
 		C9DBD1622FBCD4210095921B /* sports_app */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C9DBD1882FBCD4240095921B /* Exceptions for "sports_app" folder in "sports_app" target */,
+				C9DBD1882FBCD4240095921B /* Exceptions for "sports_app" folder in "Saffara" target */,
 			);
 			path = sports_app;
 			sourceTree = "<group>";
@@ -98,9 +98,9 @@
 		C9DBD1612FBCD4210095921B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C9DBD1602FBCD4210095921B /* sports_app.app */,
-				C9DBD1762FBCD4240095921B /* sports_appTests.xctest */,
-				C9DBD1802FBCD4240095921B /* sports_appUITests.xctest */,
+				C9DBD1602FBCD4210095921B /* Saffara.app */,
+				C9DBD1762FBCD4240095921B /* SaffaraTests.xctest */,
+				C9DBD1802FBCD4240095921B /* SaffaraUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,9 +108,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C9DBD15F2FBCD4210095921B /* sports_app */ = {
+		C9DBD15F2FBCD4210095921B /* Saffara */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9DBD1892FBCD4240095921B /* Build configuration list for PBXNativeTarget "sports_app" */;
+			buildConfigurationList = C9DBD1892FBCD4240095921B /* Build configuration list for PBXNativeTarget "Saffara" */;
 			buildPhases = (
 				C9DBD15C2FBCD4210095921B /* Sources */,
 				C9DBD15D2FBCD4210095921B /* Frameworks */,
@@ -123,16 +123,16 @@
 			fileSystemSynchronizedGroups = (
 				C9DBD1622FBCD4210095921B /* sports_app */,
 			);
-			name = sports_app;
+			name = Saffara;
 			packageProductDependencies = (
 			);
 			productName = sports_app;
-			productReference = C9DBD1602FBCD4210095921B /* sports_app.app */;
+			productReference = C9DBD1602FBCD4210095921B /* Saffara.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C9DBD1752FBCD4240095921B /* sports_appTests */ = {
+		C9DBD1752FBCD4240095921B /* SaffaraTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9DBD18E2FBCD4240095921B /* Build configuration list for PBXNativeTarget "sports_appTests" */;
+			buildConfigurationList = C9DBD18E2FBCD4240095921B /* Build configuration list for PBXNativeTarget "SaffaraTests" */;
 			buildPhases = (
 				C9DBD1722FBCD4240095921B /* Sources */,
 				C9DBD1732FBCD4240095921B /* Frameworks */,
@@ -146,16 +146,16 @@
 			fileSystemSynchronizedGroups = (
 				C9DBD1792FBCD4240095921B /* sports_appTests */,
 			);
-			name = sports_appTests;
+			name = SaffaraTests;
 			packageProductDependencies = (
 			);
 			productName = sports_appTests;
-			productReference = C9DBD1762FBCD4240095921B /* sports_appTests.xctest */;
+			productReference = C9DBD1762FBCD4240095921B /* SaffaraTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		C9DBD17F2FBCD4240095921B /* sports_appUITests */ = {
+		C9DBD17F2FBCD4240095921B /* SaffaraUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9DBD1912FBCD4240095921B /* Build configuration list for PBXNativeTarget "sports_appUITests" */;
+			buildConfigurationList = C9DBD1912FBCD4240095921B /* Build configuration list for PBXNativeTarget "SaffaraUITests" */;
 			buildPhases = (
 				C9DBD17C2FBCD4240095921B /* Sources */,
 				C9DBD17D2FBCD4240095921B /* Frameworks */,
@@ -169,11 +169,11 @@
 			fileSystemSynchronizedGroups = (
 				C9DBD1832FBCD4240095921B /* sports_appUITests */,
 			);
-			name = sports_appUITests;
+			name = SaffaraUITests;
 			packageProductDependencies = (
 			);
 			productName = sports_appUITests;
-			productReference = C9DBD1802FBCD4240095921B /* sports_appUITests.xctest */;
+			productReference = C9DBD1802FBCD4240095921B /* SaffaraUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -199,7 +199,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C9DBD15B2FBCD4210095921B /* Build configuration list for PBXProject "sports_app" */;
+			buildConfigurationList = C9DBD15B2FBCD4210095921B /* Build configuration list for PBXProject "Saffara" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -213,9 +213,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C9DBD15F2FBCD4210095921B /* sports_app */,
-				C9DBD1752FBCD4240095921B /* sports_appTests */,
-				C9DBD17F2FBCD4240095921B /* sports_appUITests */,
+				C9DBD15F2FBCD4210095921B /* Saffara */,
+				C9DBD1752FBCD4240095921B /* SaffaraTests */,
+				C9DBD17F2FBCD4240095921B /* SaffaraUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -271,12 +271,12 @@
 /* Begin PBXTargetDependency section */
 		C9DBD1782FBCD4240095921B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C9DBD15F2FBCD4210095921B /* sports_app */;
+			target = C9DBD15F2FBCD4210095921B /* Saffara */;
 			targetProxy = C9DBD1772FBCD4240095921B /* PBXContainerItemProxy */;
 		};
 		C9DBD1822FBCD4240095921B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C9DBD15F2FBCD4210095921B /* sports_app */;
+			target = C9DBD15F2FBCD4210095921B /* Saffara */;
 			targetProxy = C9DBD1812FBCD4240095921B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -289,19 +289,22 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 55AU5WR7KC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sports_app/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Saffara - صفارة";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.iti.sports-app";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iti.sports.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -316,19 +319,22 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 55AU5WR7KC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sports_app/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Saffara - صفارة";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.iti.sports-app";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iti.sports.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -469,7 +475,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sports_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/sports_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Saffara.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Saffara";
 			};
 			name = Debug;
 		};
@@ -487,7 +493,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sports_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/sports_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Saffara.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Saffara";
 			};
 			name = Release;
 		};
@@ -526,7 +532,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C9DBD15B2FBCD4210095921B /* Build configuration list for PBXProject "sports_app" */ = {
+		C9DBD15B2FBCD4210095921B /* Build configuration list for PBXProject "Saffara" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9DBD18C2FBCD4240095921B /* Debug */,
@@ -535,7 +541,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9DBD1892FBCD4240095921B /* Build configuration list for PBXNativeTarget "sports_app" */ = {
+		C9DBD1892FBCD4240095921B /* Build configuration list for PBXNativeTarget "Saffara" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9DBD18A2FBCD4240095921B /* Debug */,
@@ -544,7 +550,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9DBD18E2FBCD4240095921B /* Build configuration list for PBXNativeTarget "sports_appTests" */ = {
+		C9DBD18E2FBCD4240095921B /* Build configuration list for PBXNativeTarget "SaffaraTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9DBD18F2FBCD4240095921B /* Debug */,
@@ -553,7 +559,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9DBD1912FBCD4240095921B /* Build configuration list for PBXNativeTarget "sports_appUITests" */ = {
+		C9DBD1912FBCD4240095921B /* Build configuration list for PBXNativeTarget "SaffaraUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9DBD1922FBCD4240095921B /* Debug */,
