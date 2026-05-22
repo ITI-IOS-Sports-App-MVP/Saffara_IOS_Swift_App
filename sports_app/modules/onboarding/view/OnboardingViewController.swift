@@ -37,9 +37,9 @@ class OnboardingViewController: UIViewController {
     
     func setupSlides() {
         slides = [
-            OnboardingSlide(title: "Welcome! ⚽️🏀🎾", description: "Your World of Sports, All in One Place.", animationName: "onboarding_lottie_1"),
-            OnboardingSlide(title: "Catch Every Moment", description: "Explore upcoming events, live results, and team stats.", animationName: "onboarding_lottie_2"),
-            OnboardingSlide(title: "Your Favorites", description: "Save your top leagues and never miss an update.", animationName: "onboarding_lottie_3")
+            OnboardingSlide(title: "Your World of Sports, All in One Place", description: "Explore leagues, follow upcoming events, and save your favorite teams.", animationName: "onboarding_lottie_1"),
+            OnboardingSlide(title: "Stay on Top of Every Match", description: "Get upcoming fixtures, live scores, and full results — all in one clean view.", animationName: "onboarding_lottie_2"),
+            OnboardingSlide(title: "Save Your Favorite Leagues", description: "Tap the heart on any league to pin it for quick access — even offline. Your favorites are always one tap away.", animationName: "onboarding_lottie_3")
         ]
         pageControl.numberOfPages = slides.count
     }

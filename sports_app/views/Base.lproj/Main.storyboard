@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AB2-Fm-AGj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AB2-Fm-AGj">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -86,20 +87,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W96-6p-Gm9">
-                                <rect key="frame" x="288" y="113" width="81" height="38"/>
+                                <rect key="frame" x="288" y="182" width="81" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="81" id="gia-0X-Z2n"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Skip">
-                                    <color key="baseBackgroundColor" systemColor="systemOrangeColor"/>
+                                    <color key="baseBackgroundColor" red="1" green="0.41960784313725491" blue="0.20784313725490194" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="skipButtonClicked:" destination="Gxo-dh-hgO" eventType="touchUpInside" id="Myk-k8-6gt"/>
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fXU-gx-GJj">
-                                <rect key="frame" x="0.0" y="167" width="393" height="357"/>
+                                <rect key="frame" x="0.0" y="236" width="393" height="254"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="9NL-bo-2ys">
                                     <size key="itemSize" width="128" height="128"/>
@@ -109,57 +110,58 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="IgT-qf-074" customClass="OnboardingCollectionViewCell" customModule="sports_app" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <rect key="frame" x="0.0" y="63" width="128" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="2Nv-bn-HfU">
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </collectionViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="sJd-Wy-fTt">
-                                <rect key="frame" x="160" y="545" width="73" height="26"/>
-                                <color key="pageIndicatorTintColor" systemColor="systemGray5Color"/>
-                                <color key="currentPageIndicatorTintColor" systemColor="systemOrangeColor"/>
+                                <rect key="frame" x="160" y="511" width="73" height="26"/>
+                                <color key="pageIndicatorTintColor" red="0.16470588235294117" green="0.16470588235294117" blue="0.16470588235294117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="currentPageIndicatorTintColor" red="1" green="0.41960784309999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bmw-uQ-1wN">
-                                <rect key="frame" x="24" y="585" width="100" height="50"/>
+                                <rect key="frame" x="24" y="551" width="100" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="pr-height"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="pr-width"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Previous">
-                                    <color key="baseBackgroundColor" systemColor="systemOrangeColor"/>
+                                    <color key="baseBackgroundColor" red="1" green="0.41960784309999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="prevButtonClicked:" destination="Gxo-dh-hgO" eventType="touchUpInside" id="7by-nu-GyE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YZH-J0-zrm">
-                                <rect key="frame" x="269" y="584" width="100" height="50"/>
+                                <rect key="frame" x="269" y="550" width="100" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="nx-height"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="nx-width"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Next">
-                                    <color key="baseBackgroundColor" systemColor="systemOrangeColor"/>
+                                    <color key="baseBackgroundColor" red="1" green="0.41960784309999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="nextButtonClicked:" destination="Gxo-dh-hgO" eventType="touchUpInside" id="rgN-Pj-jli"/>
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="get-started-btn">
-                                <rect key="frame" x="24" y="585" width="345" height="50"/>
+                                <rect key="frame" x="24" y="551" width="345" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="gs-height"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Get Started ">
                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleHeadline"/>
-                                    <color key="baseBackgroundColor" systemColor="systemOrangeColor"/>
+                                    <color key="baseBackgroundColor" red="1" green="0.41960784309999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="getStartedButtonClicked:" destination="Gxo-dh-hgO" eventType="touchUpInside" id="gs-action"/>
@@ -167,7 +169,7 @@
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gmA-oV-1Pk"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="YZH-J0-zrm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Bmw-uQ-1wN" secondAttribute="trailing" constant="8" symbolic="YES" id="REF-et-c4P"/>
                             <constraint firstItem="sJd-Wy-fTt" firstAttribute="top" secondItem="fXU-gx-GJj" secondAttribute="bottom" constant="21" id="cv-bot"/>
@@ -208,7 +210,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AB2-Fm-AGj" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Qjn-p5-2MZ">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -222,17 +224,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="gearshape" catalog="system" width="128" height="123"/>
+        <image name="gearshape" catalog="system" width="32" height="32"/>
         <image name="heart" catalog="system" width="128" height="107"/>
         <image name="trophy" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
