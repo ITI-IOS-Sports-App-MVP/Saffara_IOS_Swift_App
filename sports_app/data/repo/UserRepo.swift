@@ -22,4 +22,24 @@ class UserRepo: UserRepoProtocol {
     func readFirstEntry() -> Bool {
         return userDefaultService.readFirstEntry()
     }
+    
+    // MARK: - Theme
+    
+    func saveTheme(isDarkMode: Bool) {
+        userDefaultService.saveTheme(isDarkMode: isDarkMode)
+    }
+    
+    func readTheme() -> Bool {
+        return userDefaultService.readTheme()
+    }
+    
+    // MARK: - Language
+    
+    func saveLanguage(_ languageCode: String) {
+        userDefaultService.saveLanguage(languageCode)
+    }
+    
+    func readLanguage() -> String {
+        return userDefaultService.readLanguage()
+    }
 }

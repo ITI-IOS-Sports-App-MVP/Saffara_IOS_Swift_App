@@ -15,17 +15,32 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        // Build the dependency chain
         let userDefaultService = UserDefaultService()
         let userRepo = UserRepo(userDefaultService: userDefaultService)
         let readFirstEntryUseCase = ReadFirstEntryUseCase(userRepo: userRepo)
+        let readThemeUseCase = ReadThemeUseCase(userRepo: userRepo)
+        let readLanguageUseCase = ReadLanguageUseCase(userRepo: userRepo)
         
         let isFirstEntry = readFirstEntryUseCase.execute()
+        let isDarkMode = readThemeUseCase.execute()
+        let currentLanguage = readLanguageUseCase.execute()
+        
+        // Apply layout direction immediately
+        let isRTL = (currentLanguage == "ar")
+        let attribute: UISemanticContentAttribute = isRTL ? .forceRightToLeft : .forceLeftToRight
+        UIView.appearance().semanticContentAttribute = attribute
         
         window = UIWindow(windowScene: windowScene)
+        window?.semanticContentAttribute = attribute
+        
+        // Apply saved theme to the window immediately
+        window?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         if isFirstEntry {
+            // First time user → show onboarding
             let onboardingVC = storyboard.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
             
             let saveFirstEntryUseCase = SaveFirstEntryUseCase(userRepo: userRepo)
@@ -34,6 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             window?.rootViewController = onboardingVC
         } else {
+            // Returning user → go straight to home
             let homeVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
             window?.rootViewController = homeVC
         }
@@ -70,6 +86,40 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
+}
+
+// MARK: - Dynamic Localization Helper
+
+class LocalizationManager {
+    static let shared = LocalizationManager()
+    
+    private init() {}
+    
+    func localizedBundle() -> Bundle {
+        let languageKey = "appLanguage"
+        let currentLanguage: String
+        if let saved = UserDefaults.standard.string(forKey: languageKey) {
+            currentLanguage = saved
+        } else {
+            currentLanguage = String(Locale.preferredLanguages.first?.prefix(2) ?? "en")
+        }
+        
+        if let path = Bundle.main.path(forResource: currentLanguage, ofType: "lproj"),
+           let bundle = Bundle(path: path) {
+            return bundle
+        }
+        return Bundle.main
+    }
+    
+    func localizedString(forKey key: String) -> String {
+        return NSLocalizedString(key, bundle: localizedBundle(), comment: "")
+    }
+}
+
+extension String {
+    var localized: String {
+        return LocalizationManager.shared.localizedString(forKey: self)
+    }
 }
 
 

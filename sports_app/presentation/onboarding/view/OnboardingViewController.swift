@@ -34,16 +34,24 @@ class OnboardingViewController: UIViewController {
         collectionView.dataSource = self
         
         setupSlides()
+        setupButtons()
         updateUI()
     }
     
     func setupSlides() {
         slides = [
-            OnboardingSlide(title: "Your World of Sports, All in One Place", description: "Explore leagues, follow upcoming events, and save your favorite teams.", animationName: "onboarding_lottie_1"),
-            OnboardingSlide(title: "Stay on Top of Every Match", description: "Get upcoming fixtures, live scores, and full results — all in one clean view.", animationName: "onboarding_lottie_2"),
-            OnboardingSlide(title: "Save Your Favorite Leagues", description: "Tap the heart on any league to pin it for quick access — even offline. Your favorites are always one tap away.", animationName: "onboarding_lottie_3")
+            OnboardingSlide(title: "onboarding_title_1".localized, description: "onboarding_desc_1".localized, animationName: "onboarding_lottie_1"),
+            OnboardingSlide(title: "onboarding_title_2".localized, description: "onboarding_desc_2".localized, animationName: "onboarding_lottie_2"),
+            OnboardingSlide(title: "onboarding_title_3".localized, description: "onboarding_desc_3".localized, animationName: "onboarding_lottie_3")
         ]
         pageControl.numberOfPages = slides.count
+    }
+    
+    func setupButtons() {
+        skipButton.setTitle("onboarding_skip".localized, for: .normal)
+        prevButton.setTitle("onboarding_previous".localized, for: .normal)
+        nextButton.setTitle("onboarding_next".localized, for: .normal)
+        getStartedButton.setTitle("onboarding_get_started".localized, for: .normal)
     }
     
     func updateUI() {

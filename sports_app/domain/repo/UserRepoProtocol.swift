@@ -10,4 +10,10 @@ import Foundation
 protocol UserRepoProtocol {
     func saveFirstEntry(_ isFirstEntry: Bool)
     func readFirstEntry() -> Bool
+    
+    func saveTheme(isDarkMode: Bool)
+    func readTheme() -> Bool
+    
+    func saveLanguage(_ languageCode: String)
+    func readLanguage() -> String
 }
