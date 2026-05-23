@@ -9,6 +9,6 @@ import UIKit
 
 struct SportCard {
     let name: String
-    let icon: String
+    let imageName: String
     let iconBackgroundColor: UIColor
 }

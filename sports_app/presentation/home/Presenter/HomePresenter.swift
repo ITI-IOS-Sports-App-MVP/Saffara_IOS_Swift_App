@@ -9,15 +9,17 @@
 import Foundation
 import UIKit
 
-protocol HomeViewProtocol: AnyObject {
-    func reloadCollectionView()
-    func updateThemeIcon(isDarkMode: Bool)
-    func updateLanguageLabel(languageCode: String)
-    func applyTheme(isDarkMode: Bool)
-    func applyLanguage(languageCode: String, isInitial: Bool)
+protocol HomePresenterProtocol {
+    func viewDidLoad()
+    func refreshSportsData()
+    func getSportsCount() -> Int
+    func getSport(at index: Int) -> SportCard
+    func searchSports(with query: String)
+    func toggleTheme()
+    func toggleLanguage()
 }
 
-class HomePresenter {
+class HomePresenter: HomePresenterProtocol {
     
     private weak var view: HomeViewProtocol?
     
@@ -45,7 +47,6 @@ class HomePresenter {
     }
     
     func viewDidLoad() {
-        // Load saved preferences
         isDarkMode = readThemeUseCase.execute()
         currentLanguage = readLanguageUseCase.execute()
         
@@ -59,10 +60,10 @@ class HomePresenter {
     
     private func fetchSportsData() {
         sports = [
-            SportCard(name: "sport_soccer".localized, icon: "⚽️", iconBackgroundColor: UIColor(red: 0.1, green: 0.2, blue: 0.3, alpha: 1.0)),
-            SportCard(name: "sport_basketball".localized, icon: "🏀", iconBackgroundColor: UIColor(red: 0.3, green: 0.1, blue: 0.1, alpha: 1.0)),
-            SportCard(name: "sport_tennis".localized, icon: "🎾", iconBackgroundColor: UIColor(red: 0.1, green: 0.2, blue: 0.1, alpha: 1.0)),
-            SportCard(name: "sport_american_football".localized, icon: "🏈", iconBackgroundColor: UIColor(red: 0.2, green: 0.2, blue: 0.1, alpha: 1.0))
+            SportCard(name: "sport_soccer".localized, imageName: "football", iconBackgroundColor: UIColor(red: 0.1, green: 0.2, blue: 0.3, alpha: 1.0)),
+            SportCard(name: "sport_basketball".localized, imageName: "basketball", iconBackgroundColor: UIColor(red: 0.3, green: 0.1, blue: 0.1, alpha: 1.0)),
+            SportCard(name: "sport_tennis".localized, imageName: "tennis", iconBackgroundColor: UIColor(red: 0.1, green: 0.2, blue: 0.1, alpha: 1.0)),
+            SportCard(name: "sport_american_football".localized, imageName: "american football", iconBackgroundColor: UIColor(red: 0.2, green: 0.2, blue: 0.1, alpha: 1.0))
         ]
         filteredSports = sports
         view?.reloadCollectionView()
@@ -89,16 +90,12 @@ class HomePresenter {
         view?.reloadCollectionView()
     }
     
-    // MARK: - Theme
-    
     func toggleTheme() {
         isDarkMode.toggle()
         saveThemeUseCase.execute(isDarkMode: isDarkMode)
         view?.updateThemeIcon(isDarkMode: isDarkMode)
         view?.applyTheme(isDarkMode: isDarkMode)
     }
-    
-    // MARK: - Language
     
     func toggleLanguage() {
         currentLanguage = (currentLanguage == "en") ? "ar" : "en"

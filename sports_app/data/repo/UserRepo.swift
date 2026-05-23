@@ -23,8 +23,6 @@ class UserRepo: UserRepoProtocol {
         return userDefaultService.readFirstEntry()
     }
     
-    // MARK: - Theme
-    
     func saveTheme(isDarkMode: Bool) {
         userDefaultService.saveTheme(isDarkMode: isDarkMode)
     }
@@ -33,8 +31,7 @@ class UserRepo: UserRepoProtocol {
         return userDefaultService.readTheme()
     }
     
-    // MARK: - Language
-    
+
     func saveLanguage(_ languageCode: String) {
         userDefaultService.saveLanguage(languageCode)
     }

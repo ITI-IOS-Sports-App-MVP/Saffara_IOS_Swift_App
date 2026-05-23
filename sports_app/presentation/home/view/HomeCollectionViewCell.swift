@@ -9,8 +9,7 @@ import UIKit
 
 class HomeCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var iconBackgroundView: UIView!
-    @IBOutlet weak var iconLabel: UILabel!
+    @IBOutlet weak var sportImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     
     override func awakeFromNib() {
@@ -21,14 +20,13 @@ class HomeCollectionViewCell: UICollectionViewCell {
     private func setupStyling() {
         contentView.layer.cornerRadius = 20
         contentView.layer.masksToBounds = true
-        
-        iconBackgroundView.layer.cornerRadius = 16
-        iconBackgroundView.layer.masksToBounds = true
     }
     
     func configure(with sport: SportCard) {
         nameLabel.text = sport.name
-        iconLabel.text = sport.icon
-        iconBackgroundView.backgroundColor = sport.iconBackgroundColor
+        sportImageView.image = UIImage(named: sport.imageName)
+        sportImageView.backgroundColor = sport.iconBackgroundColor
+        sportImageView.contentMode = .scaleAspectFill
+        sportImageView.clipsToBounds = true
     }
 }

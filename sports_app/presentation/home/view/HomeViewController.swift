@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol HomeViewProtocol: AnyObject {
+    func reloadCollectionView()
+    func updateThemeIcon(isDarkMode: Bool)
+    func updateLanguageLabel(languageCode: String)
+    func applyTheme(isDarkMode: Bool)
+    func applyLanguage(languageCode: String, isInitial: Bool)
+}
+
 class HomeViewController: UIViewController, UISearchBarDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -14,7 +22,7 @@ class HomeViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var themeButton: UIButton!
     
-    var presenter: HomePresenter!
+    var presenter: HomePresenterProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +36,6 @@ class HomeViewController: UIViewController, UISearchBarDelegate {
                 attributes: placeholderAttributes
             )
         
-        // Build the dependency chain
         let userDefaultService = UserDefaultService()
         let userRepo = UserRepo(userDefaultService: userDefaultService)
         let readThemeUseCase = ReadThemeUseCase(userRepo: userRepo)
@@ -52,11 +59,9 @@ class HomeViewController: UIViewController, UISearchBarDelegate {
     }
     
     private func setupControls() {
-        // Add tap gesture for language toggle
         let langTap = UITapGestureRecognizer(target: self, action: #selector(languageTapped))
         languageLabel.addGestureRecognizer(langTap)
         
-        // Add tap action for theme toggle
         themeButton.addTarget(self, action: #selector(themeTapped), for: .touchUpInside)
     }
     
@@ -102,35 +107,29 @@ extension HomeViewController: HomeViewProtocol {
     }
     
     func applyLanguage(languageCode: String, isInitial: Bool) {
-        // Persist the language override for the app
         UserDefaults.standard.set([languageCode], forKey: "AppleLanguages")
         UserDefaults.standard.synchronize()
         
-        // Apply layout direction immediately
         let isRTL = (languageCode == "ar")
         let attribute: UISemanticContentAttribute = isRTL ? .forceRightToLeft : .forceLeftToRight
         UIView.appearance().semanticContentAttribute = attribute
         
-        // Update active windows
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             for window in windowScene.windows {
                 window.semanticContentAttribute = attribute
             }
             
-            // Re-instantiate root tab bar controller to refresh all views/layout completely if user toggled language
             if !isInitial, let window = windowScene.windows.first {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 if let homeVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController {
                     window.rootViewController = homeVC
-                    
-                    // Add smooth cross-dissolve animation
+                
                     UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
                 }
                 return
             }
         }
         
-        // Update tab bar titles with localized strings
         if let tabBarController = self.tabBarController {
             let tabTitles = [
                 "tab_sports".localized,
@@ -144,7 +143,6 @@ extension HomeViewController: HomeViewProtocol {
             }
         }
         
-        // Update search bar placeholder
         let placeholderAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: 13),
         ]
@@ -153,7 +151,6 @@ extension HomeViewController: HomeViewProtocol {
             attributes: placeholderAttributes
         )
         
-        // Reload sports data so names update
         presenter.refreshSportsData()
     }
 }
@@ -161,17 +158,13 @@ extension HomeViewController: HomeViewProtocol {
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let padding: CGFloat = 16
-    
-        
-        let totalSpacing = padding * 3
-        let availableWidth = collectionView.bounds.width - totalSpacing
-        
+        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return .zero
+        }
+        let spacing = flowLayout.minimumInteritemSpacing
+        let availableWidth = collectionView.bounds.width - spacing
         let cellWidth = availableWidth / 2
-        
         let cellHeight = cellWidth * 1.15
-        
         return CGSize(width: cellWidth, height: cellHeight)
     }
     

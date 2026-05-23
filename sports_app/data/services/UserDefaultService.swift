@@ -23,36 +23,28 @@ class UserDefaultService: UserDefaultServiceProtocol {
     }
     
     func readFirstEntry() -> Bool {
-        // If key doesn't exist yet, UserDefaults returns false for bool.
-        // We treat "no value stored" as true (first entry).
         if userDefaults.object(forKey: firstEntryKey) == nil {
             return true
         }
         return userDefaults.bool(forKey: firstEntryKey)
     }
     
-    // MARK: - Theme
-    
     func saveTheme(isDarkMode: Bool) {
         userDefaults.set(isDarkMode, forKey: themeKey)
     }
     
     func readTheme() -> Bool {
-        // If no value saved yet, default to system appearance
         if userDefaults.object(forKey: themeKey) == nil {
             return UIScreen.main.traitCollection.userInterfaceStyle == .dark
         }
         return userDefaults.bool(forKey: themeKey)
     }
     
-    // MARK: - Language
-    
     func saveLanguage(_ languageCode: String) {
         userDefaults.set(languageCode, forKey: languageKey)
     }
     
     func readLanguage() -> String {
-        // If no value saved yet, default to system language
         if let saved = userDefaults.string(forKey: languageKey) {
             return saved
         }
