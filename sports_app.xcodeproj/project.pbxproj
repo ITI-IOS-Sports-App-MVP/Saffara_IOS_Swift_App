@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		570EF1182FC1FE6F00AE01E9 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 570EF1172FC1FE6F00AE01E9 /* Alamofire */; };
 		C92108272FBFACA200682698 /* onboarding_lottie_1.json in Resources */ = {isa = PBXBuildFile; fileRef = C92108242FBFAC8200682698 /* onboarding_lottie_1.json */; };
 		C921082D2FBFADD300682698 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C921082C2FBFADD300682698 /* Lottie */; };
 		C92108342FBFB4B900682698 /* onboarding_lottie_3.json in Resources */ = {isa = PBXBuildFile; fileRef = C92108332FBFB4B900682698 /* onboarding_lottie_3.json */; };
@@ -89,6 +90,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C921082D2FBFADD300682698 /* Lottie in Frameworks */,
+				570EF1182FC1FE6F00AE01E9 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,6 +172,7 @@
 			name = sports_app;
 			packageProductDependencies = (
 				C921082C2FBFADD300682698 /* Lottie */,
+				570EF1172FC1FE6F00AE01E9 /* Alamofire */,
 			);
 			productName = sports_app;
 			productReference = C9DBD1602FBCD4210095921B /* sports_app.app */;
@@ -256,6 +259,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				C90B8C562FBF852A00D278F9 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				570EF1162FC1FD8E00AE01E9 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C9DBD1612FBCD4210095921B /* Products */;
@@ -336,11 +340,14 @@
 /* Begin XCBuildConfiguration section */
 		C9DBD18A2FBCD4240095921B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = C9DBD1622FBCD4210095921B /* sports_app */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 55AU5WR7KC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sports_app/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -348,12 +355,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.iti.sports-app";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iti.sports.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -363,11 +371,14 @@
 		};
 		C9DBD18B2FBCD4240095921B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = C9DBD1622FBCD4210095921B /* sports_app */;
+			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 55AU5WR7KC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sports_app/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -375,12 +386,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.iti.sports-app";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iti.sports.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -617,6 +629,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		570EF1162FC1FD8E00AE01E9 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.12.0;
+			};
+		};
 		C90B8C562FBF852A00D278F9 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
@@ -628,6 +648,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		570EF1172FC1FE6F00AE01E9 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 570EF1162FC1FD8E00AE01E9 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		C921082C2FBFADD300682698 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C90B8C562FBF852A00D278F9 /* XCRemoteSwiftPackageReference "lottie-ios" */;

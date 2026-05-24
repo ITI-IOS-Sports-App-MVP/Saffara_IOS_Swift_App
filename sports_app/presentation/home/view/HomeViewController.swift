@@ -1,5 +1,5 @@
 //
-//  HomeViewCellViewController.swift
+//  HomeViewController.swift
 //  Saffara
 //
 //  Created by Thaowpsta Saiid on 20/05/2026.
@@ -13,6 +13,7 @@ protocol HomeViewProtocol: AnyObject {
     func updateLanguageLabel(languageCode: String)
     func applyTheme(isDarkMode: Bool)
     func applyLanguage(languageCode: String, isInitial: Bool)
+    func navigateToLeagues(with sportName: String)
 }
 
 class HomeViewController: UIViewController, UISearchBarDelegate {
@@ -79,6 +80,7 @@ class HomeViewController: UIViewController, UISearchBarDelegate {
     }
 }
 
+// MARK: - HomeViewProtocol Implementation
 extension HomeViewController: HomeViewProtocol {
     func reloadCollectionView() {
         DispatchQueue.main.async {
@@ -153,8 +155,29 @@ extension HomeViewController: HomeViewProtocol {
         
         presenter.refreshSportsData()
     }
+    
+    // MARK: Navigation Logic
+    func navigateToLeagues(with sportName: String) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        guard let leaguesVC = storyboard.instantiateViewController(withIdentifier: "LeaguesViewController") as? LeaguesViewController else {
+            print("Error: Could not find LeaguesViewController in Storyboard")
+            return
+        }
+        
+        // Clean Architecture Dependency Injection
+        let repository = LeaguesRepository()
+        let useCase = GetLeaguesUseCase(repository: repository)
+        let leaguesPresenter = LeaguesPresenter(view: leaguesVC, getLeaguesUseCase: useCase, sportName: sportName)
+        
+        leaguesVC.presenter = leaguesPresenter
+        
+        // Push the view controller
+        self.navigationController?.pushViewController(leaguesVC, animated: true)
+    }
 }
 
+// MARK: - UICollectionView Delegate & DataSource
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -181,7 +204,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         return cell
     }
     
+    // Detect Tap and trigger navigation via Presenter
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        presenter.didSelectSport(at: indexPath.row)
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            presenter.searchSports(with: searchText)
-        }
+        presenter.searchSports(with: searchText)
+    }
 }

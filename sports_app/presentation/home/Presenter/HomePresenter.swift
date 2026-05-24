@@ -17,6 +17,7 @@ protocol HomePresenterProtocol {
     func searchSports(with query: String)
     func toggleTheme()
     func toggleLanguage()
+    func didSelectSport(at index: Int)
 }
 
 class HomePresenter: HomePresenterProtocol {
@@ -102,6 +103,11 @@ class HomePresenter: HomePresenterProtocol {
         saveLanguageUseCase.execute(languageCode: currentLanguage)
         view?.updateLanguageLabel(languageCode: currentLanguage)
         view?.applyLanguage(languageCode: currentLanguage, isInitial: false)
+    }
+    
+    func didSelectSport(at index: Int) {
+        let selectedSport = filteredSports[index]
+        view?.navigateToLeagues(with: selectedSport.imageName)
     }
 }
 
