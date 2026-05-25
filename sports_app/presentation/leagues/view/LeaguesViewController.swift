@@ -11,6 +11,7 @@ import UIKit
 class LeaguesViewController: UITableViewController, LeaguesViewProtocol {
 
     var presenter: LeaguesPresenterProtocol!
+    
     private var activityIndicator = UIActivityIndicatorView(style: .large)
 
     override func viewDidLoad() {
