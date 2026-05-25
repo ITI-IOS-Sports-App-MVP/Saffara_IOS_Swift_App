@@ -5,13 +5,21 @@
 //  Created by Abdullh Gaber on 19/05/2026.
 //
 
-import Testing
+import XCTest
+
 @testable import sports_app
 
-struct sports_appTests {
+final class sports_appTests: XCTestCase {
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+    override func setUpWithError() throws {
+        // Put setup code here.
     }
 
+    override func tearDownWithError() throws {
+        // Put teardown code here.
+    }
+
+    func testExample() async throws {
+
+    }
 }
