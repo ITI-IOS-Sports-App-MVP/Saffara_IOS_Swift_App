@@ -64,7 +64,7 @@ class HomePresenter: HomePresenterProtocol {
             SportCard(name: "sport_soccer".localized, imageName: "football", iconBackgroundColor: UIColor(red: 0.1, green: 0.2, blue: 0.3, alpha: 1.0)),
             SportCard(name: "sport_basketball".localized, imageName: "basketball", iconBackgroundColor: UIColor(red: 0.3, green: 0.1, blue: 0.1, alpha: 1.0)),
             SportCard(name: "sport_tennis".localized, imageName: "tennis", iconBackgroundColor: UIColor(red: 0.1, green: 0.2, blue: 0.1, alpha: 1.0)),
-            SportCard(name: "sport_american_football".localized, imageName: "american football", iconBackgroundColor: UIColor(red: 0.2, green: 0.2, blue: 0.1, alpha: 1.0))
+            SportCard(name: "cricket".localized, imageName: "cricket", iconBackgroundColor: UIColor(red: 0.2, green: 0.2, blue: 0.1, alpha: 1.0))
         ]
         filteredSports = sports
         view?.reloadCollectionView()

@@ -10,7 +10,7 @@
 "sport_soccer" = "Soccer";
 "sport_basketball" = "Basketball";
 "sport_tennis" = "Tennis";
-"sport_american_football" = "American Football";
+"cricket" = "Cricket";
 
 /* Onboarding - Slide 1 */
 "onboarding_title_1" = "Your World of Sports, All in One Place";

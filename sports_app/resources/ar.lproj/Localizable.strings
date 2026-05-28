@@ -10,7 +10,7 @@
 "sport_soccer" = "كرة القدم";
 "sport_basketball" = "كرة السلة";
 "sport_tennis" = "التنس";
-"sport_american_football" = "كرة القدم الأمريكية";
+"cricket" = "كرة القدم الأمريكية";
 
 /* Onboarding - Slide 1 */
 "onboarding_title_1" = "عالمك الرياضي في مكان واحد";
