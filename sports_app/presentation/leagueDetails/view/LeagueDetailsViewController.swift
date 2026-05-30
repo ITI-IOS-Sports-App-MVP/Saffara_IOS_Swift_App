@@ -7,7 +7,13 @@
 
 import UIKit
 
-class LeagueDetailsViewController: UICollectionViewController {
+class LeagueDetailsViewController: UICollectionViewController,
+    LeagueDetailsViewProtocol
+{
+
+    var presenter: LeagueDetailsPresenter!
+
+    private var activityIndicator = UIActivityIndicatorView(style: .large)
 
     enum Section: Int, CaseIterable {
         case upcomingEvents = 0
@@ -17,12 +23,12 @@ class LeagueDetailsViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupCollectionView()
+        setupLoadingIndicator()
+        presenter.viewDidLoad()
     }
 
     private func setupCollectionView() {
-
         collectionView.collectionViewLayout = createCompositionalLayout()
 
         collectionView.register(
@@ -47,27 +53,179 @@ class LeagueDetailsViewController: UICollectionViewController {
         )
     }
 
+    private func setupLoadingIndicator() {
+        activityIndicator.hidesWhenStopped = true
+
+        let backgroundView = UIView(frame: collectionView.bounds)
+        activityIndicator.center = backgroundView.center
+        backgroundView.addSubview(activityIndicator)
+
+        collectionView.backgroundView = backgroundView
+    }
+
+    func showLoadingIndicator() {
+        DispatchQueue.main.async {
+            self.activityIndicator.startAnimating()
+        }
+    }
+
+    func hideLoadingIndicator() {
+        DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
+        }
+    }
+
+    func displayUpcomingEvents() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadSections(IndexSet(integer: 0))
+        }
+    }
+
+    func displayLatestResults() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadSections(IndexSet(integer: 1))
+        }
+    }
+
+    func displayTeams() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadSections(IndexSet(integer: 2))
+        }
+    }
+
+    func showError(message: String) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(
+                title: "Error",
+                message: message,
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+        }
+    }
+
+    // MARK: - UICollectionViewDataSource
+
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return Section.allCases.count
+    }
+
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        guard let sectionType = Section(rawValue: section) else { return 0 }
+        switch sectionType {
+        case .upcomingEvents: return presenter.upcomingEvents.count
+        case .latestResults: return presenter.latestResults.count
+        case .teams: return presenter.teams.count
+        }
+    }
+
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let sectionType = Section(rawValue: indexPath.section) else {
+            return UICollectionViewCell()
+        }
+
+        switch sectionType {
+        case .upcomingEvents:
+            let cell =
+                collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "EventCell",
+                    for: indexPath
+                ) as! EventCollectionViewCell
+            let event = presenter.getUpcomingEvent(at: indexPath.row)
+            cell.configure(
+                homeImage: event.homeTeamLogo ?? "",
+                awayImage: event.awayTeamLogo ?? "",
+                name:
+                    "\(event.eventHomeTeam ?? "") vs \(event.eventAwayTeam ?? "")",
+                date: event.eventDate ?? ""
+            )
+            return cell
+
+        case .latestResults:
+            let cell =
+                collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "LatestResultCell",
+                    for: indexPath
+                ) as! LatestResultCollectionViewCell
+            let event = presenter.getLatestResult(at: indexPath.row)
+
+            let scores = event.eventFinalResult?.components(separatedBy: " - ")
+            let homeScore = scores?.first ?? "-"
+            let awayScore = scores?.last ?? "-"
+
+            cell.configure(
+                homeImage: event.homeTeamLogo,
+                homeName: event.eventHomeTeam ?? "Unknown",
+                homeScore: homeScore,
+                awayImage: event.awayTeamLogo,
+                awayName: event.eventAwayTeam ?? "Unknown",
+                awayScore: awayScore,
+                status: event.eventDate ?? ""
+            )
+            return cell
+
+        case .teams:
+            let cell =
+                collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "TeamCircleCell",
+                    for: indexPath
+                ) as! TeamCircleCollectionViewCell
+            let team = presenter.getTeam(at: indexPath.row)
+            cell.configure(name: team.teamName ?? "", imageUrl: team.teamLogo)
+            return cell
+        }
+    }
+
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader else {
+            return UICollectionReusableView()
+        }
+        let header =
+            collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "HeaderView",
+                for: indexPath
+            ) as! SectionHeaderView
+
+        guard let sectionType = Section(rawValue: indexPath.section) else {
+            return header
+        }
+        switch sectionType {
+        case .upcomingEvents: header.titleLabel?.text = "UPCOMING EVENTS"
+        case .latestResults: header.titleLabel?.text = "LATEST RESULTS"
+        case .teams: header.titleLabel?.text = "TEAMS"
+        }
+        return header
+    }
+
+    // MARK: - Compositional Layout
+
     private func createCompositionalLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout {
-            (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-
+            [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
             guard let sectionType = Section(rawValue: sectionIndex) else {
                 return nil
             }
-
             switch sectionType {
-            case .upcomingEvents:
-                return self.createUpcomingEventsSection()
-            case .latestResults:
-                return self.createLatestResultsSection()
-            case .teams:
-                return self.createTeamsSection()
+            case .upcomingEvents: return self?.createUpcomingEventsSection()
+            case .latestResults: return self?.createLatestResultsSection()
+            case .teams: return self?.createTeamsSection()
             }
         }
     }
 
     private func createUpcomingEventsSection() -> NSCollectionLayoutSection {
-
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
@@ -85,16 +243,13 @@ class LeagueDetailsViewController: UICollectionViewController {
 
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-
         section.interGroupSpacing = 16
-
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 10,
             leading: 16,
             bottom: 20,
             trailing: 16
         )
-
         section.boundarySupplementaryItems = [createHeader()]
         return section
     }
@@ -142,7 +297,6 @@ class LeagueDetailsViewController: UICollectionViewController {
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .absolute(70),
             heightDimension: .absolute(100)
@@ -151,9 +305,8 @@ class LeagueDetailsViewController: UICollectionViewController {
             layoutSize: groupSize,
             subitems: [item]
         )
-
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous  // Free scrolling
+        section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 12
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 10,
@@ -161,7 +314,6 @@ class LeagueDetailsViewController: UICollectionViewController {
             bottom: 20,
             trailing: 16
         )
-
         section.boundarySupplementaryItems = [createHeader()]
         return section
     }
@@ -176,86 +328,5 @@ class LeagueDetailsViewController: UICollectionViewController {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top
         )
-    }
-
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return Section.allCases.count
-    }
-
-    override func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        guard let sectionType = Section(rawValue: section) else { return 0 }
-        switch sectionType {
-        case .upcomingEvents: return 3
-        case .latestResults: return 4
-        case .teams: return 10
-        }
-    }
-
-    override func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let sectionType = Section(rawValue: indexPath.section) else {
-            return UICollectionViewCell()
-        }
-
-        switch sectionType {
-        case .upcomingEvents:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "EventCell",
-                for: indexPath
-            )
-            return cell
-
-        case .latestResults:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "LatestResultCell",
-                for: indexPath
-            )
-            return cell
-
-        case .teams:
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "TeamCircleCell",
-                for: indexPath
-            )
-            return cell
-        }
-    }
-
-    override func collectionView(
-        _ collectionView: UICollectionView,
-        viewForSupplementaryElementOfKind kind: String,
-        at indexPath: IndexPath
-    ) -> UICollectionReusableView {
-
-        guard kind == UICollectionView.elementKindSectionHeader else {
-            return UICollectionReusableView()
-        }
-
-        let header =
-            collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: "HeaderView",
-                for: indexPath
-            ) as! SectionHeaderView
-
-        guard let sectionType = Section(rawValue: indexPath.section) else {
-            return header
-        }
-
-        switch sectionType {
-        case .upcomingEvents:
-            header.titleLabel.text = "UPCOMING EVENTS"
-        case .latestResults:
-            header.titleLabel.text = "LATEST RESULTS"
-        case .teams:
-            header.titleLabel.text = "TEAMS"
-        }
-
-        return header
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class EventCollectionViewCell: UICollectionViewCell {
 
@@ -29,9 +30,18 @@ class EventCollectionViewCell: UICollectionViewCell {
         name: String,
         date: String
     ) {
-        matchNameLabel.text = name
-        matchDateLabel.text = date
-        homeTeamImageView.image = UIImage(systemName: "sportscourt.fill")
-        awayTeamImageView.image = UIImage(systemName: "sportscourt.fill")
-    }
+        let placeholder = UIImage(systemName: "sportscourt.fill")
+                
+                if let homeUrl = URL(string: homeImage) {
+                    homeTeamImageView.kf.setImage(with: homeUrl, placeholder: placeholder)
+                } else {
+                    homeTeamImageView.image = placeholder
+                }
+                
+                if let awayUrl = URL(string: awayImage) {
+                    awayTeamImageView.kf.setImage(with: awayUrl, placeholder: placeholder)
+                } else {
+                    awayTeamImageView.image = placeholder
+                }
+            }
 }

@@ -5,7 +5,6 @@
 //  Created by Thaowpsta Saiid on 23/05/2026.
 //
 
-
 import Foundation
 
 class LeaguesPresenter: LeaguesPresenterProtocol {
@@ -13,19 +12,23 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
     private let getLeaguesUseCase: GetLeaguesUseCaseProtocol
     private let sportName: String
     private var leaguesList: [League] = []
-    
-    init(view: LeaguesViewProtocol, getLeaguesUseCase: GetLeaguesUseCaseProtocol, sportName: String) {
+
+    init(
+        view: LeaguesViewProtocol,
+        getLeaguesUseCase: GetLeaguesUseCaseProtocol,
+        sportName: String
+    ) {
         self.view = view
         self.getLeaguesUseCase = getLeaguesUseCase
         self.sportName = sportName
     }
-    
+
     func viewDidLoad() {
         view?.showLoadingIndicator()
         getLeaguesUseCase.execute(sportName: sportName) { [weak self] result in
             guard let self = self else { return }
             self.view?.hideLoadingIndicator()
-            
+
             switch result {
             case .success(let leagues):
                 self.leaguesList = leagues
@@ -35,11 +38,11 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
             }
         }
     }
-    
+
     func getLeaguesCount() -> Int {
         return leaguesList.count
     }
-    
+
     func configureCell(_ cell: LeagueCellViewProtocol, at index: Int) {
         let league = leaguesList[index]
         print(league)
@@ -47,10 +50,13 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
         cell.displayLeagueBadge(from: league.leagueLogo ?? "")
         cell.displayLeagueCountry(league.leagueCountry ?? "Unknown Country")
     }
-    
+
     func didSelectRow(at index: Int) {
         let selectedLeague = leaguesList[index]
-        
-        view?.navigateToLeagueDetails(with: selectedLeague)
+
+        view?.navigateToLeagueDetails(
+            with: selectedLeague,
+            sportName: self.sportName
+        )
     }
 }

@@ -122,6 +122,7 @@
                 <outlet property="homeScoreLabel" destination="w3d-i2-2Qm" id="kL4-jX-nE1"/>
                 <outlet property="homeTeamImageView" destination="IJD-fo-xlx" id="RmR-9H-4fZ"/>
                 <outlet property="homeTeamNameLabel" destination="sM5-XN-Jnd" id="lw2-Yf-vNh"/>
+                <outlet property="matchStatusLabel" destination="ebO-CR-bNc" id="7Kx-eX-g0T"/>
             </connections>
             <point key="canvasLocation" x="251.14503816793894" y="146.47887323943664"/>
         </collectionViewCell>
