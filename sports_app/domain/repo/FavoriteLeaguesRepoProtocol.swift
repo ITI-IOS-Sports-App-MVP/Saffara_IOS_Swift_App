@@ -10,4 +10,5 @@ protocol FavoriteLeaguesRepoProtocol {
     func getFavoriteLeagues() throws -> [League]
     func addLeagueToFavorites(league: League) throws
     func removeLeagueFromFavorites(leagueKey: Int) throws
+    func isFavorite(leagueKey: Int) -> Bool
 }

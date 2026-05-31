@@ -7,7 +7,7 @@
 
 
 protocol LeagueDetailsRepoProtocol {
-    func fetchUpcomingEvents(leagueId: Int, completion: @escaping (Result<[Event], Error>) -> Void)
-    func fetchLatestResults(leagueId: Int, completion: @escaping (Result<[Event], Error>) -> Void)
-    func fetchTeams(leagueId: Int, completion: @escaping (Result<[Team], Error>) -> Void)
+    func fetchUpcomingEvents(leagueKey: Int, completion: @escaping (Result<[Event], Error>) -> Void)
+    func fetchLatestResults(leagueKey: Int, completion: @escaping (Result<[Event], Error>) -> Void)
+    func fetchTeams(leagueKey: Int, completion: @escaping (Result<[Team], Error>) -> Void)
 }

@@ -11,6 +11,7 @@ class LeagueDetailsViewController: UICollectionViewController,
     LeagueDetailsViewProtocol
 {
 
+    @IBOutlet weak var favoriteButton: UIBarButtonItem!
     var presenter: LeagueDetailsPresenter!
 
     private var activityIndicator = UIActivityIndicatorView(style: .large)
@@ -26,6 +27,10 @@ class LeagueDetailsViewController: UICollectionViewController,
         setupCollectionView()
         setupLoadingIndicator()
         presenter.viewDidLoad()
+    }
+
+    @IBAction func favoriteButtonTapped(_ sender: Any) {
+        presenter.favoriteButtonTapped()
     }
 
     private func setupCollectionView() {
@@ -103,6 +108,19 @@ class LeagueDetailsViewController: UICollectionViewController,
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true)
         }
+    }
+
+    func updateFavoriteIcon(isFavorite: Bool) {
+        let iconName = isFavorite ? "heart.fill" : "heart"
+        favoriteButton.image = UIImage(systemName: iconName)
+
+        UIView.transition(
+            with: self.navigationController?.navigationBar ?? self.view,
+            duration: 0.2,
+            options: .transitionCrossDissolve,
+            animations: nil,
+            completion: nil
+        )
     }
 
     // MARK: - UICollectionViewDataSource

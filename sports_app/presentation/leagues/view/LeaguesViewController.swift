@@ -83,13 +83,16 @@ class LeaguesViewController: UITableViewController, LeaguesViewProtocol {
 
         let repository = LeagueDetailsRepository(sport: sportName)
 
+        let favoriteRepository = FavoriteLeaguesRepository()
+
         let upcomingUseCase = GetUpcomingEventsUseCase(repository: repository)
         let latestUseCase = GetLatestResultsUseCase(repository: repository)
         let teamsUseCase = GetTeamsUseCase(repository: repository)
 
         let detailsPresenter = LeagueDetailsPresenter(
             view: detailsVC,
-            leagueId: league.leagueKey ?? 0,
+            league: league,
+            favoriteRepository: favoriteRepository,
             getUpcomingUseCase: upcomingUseCase,
             getLatestUseCase: latestUseCase,
             getTeamsUseCase: teamsUseCase

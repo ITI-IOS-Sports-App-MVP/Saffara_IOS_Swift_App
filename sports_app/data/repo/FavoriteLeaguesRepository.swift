@@ -23,4 +23,17 @@ class FavoriteLeaguesRepository: FavoriteLeaguesRepoProtocol {
     func removeLeagueFromFavorites(leagueKey: Int) throws {
         try localDataSource.deleteFavorite(leagueKey: leagueKey)
     }
+    
+    func isFavorite(leagueKey: Int) -> Bool {
+            do {
+                let favorites = try getFavoriteLeagues()
+                
+
+                return favorites.contains(where: { $0.leagueKey == leagueKey })
+                
+            } catch {
+                print("Error checking favorite status: \(error.localizedDescription)")
+                return false
+            }
+        }
 }

@@ -10,7 +10,7 @@ class GetTeamsUseCase: GetTeamsUseCaseProtocol {
     private let repository: LeagueDetailsRepoProtocol
     init(repository: LeagueDetailsRepoProtocol) { self.repository = repository }
     
-    func execute(leagueId: Int, completion: @escaping (Result<[Team], Error>) -> Void) {
-        repository.fetchTeams(leagueId: leagueId, completion: completion)
+    func execute(leagueKey: Int, completion: @escaping (Result<[Team], Error>) -> Void) {
+        repository.fetchTeams(leagueKey: leagueKey, completion: completion)
     }
 }

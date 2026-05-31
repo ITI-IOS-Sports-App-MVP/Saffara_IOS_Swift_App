@@ -184,6 +184,18 @@
                             <outlet property="delegate" destination="XDh-XG-pcz" id="p1I-25-qGa"/>
                         </connections>
                     </collectionView>
+                    <toolbarItems>
+                        <barButtonItem title="favorite" image="heart" catalog="system" id="haX-Vm-5t8">
+                            <color key="tintColor" red="1" green="0.41960784313725491" blue="0.20784313725490194" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="favoriteButtonTapped:" destination="XDh-XG-pcz" id="9Ap-2v-rW8"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="favoriteButton" destination="haX-Vm-5t8" id="889-66-ijd"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dJe-c0-VGr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -387,15 +399,15 @@
         </scene>
     </scenes>
     <resources>
-        <image name="gearshape" catalog="system" width="32" height="32"/>
-        <image name="heart" catalog="system" width="32" height="32"/>
-        <image name="moon.fill" catalog="system" width="32" height="32"/>
+        <image name="gearshape" catalog="system" width="128" height="123"/>
+        <image name="heart" catalog="system" width="128" height="107"/>
+        <image name="moon.fill" catalog="system" width="128" height="123"/>
         <image name="trophy" width="24" height="24"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -19,21 +19,20 @@ class FavoriteTableViewController: UITableViewController {
         let repo = FavoriteLeaguesRepository()
         let getUseCase = GetFavoritesUseCase(repository: repo)
         let removeUseCase = RemoveFavoriteUseCase(repository: repo)
-        let addUseCase = AddFavoriteUseCase(repository: repo)
 
-        let dummyLeague = League(
-            leagueKey: 12345,
-            leagueName: "Test League",
-            leagueLogo: nil,
-            leagueCountry: "Egypt"
-        )
-
-                do {
-                    try addUseCase.execute(league: dummyLeague)
-                    print("✅ Dummy league added successfully!")
-                } catch {
-                    print("❌ Failed to add dummy league: \(error)")
-                }
+//        let dummyLeague = League(
+//            leagueKey: 12345,
+//            leagueName: "Test League",
+//            leagueLogo: nil,
+//            leagueCountry: "Egypt"
+//        )
+//
+//                do {
+//                    try addUseCase.execute(league: dummyLeague)
+//                    print("✅ Dummy league added successfully!")
+//                } catch {
+//                    print("❌ Failed to add dummy league: \(error)")
+//                }
 
 //        do {
 //            try removeUseCase.execute(leagueKey: 12345)

@@ -35,7 +35,7 @@ class LeagueDetailsRepository: LeagueDetailsRepoProtocol {
     }
 
     func fetchUpcomingEvents(
-        leagueId: Int,
+        leagueKey: Int,
         completion: @escaping (Result<[Event], Error>) -> Void
     ) {
         let today = Date()
@@ -51,13 +51,13 @@ class LeagueDetailsRepository: LeagueDetailsRepoProtocol {
         let toDate = formatter.string(from: nextYear)
 
         let urlString =
-            "\(baseUrl)?met=Fixtures&leagueId=\(leagueId)&from=\(fromDate)&to=\(toDate)&APIkey=\(getApiKey())"
+            "\(baseUrl)?met=Fixtures&leagueId=\(leagueKey)&from=\(fromDate)&to=\(toDate)&APIkey=\(getApiKey())"
 
         fetchData(from: urlString, completion: completion)
     }
 
     func fetchLatestResults(
-        leagueId: Int,
+        leagueKey: Int,
         completion: @escaping (Result<[Event], Error>) -> Void
     ) {
         let today = Date()
@@ -73,17 +73,17 @@ class LeagueDetailsRepository: LeagueDetailsRepoProtocol {
         let toDate = formatter.string(from: today)
 
         let urlString =
-            "\(baseUrl)?met=Fixtures&leagueId=\(leagueId)&from=\(fromDate)&to=\(toDate)&APIkey=\(getApiKey())"
+            "\(baseUrl)?met=Fixtures&leagueId=\(leagueKey)&from=\(fromDate)&to=\(toDate)&APIkey=\(getApiKey())"
 
         fetchData(from: urlString, completion: completion)
     }
 
     func fetchTeams(
-        leagueId: Int,
+        leagueKey: Int,
         completion: @escaping (Result<[Team], Error>) -> Void
     ) {
         let urlString =
-            "\(baseUrl)?met=Teams&leagueId=\(leagueId)&APIkey=\(getApiKey())"
+            "\(baseUrl)?met=Teams&leagueId=\(leagueKey)&APIkey=\(getApiKey())"
 
         fetchData(from: urlString, completion: completion)
     }

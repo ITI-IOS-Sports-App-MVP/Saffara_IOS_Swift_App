@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GetTeamsUseCaseProtocol {
-    func execute(leagueId: Int, completion: @escaping (Result<[Team], Error>) -> Void)
+    func execute(leagueKey: Int, completion: @escaping (Result<[Team], Error>) -> Void)
 }
 
 

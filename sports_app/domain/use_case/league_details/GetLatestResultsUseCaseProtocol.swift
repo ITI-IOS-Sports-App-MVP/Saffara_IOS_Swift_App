@@ -7,6 +7,6 @@
 
 
 protocol GetLatestResultsUseCaseProtocol {
-    func execute(leagueId: Int, completion: @escaping (Result<[Event], Error>) -> Void)
+    func execute(leagueKey: Int, completion: @escaping (Result<[Event], Error>) -> Void)
 }
 
