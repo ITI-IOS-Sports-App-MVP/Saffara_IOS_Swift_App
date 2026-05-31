@@ -88,8 +88,8 @@ class LeagueDetailsPresenter {
             isFavorite.toggle()
             view?.updateFavoriteIcon(isFavorite: isFavorite)
         }catch{
-            view?.showError(message: "Failed to update favorites: /(error.localizedDescription)")
+            view?.showError(message: "Failed to update favorites: \(error.localizedDescription)")
         }
-        }
+    }
             
 }

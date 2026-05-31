@@ -1,10 +1,10 @@
 {
-  "originHash" : "f13dd5acd272c995d033901c38e83d18b769cf54dda611fb32c01a2271231567",
+  "originHash" : "2e0065fad264378ff8c6add1419d5e304830019d6f1c1f24e2994a87f9f0f084",
   "pins" : [
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "location" : "https://github.com/Alamofire/Alamofire",
       "state" : {
         "revision" : "7595cbcf59809f9977c5f6378500de2ad73b7ddb",
         "version" : "5.12.0"
@@ -13,7 +13,7 @@
     {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "location" : "https://github.com/onevcat/kingfisher",
       "state" : {
         "revision" : "cf8be20d07654570554c8a8a4952bc8a5766a8b0",
         "version" : "8.9.0"
