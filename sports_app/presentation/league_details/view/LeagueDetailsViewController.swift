@@ -49,8 +49,8 @@ class LeagueDetailsViewController: UICollectionViewController,
             forCellWithReuseIdentifier: "TeamCircleCell"
         )
         collectionView.register(
-            UICollectionViewCell.self,
-            forCellWithReuseIdentifier: "EmptyUpcomingCell"
+            EmptyStateCollectionViewCell.self,
+            forCellWithReuseIdentifier: "EmptyStateCell"
         )
 
         let headerNib = UINib(nibName: "SectionHeaderView", bundle: nil)
@@ -156,44 +156,15 @@ class LeagueDetailsViewController: UICollectionViewController,
         switch sectionType {
         case .upcomingEvents:
             if presenter.upcomingEvents.isEmpty {
-                let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "EmptyUpcomingCell",
-                    for: indexPath
+                let cell =
+                    collectionView.dequeueReusableCell(
+                        withReuseIdentifier: "EmptyStateCell",
+                        for: indexPath
+                    ) as! EmptyStateCollectionViewCell
+                cell.configure(
+                    message: "No Upcoming Events",
+                    systemImageName: "calendar.badge.exclamationmark"
                 )
-                cell.contentView.subviews.forEach { $0.removeFromSuperview() }
-                
-                let container = UIStackView()
-                container.axis = .vertical
-                container.alignment = .center
-                container.spacing = 8
-                container.translatesAutoresizingMaskIntoConstraints = false
-                
-                let iconImageView = UIImageView()
-                iconImageView.image = UIImage(systemName: "calendar.badge.exclamationmark")
-                iconImageView.tintColor = .secondaryLabel
-                iconImageView.contentMode = .scaleAspectFit
-                iconImageView.translatesAutoresizingMaskIntoConstraints = false
-                
-                let textLabel = UILabel()
-                textLabel.text = "No upcoming events"
-                textLabel.font = .systemFont(ofSize: 14, weight: .medium)
-                textLabel.textColor = .secondaryLabel
-                textLabel.textAlignment = .center
-                
-                container.addArrangedSubview(iconImageView)
-                container.addArrangedSubview(textLabel)
-                cell.contentView.addSubview(container)
-                
-                cell.contentView.backgroundColor = .secondarySystemBackground
-                cell.contentView.layer.cornerRadius = 12
-                cell.contentView.clipsToBounds = true
-                
-                NSLayoutConstraint.activate([
-                    iconImageView.widthAnchor.constraint(equalToConstant: 40),
-                    iconImageView.heightAnchor.constraint(equalToConstant: 40),
-                    container.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor),
-                    container.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor)
-                ])
                 return cell
             }
             let cell =
@@ -203,15 +174,27 @@ class LeagueDetailsViewController: UICollectionViewController,
                 ) as! EventCollectionViewCell
             let event = presenter.getUpcomingEvent(at: indexPath.row)
             cell.configure(
-                homeImage: event.homeTeamLogo ?? "",
-                awayImage: event.awayTeamLogo ?? "",
-                name:
-                    "\(event.eventHomeTeam ?? "") vs \(event.eventAwayTeam ?? "")",
-                date: event.eventDate ?? ""
+                homeImage: event.displayHomeLogo ?? "",
+                awayImage: event.displayAwayLogo ?? "",
+                name: "\(event.displayHomeName) vs \(event.displayAwayName)",
+                date: event.displayDate
             )
             return cell
 
         case .latestResults:
+            if presenter.latestResults.isEmpty {
+                let cell =
+                    collectionView.dequeueReusableCell(
+                        withReuseIdentifier: "EmptyStateCell",
+                        for: indexPath
+                    ) as! EmptyStateCollectionViewCell
+                cell.configure(
+                    message: "No Latest Results Available",
+                    systemImageName: "clock.badge.exclamationmark"
+                )
+                return cell
+            }
+
             let cell =
                 collectionView.dequeueReusableCell(
                     withReuseIdentifier: "LatestResultCell",
@@ -219,29 +202,47 @@ class LeagueDetailsViewController: UICollectionViewController,
                 ) as! LatestResultCollectionViewCell
             let event = presenter.getLatestResult(at: indexPath.row)
 
-            let scores = event.eventFinalResult?.components(separatedBy: " - ")
-            let homeScore = scores?.first ?? "-"
-            let awayScore = scores?.last ?? "-"
-
             cell.configure(
-                homeImage: event.homeTeamLogo,
-                homeName: event.eventHomeTeam ?? "Unknown",
-                homeScore: homeScore,
-                awayImage: event.awayTeamLogo,
-                awayName: event.eventAwayTeam ?? "Unknown",
-                awayScore: awayScore,
-                status: event.eventDate ?? ""
+                homeImage: event.displayHomeLogo,
+                homeName: event.displayHomeName,
+                homeScore: event.displayHomeScore,
+                awayImage: event.displayAwayLogo,
+                awayName: event.displayAwayName,
+                awayScore: event.displayAwayScore,
+                status: event.displayDate
             )
             return cell
 
         case .teams:
+            if presenter.teams.isEmpty {
+                let cell =
+                    collectionView.dequeueReusableCell(
+                        withReuseIdentifier: "EmptyStateCell",
+                        for: indexPath
+                    ) as! EmptyStateCollectionViewCell
+                cell.configure(
+                    message: "No Teams Available",
+                    systemImageName: "person.3.fill"
+                )
+                return cell
+            }
+
             let cell =
                 collectionView.dequeueReusableCell(
                     withReuseIdentifier: "TeamCircleCell",
                     for: indexPath
                 ) as! TeamCircleCollectionViewCell
             let team = presenter.getTeam(at: indexPath.row)
-            cell.configure(name: team.teamName ?? "", imageUrl: team.teamLogo)
+
+            cell.configure(
+                name: team.displayTeamName,
+                imageUrl: team.displayTeamLogo
+            )
+
+            cell.NameLabelView?.numberOfLines = 2
+            cell.NameLabelView?.textAlignment = .center
+            cell.NameLabelView?.lineBreakMode = .byWordWrapping
+
             return cell
         }
     }
@@ -277,7 +278,9 @@ class LeagueDetailsViewController: UICollectionViewController,
     private func createCompositionalLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout {
             [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
-            guard let self = self, let sectionType = Section(rawValue: sectionIndex) else {
+            guard let self = self,
+                let sectionType = Section(rawValue: sectionIndex)
+            else {
                 return nil
             }
             switch sectionType {
@@ -350,13 +353,16 @@ class LeagueDetailsViewController: UICollectionViewController,
     }
 
     private func createLatestResultsSection() -> NSCollectionLayoutSection {
+        let isEmpty = presenter.latestResults.isEmpty
+
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(0.33)
+            heightDimension: isEmpty
+                ? .fractionalHeight(1.0) : .fractionalHeight(0.33)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupHeight: CGFloat = (140 * 3) + (16 * 2)
+        let groupHeight: CGFloat = isEmpty ? 140 : (140 * 3) + (16 * 2)
 
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.9),
@@ -366,7 +372,7 @@ class LeagueDetailsViewController: UICollectionViewController,
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
             subitem: item,
-            count: 3
+            count: isEmpty ? 1 : 3
         )
         group.interItemSpacing = .fixed(16)
 
@@ -393,8 +399,8 @@ class LeagueDetailsViewController: UICollectionViewController,
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(70),
-            heightDimension: .absolute(100)
+            widthDimension: .absolute(90),
+            heightDimension: .absolute(120)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
