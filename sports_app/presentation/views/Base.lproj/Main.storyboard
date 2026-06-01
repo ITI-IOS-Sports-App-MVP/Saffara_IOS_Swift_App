@@ -184,15 +184,14 @@
                             <outlet property="delegate" destination="XDh-XG-pcz" id="p1I-25-qGa"/>
                         </connections>
                     </collectionView>
-                    <toolbarItems>
-                        <barButtonItem title="favorite" image="heart" catalog="system" id="haX-Vm-5t8">
+                    <navigationItem key="navigationItem" id="xYq-9b-zBc">
+                        <barButtonItem key="rightBarButtonItem" title="favorite" image="heart" catalog="system" id="haX-Vm-5t8">
                             <color key="tintColor" red="1" green="0.41960784313725491" blue="0.20784313725490194" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="favoriteButtonTapped:" destination="XDh-XG-pcz" id="9Ap-2v-rW8"/>
                             </connections>
                         </barButtonItem>
-                    </toolbarItems>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="favoriteButton" destination="haX-Vm-5t8" id="889-66-ijd"/>
                     </connections>

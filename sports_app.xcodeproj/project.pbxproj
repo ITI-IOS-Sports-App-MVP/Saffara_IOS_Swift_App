@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5795C52E2FCB0DCE00AE8017 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5795C52D2FCB0DCE00AE8017 /* Kingfisher */; };
 		C92108272FBFACA200682698 /* onboarding_lottie_1.json in Resources */ = {isa = PBXBuildFile; fileRef = C92108242FBFAC8200682698 /* onboarding_lottie_1.json */; };
 		C921082D2FBFADD300682698 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C921082C2FBFADD300682698 /* Lottie */; };
 		C92108342FBFB4B900682698 /* onboarding_lottie_3.json in Resources */ = {isa = PBXBuildFile; fileRef = C92108332FBFB4B900682698 /* onboarding_lottie_3.json */; };
 		C92108352FBFB4B900682698 /* onboarding_lottie_2.json in Resources */ = {isa = PBXBuildFile; fileRef = C92108322FBFB4B900682698 /* onboarding_lottie_2.json */; };
+		C92609922FCC8264007D62B5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C92609912FCC8264007D62B5 /* Kingfisher */; };
 		C94DEC9D2FC31E1200154CB5 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C94DEC9C2FC31E1200154CB5 /* Alamofire */; };
+		C94DEC9F2FC3424100154CB5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C94DEC9E2FC3424100154CB5 /* Config.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		C92108242FBFAC8200682698 /* onboarding_lottie_1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = onboarding_lottie_1.json; sourceTree = "<group>"; };
 		C92108322FBFB4B900682698 /* onboarding_lottie_2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = onboarding_lottie_2.json; sourceTree = "<group>"; };
 		C92108332FBFB4B900682698 /* onboarding_lottie_3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = onboarding_lottie_3.json; sourceTree = "<group>"; };
+		C94DEC9E2FC3424100154CB5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		C9DBD1602FBCD4210095921B /* sports_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sports_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DBD1762FBCD4240095921B /* sports_appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sports_appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DBD1802FBCD4240095921B /* sports_appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sports_appUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,7 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5795C52E2FCB0DCE00AE8017 /* Kingfisher in Frameworks */,
+				C92609922FCC8264007D62B5 /* Kingfisher in Frameworks */,
 				C921082D2FBFADD300682698 /* Lottie in Frameworks */,
 				C94DEC9D2FC31E1200154CB5 /* Alamofire in Frameworks */,
 			);
@@ -133,6 +135,7 @@
 		C9DBD1572FBCD4210095921B = {
 			isa = PBXGroup;
 			children = (
+				C94DEC9E2FC3424100154CB5 /* Config.xcconfig */,
 				C9DBD1622FBCD4210095921B /* sports_app */,
 				C92108232FBFAC4800682698 /* animations */,
 				C9DBD1792FBCD4240095921B /* sports_appTests */,
@@ -175,7 +178,7 @@
 			packageProductDependencies = (
 				C921082C2FBFADD300682698 /* Lottie */,
 				C94DEC9C2FC31E1200154CB5 /* Alamofire */,
-				5795C52D2FCB0DCE00AE8017 /* Kingfisher */,
+				C92609912FCC8264007D62B5 /* Kingfisher */,
 			);
 			productName = sports_app;
 			productReference = C9DBD1602FBCD4210095921B /* sports_app.app */;
@@ -263,7 +266,7 @@
 			packageReferences = (
 				C90B8C562FBF852A00D278F9 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				C94DEC9B2FC31E0500154CB5 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				5795C52C2FCB0D6200AE8017 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				C92609902FCC8264007D62B5 /* XCRemoteSwiftPackageReference "kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C9DBD1612FBCD4210095921B /* Products */;
@@ -283,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C92108342FBFB4B900682698 /* onboarding_lottie_3.json in Resources */,
+				C94DEC9F2FC3424100154CB5 /* Config.xcconfig in Resources */,
 				C92108352FBFB4B900682698 /* onboarding_lottie_2.json in Resources */,
 				C92108272FBFACA200682698 /* onboarding_lottie_1.json in Resources */,
 			);
@@ -344,29 +348,24 @@
 /* Begin XCBuildConfiguration section */
 		C9DBD18A2FBCD4240095921B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = C9DBD1622FBCD4210095921B /* sports_app */;
-			baseConfigurationReferenceRelativePath = resources/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 55AU5WR7KC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sports_app/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Saffara - صفارة";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.iti.sports.app;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iti.sports-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -376,29 +375,24 @@
 		};
 		C9DBD18B2FBCD4240095921B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = C9DBD1622FBCD4210095921B /* sports_app */;
-			baseConfigurationReferenceRelativePath = resources/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 55AU5WR7KC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sports_app/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Saffara - صفارة";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.iti.sports.app;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iti.sports-app";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -408,6 +402,7 @@
 		};
 		C9DBD18C2FBCD4240095921B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C94DEC9E2FC3424100154CB5 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -471,6 +466,7 @@
 		};
 		C9DBD18D2FBCD4240095921B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C94DEC9E2FC3424100154CB5 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -635,20 +631,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5795C52C2FCB0D6200AE8017 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.9.0;
-			};
-		};
 		C90B8C562FBF852A00D278F9 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.6.0;
+			};
+		};
+		C92609902FCC8264007D62B5 /* XCRemoteSwiftPackageReference "kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.9.0;
 			};
 		};
 		C94DEC9B2FC31E0500154CB5 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
@@ -662,15 +658,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5795C52D2FCB0DCE00AE8017 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5795C52C2FCB0D6200AE8017 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
 		C921082C2FBFADD300682698 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C90B8C562FBF852A00D278F9 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		C92609912FCC8264007D62B5 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C92609902FCC8264007D62B5 /* XCRemoteSwiftPackageReference "kingfisher" */;
+			productName = Kingfisher;
 		};
 		C94DEC9C2FC31E1200154CB5 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

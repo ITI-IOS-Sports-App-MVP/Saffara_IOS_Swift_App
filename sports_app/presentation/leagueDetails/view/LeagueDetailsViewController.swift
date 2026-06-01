@@ -48,6 +48,10 @@ class LeagueDetailsViewController: UICollectionViewController,
             UINib(nibName: "TeamCircleCollectionViewCell", bundle: nil),
             forCellWithReuseIdentifier: "TeamCircleCell"
         )
+        collectionView.register(
+            UICollectionViewCell.self,
+            forCellWithReuseIdentifier: "EmptyUpcomingCell"
+        )
 
         let headerNib = UINib(nibName: "SectionHeaderView", bundle: nil)
         collectionView.register(
@@ -82,19 +86,19 @@ class LeagueDetailsViewController: UICollectionViewController,
 
     func displayUpcomingEvents() {
         DispatchQueue.main.async {
-            self.collectionView.reloadSections(IndexSet(integer: 0))
+            self.collectionView.reloadData()
         }
     }
 
     func displayLatestResults() {
         DispatchQueue.main.async {
-            self.collectionView.reloadSections(IndexSet(integer: 1))
+            self.collectionView.reloadData()
         }
     }
 
     func displayTeams() {
         DispatchQueue.main.async {
-            self.collectionView.reloadSections(IndexSet(integer: 2))
+            self.collectionView.reloadData()
         }
     }
 
@@ -135,7 +139,7 @@ class LeagueDetailsViewController: UICollectionViewController,
     ) -> Int {
         guard let sectionType = Section(rawValue: section) else { return 0 }
         switch sectionType {
-        case .upcomingEvents: return presenter.upcomingEvents.count
+        case .upcomingEvents: return presenter.upcomingEvents.isEmpty ? 1 : presenter.upcomingEvents.count
         case .latestResults: return presenter.latestResults.count
         case .teams: return presenter.teams.count
         }
@@ -151,6 +155,47 @@ class LeagueDetailsViewController: UICollectionViewController,
 
         switch sectionType {
         case .upcomingEvents:
+            if presenter.upcomingEvents.isEmpty {
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "EmptyUpcomingCell",
+                    for: indexPath
+                )
+                cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+                
+                let container = UIStackView()
+                container.axis = .vertical
+                container.alignment = .center
+                container.spacing = 8
+                container.translatesAutoresizingMaskIntoConstraints = false
+                
+                let iconImageView = UIImageView()
+                iconImageView.image = UIImage(systemName: "calendar.badge.exclamationmark")
+                iconImageView.tintColor = .secondaryLabel
+                iconImageView.contentMode = .scaleAspectFit
+                iconImageView.translatesAutoresizingMaskIntoConstraints = false
+                
+                let textLabel = UILabel()
+                textLabel.text = "No upcoming events"
+                textLabel.font = .systemFont(ofSize: 14, weight: .medium)
+                textLabel.textColor = .secondaryLabel
+                textLabel.textAlignment = .center
+                
+                container.addArrangedSubview(iconImageView)
+                container.addArrangedSubview(textLabel)
+                cell.contentView.addSubview(container)
+                
+                cell.contentView.backgroundColor = .secondarySystemBackground
+                cell.contentView.layer.cornerRadius = 12
+                cell.contentView.clipsToBounds = true
+                
+                NSLayoutConstraint.activate([
+                    iconImageView.widthAnchor.constraint(equalToConstant: 40),
+                    iconImageView.heightAnchor.constraint(equalToConstant: 40),
+                    container.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor),
+                    container.centerYAnchor.constraint(equalTo: cell.contentView.centerYAnchor)
+                ])
+                return cell
+            }
             let cell =
                 collectionView.dequeueReusableCell(
                     withReuseIdentifier: "EventCell",
@@ -232,15 +277,47 @@ class LeagueDetailsViewController: UICollectionViewController,
     private func createCompositionalLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout {
             [weak self] (sectionIndex, _) -> NSCollectionLayoutSection? in
-            guard let sectionType = Section(rawValue: sectionIndex) else {
+            guard let self = self, let sectionType = Section(rawValue: sectionIndex) else {
                 return nil
             }
             switch sectionType {
-            case .upcomingEvents: return self?.createUpcomingEventsSection()
-            case .latestResults: return self?.createLatestResultsSection()
-            case .teams: return self?.createTeamsSection()
+            case .upcomingEvents:
+                if self.presenter.upcomingEvents.isEmpty {
+                    return self.createEmptyUpcomingEventsSection()
+                } else {
+                    return self.createUpcomingEventsSection()
+                }
+            case .latestResults: return self.createLatestResultsSection()
+            case .teams: return self.createTeamsSection()
             }
         }
+    }
+
+    private func createEmptyUpcomingEventsSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(100)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 10,
+            leading: 16,
+            bottom: 20,
+            trailing: 16
+        )
+        section.boundarySupplementaryItems = [createHeader()]
+        return section
     }
 
     private func createUpcomingEventsSection() -> NSCollectionLayoutSection {
