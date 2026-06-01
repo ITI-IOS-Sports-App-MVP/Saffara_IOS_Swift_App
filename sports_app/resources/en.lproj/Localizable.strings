@@ -1,0 +1,44 @@
+/* Tab Bar */
+"tab_sports" = "Sports";
+"tab_favorites" = "Favorites";
+"tab_settings" = "Settings";
+
+/* Home Screen */
+"search_sports_placeholder" = "Search sports...";
+
+/* Sport Names */
+"sport_soccer" = "Soccer";
+"sport_basketball" = "Basketball";
+"sport_tennis" = "Tennis";
+"cricket" = "Cricket";
+
+/* Onboarding - Slide 1 */
+"onboarding_title_1" = "Your World of Sports, All in One Place";
+"onboarding_desc_1" = "Explore leagues, follow upcoming events, and save your favorite teams.";
+
+/* Onboarding - Slide 2 */
+"onboarding_title_2" = "Stay on Top of Every Match";
+"onboarding_desc_2" = "Get upcoming fixtures, live scores, and full results — all in one clean view.";
+
+/* Onboarding - Slide 3 */
+"onboarding_title_3" = "Save Your Favorite Leagues";
+"onboarding_desc_3" = "Tap the heart on any league to pin it for quick access — even offline. Your favorites are always one tap away.";
+
+/* Onboarding Buttons */
+"onboarding_skip" = "Skip";
+"onboarding_previous" = "Previous";
+"onboarding_next" = "Next";
+"onboarding_get_started" = "Get Started";
+
+/* Launch Screen */
+"launch_tagline" = "Don't miss a beat of the game";
+
+/* Settings Screen */
+"settings_appearance" = "APPEARANCE";
+"settings_localization" = "LOCALIZATION";
+"settings_app_theme" = "App Theme";
+"settings_language" = "Language";
+"settings_dark_mode" = "Dark Mode";
+"settings_light_mode" = "Light Mode";
+"settings_english" = "English";
+"settings_arabic" = "العربية";

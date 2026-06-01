@@ -1,0 +1,44 @@
+/* Tab Bar */
+"tab_sports" = "الرياضات";
+"tab_favorites" = "المفضلة";
+"tab_settings" = "الإعدادات";
+
+/* Home Screen */
+"search_sports_placeholder" = "ابحث عن رياضة...";
+
+/* Sport Names */
+"sport_soccer" = "كرة القدم";
+"sport_basketball" = "كرة السلة";
+"sport_tennis" = "التنس";
+"cricket" = "كرة القدم الأمريكية";
+
+/* Onboarding - Slide 1 */
+"onboarding_title_1" = "عالمك الرياضي في مكان واحد";
+"onboarding_desc_1" = "استكشف الدوريات، تابع الأحداث القادمة، واحفظ فرقك المفضلة.";
+
+/* Onboarding - Slide 2 */
+"onboarding_title_2" = "تابع كل مباراة أولاً بأول";
+"onboarding_desc_2" = "احصل على المباريات القادمة، النتائج المباشرة، والنتائج الكاملة — كلها في عرض واحد.";
+
+/* Onboarding - Slide 3 */
+"onboarding_title_3" = "احفظ دورياتك المفضلة";
+"onboarding_desc_3" = "اضغط على القلب في أي دوري لتثبيته للوصول السريع — حتى بدون إنترنت. مفضلاتك دائماً على بعد نقرة واحدة.";
+
+/* Onboarding Buttons */
+"onboarding_skip" = "تخطي";
+"onboarding_previous" = "السابق";
+"onboarding_next" = "التالي";
+"onboarding_get_started" = "ابدأ الآن";
+
+/* Launch Screen */
+"launch_tagline" = "لا تفوّت أي لحظة من اللعبة";
+
+/* Settings Screen */
+"settings_appearance" = "المظهر";
+"settings_localization" = "اللغة";
+"settings_app_theme" = "مظهر التطبيق";
+"settings_language" = "اللغة";
+"settings_dark_mode" = "الوضع الداكن";
+"settings_light_mode" = "الوضع الفاتح";
+"settings_english" = "English";
+"settings_arabic" = "العربية";
