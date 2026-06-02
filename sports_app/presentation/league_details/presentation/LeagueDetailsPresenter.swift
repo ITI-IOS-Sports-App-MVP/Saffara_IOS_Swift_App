@@ -21,8 +21,11 @@ class LeagueDetailsPresenter {
     var latestResults: [Event] = []
     var teams: [Team] = []
     
+    let sport: String
+    
     init(view: LeagueDetailsViewProtocol,
          league: League,
+         sport: String,
          favoriteRepository: FavoriteLeaguesRepository,
          getUpcomingUseCase: GetUpcomingEventsUseCaseProtocol,
          getLatestUseCase: GetLatestResultsUseCaseProtocol,
@@ -30,6 +33,7 @@ class LeagueDetailsPresenter {
         
         self.view = view
         self.league = league
+        self.sport = sport
         self.favoriteRepository = favoriteRepository
         self.getUpcomingUseCase = getUpcomingUseCase
         self.getLatestUseCase = getLatestUseCase

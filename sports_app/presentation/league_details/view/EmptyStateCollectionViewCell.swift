@@ -24,11 +24,11 @@ class EmptyStateCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        contentView.backgroundColor = UIColor(red: 28/255, green: 28/255, blue: 30/255, alpha: 1.0)
+        contentView.backgroundColor = .secondarySystemGroupedBackground
         contentView.layer.cornerRadius = 12
         
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .darkGray
+        imageView.tintColor = .secondaryLabel
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalToConstant: 40),
@@ -36,7 +36,7 @@ class EmptyStateCollectionViewCell: UICollectionViewCell {
         ])
         
         messageLabel.textAlignment = .center
-        messageLabel.textColor = .lightGray
+        messageLabel.textColor = .label
         messageLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         messageLabel.numberOfLines = 0
         

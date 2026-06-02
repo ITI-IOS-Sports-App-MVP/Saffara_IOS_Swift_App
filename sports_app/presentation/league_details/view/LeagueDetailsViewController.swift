@@ -14,7 +14,8 @@ class LeagueDetailsViewController: UICollectionViewController,
     @IBOutlet weak var favoriteButton: UIBarButtonItem!
     var presenter: LeagueDetailsPresenter!
 
-    private var activityIndicator = UIActivityIndicatorView(style: .large)
+    private var skeletonView: LeagueDetailsSkeletonView?
+    private var isLoading = false
 
     enum Section: Int, CaseIterable {
         case upcomingEvents = 0
@@ -63,24 +64,36 @@ class LeagueDetailsViewController: UICollectionViewController,
     }
 
     private func setupLoadingIndicator() {
-        activityIndicator.hidesWhenStopped = true
-
-        let backgroundView = UIView(frame: collectionView.bounds)
-        activityIndicator.center = backgroundView.center
-        backgroundView.addSubview(activityIndicator)
-
-        collectionView.backgroundView = backgroundView
+        let skView = LeagueDetailsSkeletonView()
+        self.skeletonView = skView
     }
 
     func showLoadingIndicator() {
         DispatchQueue.main.async {
-            self.activityIndicator.startAnimating()
+            self.isLoading = true
+            self.collectionView.reloadData()
+            
+            guard let skeleton = self.skeletonView else { return }
+            self.collectionView.addSubview(skeleton)
+            skeleton.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                skeleton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+                skeleton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+                skeleton.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+                skeleton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            ])
+            self.collectionView.isScrollEnabled = false
+            skeleton.startShimmering()
         }
     }
 
     func hideLoadingIndicator() {
         DispatchQueue.main.async {
-            self.activityIndicator.stopAnimating()
+            self.isLoading = false
+            self.collectionView.reloadData()
+            self.skeletonView?.stopShimmering()
+            self.skeletonView?.removeFromSuperview()
+            self.collectionView.isScrollEnabled = true
         }
     }
 
@@ -130,7 +143,7 @@ class LeagueDetailsViewController: UICollectionViewController,
     // MARK: - UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return Section.allCases.count
+        return isLoading ? 0 : Section.allCases.count
     }
 
     override func collectionView(
@@ -429,5 +442,269 @@ class LeagueDetailsViewController: UICollectionViewController,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top
         )
+    }
+
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        guard let sectionType = Section(rawValue: indexPath.section) else { return }
+        if sectionType == .teams {
+            let team = presenter.getTeam(at: indexPath.item)
+            guard let teamId = team.teamKey else { return }
+            
+            let teamDetailsVC = TeamDetailsViewController()
+            let repo = TeamDetailsRepository()
+            let useCase = GetTeamDetailsUseCase(repository: repo)
+            let detailsPresenter = TeamDetailsPresenter(
+                view: teamDetailsVC,
+                getTeamDetailsUseCase: useCase,
+                teamId: teamId,
+                sport: presenter.sport,
+                sportAndLeague: "\(presenter.sport.capitalized) - \(presenter.league.leagueName ?? "")"
+            )
+            teamDetailsVC.presenter = detailsPresenter
+            self.navigationController?.pushViewController(teamDetailsVC, animated: true)
+        }
+    }
+}
+
+class LeagueDetailsSkeletonView: UIView {
+    
+    private let scrollView = UIScrollView()
+    private let containerStack = UIStackView()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupSkeleton()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupSkeleton()
+    }
+    
+    private func setupSkeleton() {
+        backgroundColor = .systemBackground
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(scrollView)
+        
+        containerStack.axis = .vertical
+        containerStack.spacing = 24
+        containerStack.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(containerStack)
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            containerStack.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
+            containerStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            containerStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
+            containerStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16),
+            containerStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -32)
+        ])
+        
+        // 1. Upcoming Section
+        createSection(title: "UPCOMING EVENTS", height: 120) {
+            let rowStack = UIStackView()
+            rowStack.axis = .horizontal
+            rowStack.spacing = 16
+            rowStack.distribution = .fillEqually
+            
+            for _ in 0..<3 {
+                let card = UIView()
+                card.backgroundColor = .secondarySystemGroupedBackground
+                card.layer.cornerRadius = 12
+                card.layer.shadowColor = UIColor.black.cgColor
+                card.layer.shadowOpacity = 0.02
+                card.layer.shadowOffset = CGSize(width: 0, height: 1)
+                card.layer.shadowRadius = 2
+                
+                let team1 = UIView()
+                team1.backgroundColor = .systemGray5
+                team1.layer.cornerRadius = 15
+                team1.translatesAutoresizingMaskIntoConstraints = false
+                card.addSubview(team1)
+                
+                let team2 = UIView()
+                team2.backgroundColor = .systemGray5
+                team2.layer.cornerRadius = 15
+                team2.translatesAutoresizingMaskIntoConstraints = false
+                card.addSubview(team2)
+                
+                let line = UIView()
+                line.backgroundColor = .systemGray5
+                line.layer.cornerRadius = 3
+                line.translatesAutoresizingMaskIntoConstraints = false
+                card.addSubview(line)
+                
+                NSLayoutConstraint.activate([
+                    team1.centerXAnchor.constraint(equalTo: card.centerXAnchor, constant: -20),
+                    team1.centerYAnchor.constraint(equalTo: card.centerYAnchor, constant: -15),
+                    team1.widthAnchor.constraint(equalToConstant: 30),
+                    team1.heightAnchor.constraint(equalToConstant: 30),
+                    
+                    team2.centerXAnchor.constraint(equalTo: card.centerXAnchor, constant: 20),
+                    team2.centerYAnchor.constraint(equalTo: card.centerYAnchor, constant: -15),
+                    team2.widthAnchor.constraint(equalToConstant: 30),
+                    team2.heightAnchor.constraint(equalToConstant: 30),
+                    
+                    line.centerXAnchor.constraint(equalTo: card.centerXAnchor),
+                    line.topAnchor.constraint(equalTo: team1.bottomAnchor, constant: 12),
+                    line.widthAnchor.constraint(equalTo: card.widthAnchor, multiplier: 0.6),
+                    line.heightAnchor.constraint(equalToConstant: 8)
+                ])
+                rowStack.addArrangedSubview(card)
+            }
+            return rowStack
+        }
+        
+        // 2. Latest Results Section
+        createSection(title: "LATEST RESULTS", height: 150) {
+            let colStack = UIStackView()
+            colStack.axis = .vertical
+            colStack.spacing = 12
+            colStack.distribution = .fillEqually
+            
+            for _ in 0..<2 {
+                let cell = UIView()
+                cell.backgroundColor = .secondarySystemGroupedBackground
+                cell.layer.cornerRadius = 12
+                
+                let imageLeft = UIView()
+                imageLeft.backgroundColor = .systemGray5
+                imageLeft.layer.cornerRadius = 18
+                imageLeft.translatesAutoresizingMaskIntoConstraints = false
+                cell.addSubview(imageLeft)
+                
+                let imageRight = UIView()
+                imageRight.backgroundColor = .systemGray5
+                imageRight.layer.cornerRadius = 18
+                imageRight.translatesAutoresizingMaskIntoConstraints = false
+                cell.addSubview(imageRight)
+                
+                let scoreText = UIView()
+                scoreText.backgroundColor = .systemGray5
+                scoreText.layer.cornerRadius = 4
+                scoreText.translatesAutoresizingMaskIntoConstraints = false
+                cell.addSubview(scoreText)
+                
+                NSLayoutConstraint.activate([
+                    imageLeft.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 20),
+                    imageLeft.centerYAnchor.constraint(equalTo: cell.centerYAnchor),
+                    imageLeft.widthAnchor.constraint(equalToConstant: 36),
+                    imageLeft.heightAnchor.constraint(equalToConstant: 36),
+                    
+                    imageRight.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -20),
+                    imageRight.centerYAnchor.constraint(equalTo: cell.centerYAnchor),
+                    imageRight.widthAnchor.constraint(equalToConstant: 36),
+                    imageRight.heightAnchor.constraint(equalToConstant: 36),
+                    
+                    scoreText.centerXAnchor.constraint(equalTo: cell.centerXAnchor),
+                    scoreText.centerYAnchor.constraint(equalTo: cell.centerYAnchor),
+                    scoreText.widthAnchor.constraint(equalToConstant: 60),
+                    scoreText.heightAnchor.constraint(equalToConstant: 16)
+                ])
+                colStack.addArrangedSubview(cell)
+            }
+            return colStack
+        }
+        
+        // 3. Teams Section
+        createSection(title: "TEAMS", height: 110) {
+            let rowStack = UIStackView()
+            rowStack.axis = .horizontal
+            rowStack.spacing = 16
+            rowStack.distribution = .fillEqually
+            
+            for _ in 0..<4 {
+                let container = UIView()
+                
+                let circle = UIView()
+                circle.backgroundColor = .systemGray5
+                circle.layer.cornerRadius = 35
+                circle.translatesAutoresizingMaskIntoConstraints = false
+                container.addSubview(circle)
+                
+                let text = UIView()
+                text.backgroundColor = .systemGray5
+                text.layer.cornerRadius = 3
+                text.translatesAutoresizingMaskIntoConstraints = false
+                container.addSubview(text)
+                
+                NSLayoutConstraint.activate([
+                    circle.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+                    circle.topAnchor.constraint(equalTo: container.topAnchor),
+                    circle.widthAnchor.constraint(equalToConstant: 70),
+                    circle.heightAnchor.constraint(equalToConstant: 70),
+                    
+                    text.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+                    text.topAnchor.constraint(equalTo: circle.bottomAnchor, constant: 8),
+                    text.widthAnchor.constraint(equalToConstant: 50),
+                    text.heightAnchor.constraint(equalToConstant: 8)
+                ])
+                rowStack.addArrangedSubview(container)
+            }
+            return rowStack
+        }
+    }
+    
+    private func createSection(title: String, height: CGFloat, contentViewBuilder: () -> UIView) {
+        let sectionStack = UIStackView()
+        sectionStack.axis = .vertical
+        sectionStack.spacing = 12
+        
+        let titleLabel = UIView()
+        titleLabel.backgroundColor = .systemGray4
+        titleLabel.layer.cornerRadius = 4
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        sectionStack.addArrangedSubview(titleLabel)
+        
+        NSLayoutConstraint.activate([
+            titleLabel.widthAnchor.constraint(equalToConstant: 120),
+            titleLabel.heightAnchor.constraint(equalToConstant: 14)
+        ])
+        
+        let contentView = contentViewBuilder()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        sectionStack.addArrangedSubview(contentView)
+        
+        NSLayoutConstraint.activate([
+            contentView.heightAnchor.constraint(equalToConstant: height)
+        ])
+        
+        containerStack.addArrangedSubview(sectionStack)
+    }
+    
+    func startShimmering() {
+        shimmerViewsRecursively(in: containerStack, start: true)
+    }
+    
+    func stopShimmering() {
+        shimmerViewsRecursively(in: containerStack, start: false)
+    }
+    
+    private func shimmerViewsRecursively(in view: UIView, start: Bool) {
+        let isPlaceholder = view.backgroundColor == .systemGray4 || view.backgroundColor == .systemGray5
+        if isPlaceholder {
+            if start {
+                view.startShimmer()
+            } else {
+                view.stopShimmer()
+            }
+        }
+        for subview in view.subviews {
+            if !(subview is UIStackView) {
+                shimmerViewsRecursively(in: subview, start: start)
+            } else {
+                for arranged in (subview as! UIStackView).arrangedSubviews {
+                    shimmerViewsRecursively(in: arranged, start: start)
+                }
+            }
+        }
     }
 }

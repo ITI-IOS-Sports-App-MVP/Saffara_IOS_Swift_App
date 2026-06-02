@@ -20,6 +20,11 @@ class LeagueTableViewCell: UITableViewCell, LeagueCellViewProtocol {
         // Initialization code
         
         self.selectionStyle = .none
+        
+        containerView.backgroundColor = .secondarySystemGroupedBackground
+        leagueNameLabel.textColor = .label
+        countryLabel.textColor = .secondaryLabel
+        chevronImageView.tintColor = .secondaryLabel
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
