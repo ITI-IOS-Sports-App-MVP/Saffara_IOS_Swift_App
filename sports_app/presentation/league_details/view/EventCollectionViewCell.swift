@@ -17,11 +17,16 @@ class EventCollectionViewCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        homeTeamImageView.layer.cornerRadius =
-            homeTeamImageView.frame.height / 2
-        awayTeamImageView.layer.cornerRadius =
-            awayTeamImageView.frame.height / 2
+            
+            
+        // Safely style the first subview (container view in XIB) or contentView
+        let backgroundTarget = contentView.subviews.first ?? contentView
+        backgroundTarget.backgroundColor = .secondarySystemGroupedBackground
+        backgroundTarget.layer.cornerRadius = 12
+        backgroundTarget.clipsToBounds = true
+        
+        matchNameLabel.textColor = .label
+        matchDateLabel.textColor = .secondaryLabel
     }
 
     func configure(
