@@ -443,6 +443,30 @@ class LeagueDetailsViewController: UICollectionViewController,
             alignment: .top
         )
     }
+
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        guard let sectionType = Section(rawValue: indexPath.section) else { return }
+        if sectionType == .teams {
+            let team = presenter.getTeam(at: indexPath.item)
+            guard let teamId = team.teamKey else { return }
+            
+            let teamDetailsVC = TeamDetailsViewController()
+            let repo = TeamDetailsRepository()
+            let useCase = GetTeamDetailsUseCase(repository: repo)
+            let detailsPresenter = TeamDetailsPresenter(
+                view: teamDetailsVC,
+                getTeamDetailsUseCase: useCase,
+                teamId: teamId,
+                sport: presenter.sport,
+                sportAndLeague: "\(presenter.sport.capitalized) - \(presenter.league.leagueName ?? "")"
+            )
+            teamDetailsVC.presenter = detailsPresenter
+            self.navigationController?.pushViewController(teamDetailsVC, animated: true)
+        }
+    }
 }
 
 class LeagueDetailsSkeletonView: UIView {

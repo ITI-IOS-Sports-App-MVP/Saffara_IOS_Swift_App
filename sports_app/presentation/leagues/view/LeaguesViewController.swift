@@ -103,6 +103,7 @@ class LeaguesViewController: UITableViewController, LeaguesViewProtocol {
         let detailsPresenter = LeagueDetailsPresenter(
             view: detailsVC,
             league: league,
+            sport: sportName,
             favoriteRepository: favoriteRepository,
             getUpcomingUseCase: upcomingUseCase,
             getLatestUseCase: latestUseCase,
