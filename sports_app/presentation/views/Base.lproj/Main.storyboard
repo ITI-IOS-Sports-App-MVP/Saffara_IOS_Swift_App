@@ -244,8 +244,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </tableView>
+                        
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="wAb-c8-Y9z">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fSeg-Co-Ntr">
+                                    <rect key="frame" x="16" y="14.666666666666664" width="361" height="32"/>
+                                    <segments>
+                                        <segment title="All"/>
+                                        <segment title="Soccer"/>
+                                        <segment title="Basketball"/>
+                                        <segment title="Tennis"/>
+                                        <segment title="Cricket"/>
+                                    </segments>
+                                    <connections>
+                                        <action selector="filterSegmentChanged:" destination="Xbh-PM-Wb3" eventType="valueChanged" id="Act-ion-id"/>
+                                    </connections>
+                                </segmentedControl>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="fSeg-Co-Ntr" firstAttribute="leading" secondItem="wAb-c8-Y9z" secondAttribute="leading" constant="16" id="Con-st-rd1"/>
+                                <constraint firstAttribute="trailing" secondItem="fSeg-Co-Ntr" secondAttribute="trailing" constant="16" id="Con-st-rd2"/>
+                                <constraint firstItem="fSeg-Co-Ntr" firstAttribute="centerY" secondItem="wAb-c8-Y9z" secondAttribute="centerY" id="Con-st-rd3"/>
+                            </constraints>
+                        </view>
+                        </tableView>
                     <navigationItem key="navigationItem" id="vXG-9f-jPz"/>
+                    <connections>
+                        <outlet property="filterSegmentedControl" destination="fSeg-Co-Ntr" id="Out-le-tid"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oAT-9N-SqR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

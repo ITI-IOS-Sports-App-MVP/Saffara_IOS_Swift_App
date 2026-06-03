@@ -9,6 +9,8 @@ import UIKit
 
 class FavoriteTableViewController: UITableViewController {
 
+    @IBOutlet weak var filterSegmentedControl: UISegmentedControl!
+    
     var presenter: FavoritesPresenterProtocol!
 
     override func viewDidLoad() {
@@ -25,7 +27,6 @@ class FavoriteTableViewController: UITableViewController {
             removeFavoriteUseCase: removeUseCase
         )
 
-        setupFilterControl()
         setupTableView()
         
         presenter.viewDidLoad()
@@ -34,36 +35,6 @@ class FavoriteTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         presenter.viewWillAppear()
-    }
-
-    private func setupFilterControl() {
-        let items = [
-            "filter_all".localized,
-            "sport_soccer".localized,
-            "sport_basketball".localized,
-            "sport_tennis".localized,
-            "cricket".localized
-        ]
-        let segmentedControl = UISegmentedControl(items: items)
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.addTarget(self, action: #selector(filterSegmentChanged(_:)), for: .valueChanged)
-        
-        segmentedControl.selectedSegmentTintColor = UIColor(red: 255.0/255.0, green: 107.0/255.0, blue: 53.0/255.0, alpha: 1.0)
-        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-        
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
-        headerView.backgroundColor = .clear
-        
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        headerView.addSubview(segmentedControl)
-        
-        NSLayoutConstraint.activate([
-            segmentedControl.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            segmentedControl.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
-            segmentedControl.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -16)
-        ])
-        
-        tableView.tableHeaderView = headerView
     }
     
     @objc private func filterSegmentChanged(_ sender: UISegmentedControl) {
