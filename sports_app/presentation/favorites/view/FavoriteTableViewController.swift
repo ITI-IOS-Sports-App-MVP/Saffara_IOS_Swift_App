@@ -20,27 +20,6 @@ class FavoriteTableViewController: UITableViewController {
         let getUseCase = GetFavoritesUseCase(repository: repo)
         let removeUseCase = RemoveFavoriteUseCase(repository: repo)
 
-//        let dummyLeague = League(
-//            leagueKey: 12345,
-//            leagueName: "Test League",
-//            leagueLogo: nil,
-//            leagueCountry: "Egypt"
-//        )
-//
-//                do {
-//                    try addUseCase.execute(league: dummyLeague)
-//                    print("✅ Dummy league added successfully!")
-//                } catch {
-//                    print("❌ Failed to add dummy league: \(error)")
-//                }
-
-//        do {
-//            try removeUseCase.execute(leagueKey: 12345)
-//            print("✅ Dummy league Removed successfully!")
-//        } catch {
-//            print("❌ Failed to remove dummy league: \(error)")
-//        }
-
         presenter = FavoritesPresenter(
             view: self,
             getFavoritesUseCase: getUseCase,
@@ -98,10 +77,20 @@ class FavoriteTableViewController: UITableViewController {
             presenter.removeFavorite(at: indexPath.row)
         }
     }
+
+    override func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        presenter.didSelectFavorite(at: indexPath.row)
+    }
 }
 
 extension FavoriteTableViewController: FavoritesViewProtocol {
     func displayFavorites() {
+        self.tableView.backgroundView = nil
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -138,14 +127,24 @@ extension FavoriteTableViewController: FavoritesViewProtocol {
 
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "heart.slash.fill")
-        imageView.tintColor = UIColor(red: 51.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0)
+        imageView.tintColor = UIColor(
+            red: 51.0 / 255.0,
+            green: 51.0 / 255.0,
+            blue: 51.0 / 255.0,
+            alpha: 1.0
+        )
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
         let messageLabel = UILabel()
         messageLabel.text =
             "No favorites saved yet. Go to league details to add favorites."
-        messageLabel.textColor = UIColor(red: 136.0/255.0, green: 136.0/255.0, blue: 136.0/255.0, alpha: 1.0)
+        messageLabel.textColor = UIColor(
+            red: 136.0 / 255.0,
+            green: 136.0 / 255.0,
+            blue: 136.0 / 255.0,
+            alpha: 1.0
+        )
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
         messageLabel.font = UIFont.systemFont(ofSize: 13)
@@ -181,4 +180,45 @@ extension FavoriteTableViewController: FavoritesViewProtocol {
 
         return emptyView
     }
+
+    func navigateToLeagueDetails(with league: League, sportName: String) {
+            // Run on main thread to ensure smooth UI transition
+            DispatchQueue.main.async {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                guard
+                    let detailsVC = storyboard.instantiateViewController(
+                        withIdentifier: "LeagueDetailsViewController"
+                    ) as? LeagueDetailsViewController
+                else {
+                    print("❌ Could not find LeagueDetailsViewController in Storyboard")
+                    return
+                }
+
+                let repository = LeagueDetailsRepository(sport: sportName)
+                let favoriteRepository = FavoriteLeaguesRepository()
+
+                let upcomingUseCase = GetUpcomingEventsUseCase(repository: repository)
+                let latestUseCase = GetLatestResultsUseCase(repository: repository)
+                let teamsUseCase = GetTeamsUseCase(repository: repository)
+
+                let detailsPresenter = LeagueDetailsPresenter(
+                    view: detailsVC,
+                    league: league,
+                    sport: sportName,
+                    favoriteRepository: favoriteRepository,
+                    getUpcomingUseCase: upcomingUseCase,
+                    getLatestUseCase: latestUseCase,
+                    getTeamsUseCase: teamsUseCase
+                )
+
+                detailsVC.presenter = detailsPresenter
+
+                // Debug print to check if Navigation Controller exists
+                if self.navigationController == nil {
+                    print("⚠️ WARNING: navigationController is nil. Cannot push view.")
+                }
+
+                self.navigationController?.pushViewController(detailsVC, animated: true)
+            }
+        }
 }

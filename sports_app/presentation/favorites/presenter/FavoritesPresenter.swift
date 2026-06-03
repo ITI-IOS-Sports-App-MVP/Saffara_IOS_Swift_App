@@ -91,4 +91,10 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
             )
         }
     }
+    
+    func didSelectFavorite(at index: Int) {
+            let selectedLeague = favoriteLeagues[index]
+            
+        view?.navigateToLeagueDetails(with: selectedLeague, sportName: selectedLeague.sportName ?? "Unknow")
+        }
 }

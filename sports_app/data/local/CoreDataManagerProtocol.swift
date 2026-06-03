@@ -31,7 +31,8 @@ class CoreDataManager: CoreDataManagerProtocol {
                 leagueKey: Int(entity.leagueKey),
                 leagueName: entity.leagueName,
                 leagueLogo: entity.leagueLogo,
-                leagueCountry: entity.leagueCountry
+                leagueCountry: entity.leagueCountry,
+                sportName: entity.sportName
             )
         }
     }
@@ -42,6 +43,7 @@ class CoreDataManager: CoreDataManagerProtocol {
         entity.leagueName = league.leagueName
         entity.leagueLogo = league.leagueLogo
         entity.leagueCountry = league.leagueCountry
+        entity.sportName = league.sportName
 
         try context.save()
     }
