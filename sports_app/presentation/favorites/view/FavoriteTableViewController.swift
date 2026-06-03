@@ -13,7 +13,7 @@ class FavoriteTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Favorites"
+        self.title = "tab_favorites".localized
 
         let repo = FavoriteLeaguesRepository()
         let getUseCase = GetFavoritesUseCase(repository: repo)
@@ -37,7 +37,13 @@ class FavoriteTableViewController: UITableViewController {
     }
 
     private func setupFilterControl() {
-        let items = ["All", "Soccer", "Basketball", "Tennis", "Cricket"]
+        let items = [
+            "filter_all".localized,
+            "sport_soccer".localized,
+            "sport_basketball".localized,
+            "sport_tennis".localized,
+            "cricket".localized
+        ]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.addTarget(self, action: #selector(filterSegmentChanged(_:)), for: .valueChanged)
@@ -137,11 +143,11 @@ extension FavoriteTableViewController: FavoritesViewProtocol {
     func displayError(_ message: String) {
         DispatchQueue.main.async {
             let alert = UIAlertController(
-                title: "Error",
+                title: "error_title".localized,
                 message: message,
                 preferredStyle: .alert
             )
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            alert.addAction(UIAlertAction(title: "ok_button".localized, style: .default))
             self.present(alert, animated: true)
         }
     }
@@ -183,8 +189,8 @@ extension FavoriteTableViewController: FavoritesViewProtocol {
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
         let messageLabel = UILabel()
-        messageLabel.text =
-            "No favorites saved yet. Go to league details to add favorites."
+        messageLabel.text = "empty_favorites".localized
+        
         messageLabel.textColor = UIColor(
             red: 136.0 / 255.0,
             green: 136.0 / 255.0,
