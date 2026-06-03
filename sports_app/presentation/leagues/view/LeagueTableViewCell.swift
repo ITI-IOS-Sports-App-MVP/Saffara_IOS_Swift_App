@@ -27,6 +27,14 @@ class LeagueTableViewCell: UITableViewCell, LeagueCellViewProtocol {
         chevronImageView.tintColor = .secondaryLabel
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        leagueImageView.image = UIImage(named: "Logo")
+        leagueNameLabel.text = nil
+        countryLabel.text = nil
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         

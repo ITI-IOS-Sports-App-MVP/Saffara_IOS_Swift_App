@@ -6,6 +6,9 @@
 /* Home Screen */
 "search_sports_placeholder" = "ابحث عن رياضة...";
 
+/* Filters */
+"filter_all" = "الكل";
+
 /* Sport Names */
 "sport_soccer" = "كرة القدم";
 "sport_basketball" = "كرة السلة";
@@ -42,3 +45,8 @@
 "settings_light_mode" = "الوضع الفاتح";
 "settings_english" = "English";
 "settings_arabic" = "العربية";
+
+/* Favorites Screen */
+"empty_favorites" = "لا توجد مفضلات محفوظة بعد. اذهب إلى تفاصيل الدوري لإضافة مفضلات.";
+"error_title" = "خطأ";
+"ok_button" = "حسناً";

@@ -212,7 +212,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="gcx-Nn-her" kind="relationship" relationship="viewControllers" id="MPV-3t-fz4"/>
-                        <segue destination="Xbh-PM-Wb3" kind="relationship" relationship="viewControllers" id="yWl-iY-KUd"/>
+                        <segue destination="v0Z-FV-gur" kind="relationship" relationship="viewControllers" id="yWl-iY-KUd"/>
                         <segue destination="RVx-gZ-k3F" kind="relationship" relationship="viewControllers" id="MTH-Ur-hGA"/>
                     </connections>
                 </tabBarController>
@@ -236,7 +236,7 @@
             </objects>
             <point key="canvasLocation" x="-282" y="875"/>
         </scene>
-        <!--Favorites-->
+        <!--Favorite Table View Controller-->
         <scene sceneID="RR9-JX-Yw5">
             <objects>
                 <viewController id="Xbh-PM-Wb3" customClass="FavoriteTableViewController" customModule="sports_app" customModuleProvider="target" sceneMemberID="viewController">
@@ -244,12 +244,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="Favorites" image="heart" catalog="system" id="PVC-Ei-gwA"/>
+                        
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="wAb-c8-Y9z">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="60"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fSeg-Co-Ntr">
+                                    <rect key="frame" x="16" y="14.666666666666664" width="361" height="32"/>
+                                    <segments>
+                                        <segment title="All"/>
+                                        <segment title="Soccer"/>
+                                        <segment title="Basketball"/>
+                                        <segment title="Tennis"/>
+                                        <segment title="Cricket"/>
+                                    </segments>
+                                    <connections>
+                                        <action selector="filterSegmentChanged:" destination="Xbh-PM-Wb3" eventType="valueChanged" id="Act-ion-id"/>
+                                    </connections>
+                                </segmentedControl>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="fSeg-Co-Ntr" firstAttribute="leading" secondItem="wAb-c8-Y9z" secondAttribute="leading" constant="16" id="Con-st-rd1"/>
+                                <constraint firstAttribute="trailing" secondItem="fSeg-Co-Ntr" secondAttribute="trailing" constant="16" id="Con-st-rd2"/>
+                                <constraint firstItem="fSeg-Co-Ntr" firstAttribute="centerY" secondItem="wAb-c8-Y9z" secondAttribute="centerY" id="Con-st-rd3"/>
+                            </constraints>
+                        </view>
+                        </tableView>
+                    <navigationItem key="navigationItem" id="vXG-9f-jPz"/>
+                    <connections>
+                        <outlet property="filterSegmentedControl" destination="fSeg-Co-Ntr" id="Out-le-tid"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oAT-9N-SqR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="608" y="870"/>
+            <point key="canvasLocation" x="1533.5877862595419" y="869.71830985915494"/>
         </scene>
         <!--OnboardingViewController-->
         <scene sceneID="6co-il-599">
@@ -395,6 +424,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hjp-Yw-fCW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1991.6030534351144" y="130.98591549295776"/>
+        </scene>
+        <!--Favorites-->
+        <scene sceneID="5Pz-jF-N7V">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="v0Z-FV-gur" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Favorites" image="heart" catalog="system" id="PVC-Ei-gwA"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Rbu-29-fHA">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Xbh-PM-Wb3" kind="relationship" relationship="rootViewController" id="XiA-RI-EL1"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U1e-j7-0ao" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="606.87022900763361" y="869.71830985915494"/>
         </scene>
     </scenes>
     <resources>

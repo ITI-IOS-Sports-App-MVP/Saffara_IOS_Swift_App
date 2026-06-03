@@ -6,6 +6,9 @@
 /* Home Screen */
 "search_sports_placeholder" = "Search sports...";
 
+/* Filters */
+"filter_all" = "All";
+
 /* Sport Names */
 "sport_soccer" = "Soccer";
 "sport_basketball" = "Basketball";
@@ -42,3 +45,8 @@
 "settings_light_mode" = "Light Mode";
 "settings_english" = "English";
 "settings_arabic" = "العربية";
+
+/* Favorites Screen */
+"empty_favorites" = "No favorites saved yet. Go to league details to add favorites.";
+"error_title" = "Error";
+"ok_button" = "OK";

@@ -14,7 +14,7 @@ class LeagueDetailsPresenter {
     private let getLatestUseCase: GetLatestResultsUseCaseProtocol
     private let getTeamsUseCase: GetTeamsUseCaseProtocol
     
-    let league: League
+    var league: League
     var isFavorite: Bool = false
     
     var upcomingEvents: [Event] = []
@@ -73,6 +73,10 @@ class LeagueDetailsPresenter {
         checkFavoriteStatus()
     }
     
+    func viewWillAppear() {
+        checkFavoriteStatus()
+    }
+    
     private func checkFavoriteStatus() {
             self.isFavorite = favoriteRepository.isFavorite(leagueKey: league.leagueKey ?? 0)
             view?.updateFavoriteIcon(isFavorite: self.isFavorite)
@@ -86,6 +90,7 @@ class LeagueDetailsPresenter {
             if isFavorite {
                 try favoriteRepository.removeLeagueFromFavorites(leagueKey: league.leagueKey ?? 0)
             } else {
+                league.sportName = self.sport
                 try favoriteRepository.addLeagueToFavorites(league: league)
             }
             
