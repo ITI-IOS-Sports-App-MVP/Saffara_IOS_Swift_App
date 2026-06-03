@@ -73,6 +73,10 @@ class LeagueDetailsPresenter {
         checkFavoriteStatus()
     }
     
+    func viewWillAppear() {
+        checkFavoriteStatus()
+    }
+    
     private func checkFavoriteStatus() {
             self.isFavorite = favoriteRepository.isFavorite(leagueKey: league.leagueKey ?? 0)
             view?.updateFavoriteIcon(isFavorite: self.isFavorite)

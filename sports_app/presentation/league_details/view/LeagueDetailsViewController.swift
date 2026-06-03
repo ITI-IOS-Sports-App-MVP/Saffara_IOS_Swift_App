@@ -29,6 +29,11 @@ class LeagueDetailsViewController: UICollectionViewController,
         setupLoadingIndicator()
         presenter.viewDidLoad()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.viewWillAppear()
+    }
 
     @IBAction func favoriteButtonTapped(_ sender: Any) {
         presenter.favoriteButtonTapped()
