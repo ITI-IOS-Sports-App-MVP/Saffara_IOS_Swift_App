@@ -14,7 +14,6 @@ class FavoriteTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Favorites"
-        setupTableView()
 
         let repo = FavoriteLeaguesRepository()
         let getUseCase = GetFavoritesUseCase(repository: repo)
@@ -26,6 +25,9 @@ class FavoriteTableViewController: UITableViewController {
             removeFavoriteUseCase: removeUseCase
         )
 
+        setupFilterControl()
+        setupTableView()
+        
         presenter.viewDidLoad()
     }
 
@@ -34,6 +36,34 @@ class FavoriteTableViewController: UITableViewController {
         presenter.viewWillAppear()
     }
 
+    private func setupFilterControl() {
+        let items = ["All", "Soccer", "Basketball", "Tennis", "Cricket"]
+        let segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(filterSegmentChanged(_:)), for: .valueChanged)
+        
+        segmentedControl.selectedSegmentTintColor = UIColor(red: 255.0/255.0, green: 107.0/255.0, blue: 53.0/255.0, alpha: 1.0)
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 60))
+        headerView.backgroundColor = .clear
+        
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        headerView.addSubview(segmentedControl)
+        
+        NSLayoutConstraint.activate([
+            segmentedControl.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            segmentedControl.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
+            segmentedControl.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -16)
+        ])
+        
+        tableView.tableHeaderView = headerView
+    }
+    
+    @objc private func filterSegmentChanged(_ sender: UISegmentedControl) {
+        presenter.filterFavorites(by: sender.selectedSegmentIndex)
+    }
+    
     private func setupTableView() {
         tableView.separatorStyle = .none
         let cellNib = UINib(nibName: "LeagueTableViewCell", bundle: nil)
@@ -90,9 +120,17 @@ class FavoriteTableViewController: UITableViewController {
 
 extension FavoriteTableViewController: FavoritesViewProtocol {
     func displayFavorites() {
-        self.tableView.backgroundView = nil
-        DispatchQueue.main.async {
+        let updateUI = {
+            self.tableView.backgroundView = nil
             self.tableView.reloadData()
+        }
+        
+        if Thread.isMainThread {
+            updateUI()
+        } else {
+            DispatchQueue.main.async {
+                updateUI()
+            }
         }
     }
 
@@ -109,12 +147,20 @@ extension FavoriteTableViewController: FavoritesViewProtocol {
     }
 
     func showEmptyState() {
-        DispatchQueue.main.async {
+        let updateUI = {
             self.tableView.backgroundView = self.createEmptyStateView()
             self.tableView.reloadData()
         }
+        
+        if Thread.isMainThread {
+            updateUI()
+        } else {
+            DispatchQueue.main.async {
+                updateUI()
+            }
+        }
     }
-
+    
     private func createEmptyStateView() -> UIView {
         let emptyView = UIView(
             frame: CGRect(

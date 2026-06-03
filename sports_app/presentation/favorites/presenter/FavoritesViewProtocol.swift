@@ -20,4 +20,5 @@ protocol FavoritesPresenterProtocol {
     func configureCell(_ cell: LeagueTableViewCell, at index: Int)
     func removeFavorite(at index: Int)
     func didSelectFavorite(at index: Int)
+    func filterFavorites(by index: Int)
 }
