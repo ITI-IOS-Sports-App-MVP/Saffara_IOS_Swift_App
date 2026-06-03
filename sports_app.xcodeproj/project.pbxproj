@@ -13,6 +13,8 @@
 		C92108352FBFB4B900682698 /* onboarding_lottie_2.json in Resources */ = {isa = PBXBuildFile; fileRef = C92108322FBFB4B900682698 /* onboarding_lottie_2.json */; };
 		C92609922FCC8264007D62B5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C92609912FCC8264007D62B5 /* Kingfisher */; };
 		C94DEC9D2FC31E1200154CB5 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C94DEC9C2FC31E1200154CB5 /* Alamofire */; };
+		C980A0382FD0D16600B0E66F /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = C980A0372FD0D16600B0E66F /* Swinject */; };
+		C9F918E12FD07A3100F7A21B /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C9F918E02FD07A3100F7A21B /* Config.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +54,7 @@
 		C9DBD1602FBCD4210095921B /* sports_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sports_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DBD1762FBCD4240095921B /* sports_appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sports_appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DBD1802FBCD4240095921B /* sports_appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sports_appUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9F918E02FD07A3100F7A21B /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -93,6 +96,7 @@
 				C92609922FCC8264007D62B5 /* Kingfisher in Frameworks */,
 				C921082D2FBFADD300682698 /* Lottie in Frameworks */,
 				C94DEC9D2FC31E1200154CB5 /* Alamofire in Frameworks */,
+				C980A0382FD0D16600B0E66F /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,6 +143,7 @@
 				C9DBD1832FBCD4240095921B /* sports_appUITests */,
 				C921082B2FBFADD300682698 /* Frameworks */,
 				C9DBD1612FBCD4210095921B /* Products */,
+				C9F918E02FD07A3100F7A21B /* Config.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -176,6 +181,7 @@
 				C921082C2FBFADD300682698 /* Lottie */,
 				C94DEC9C2FC31E1200154CB5 /* Alamofire */,
 				C92609912FCC8264007D62B5 /* Kingfisher */,
+				C980A0372FD0D16600B0E66F /* Swinject */,
 			);
 			productName = sports_app;
 			productReference = C9DBD1602FBCD4210095921B /* sports_app.app */;
@@ -264,6 +270,7 @@
 				C90B8C562FBF852A00D278F9 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				C94DEC9B2FC31E0500154CB5 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				C92609902FCC8264007D62B5 /* XCRemoteSwiftPackageReference "kingfisher" */,
+				C980A0362FD0D15500B0E66F /* XCRemoteSwiftPackageReference "swinject" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C9DBD1612FBCD4210095921B /* Products */;
@@ -285,6 +292,7 @@
 				C92108342FBFB4B900682698 /* onboarding_lottie_3.json in Resources */,
 				C92108352FBFB4B900682698 /* onboarding_lottie_2.json in Resources */,
 				C92108272FBFACA200682698 /* onboarding_lottie_1.json in Resources */,
+				C9F918E12FD07A3100F7A21B /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,8 +410,7 @@
 		};
 		C9DBD18C2FBCD4240095921B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = C9DBD1622FBCD4210095921B /* sports_app */;
-			baseConfigurationReferenceRelativePath = config/Config.xcconfig;
+			baseConfigurationReference = C9F918E02FD07A3100F7A21B /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -467,8 +474,7 @@
 		};
 		C9DBD18D2FBCD4240095921B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = C9DBD1622FBCD4210095921B /* sports_app */;
-			baseConfigurationReferenceRelativePath = config/Config.xcconfig;
+			baseConfigurationReference = C9F918E02FD07A3100F7A21B /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -657,6 +663,14 @@
 				minimumVersion = 5.12.0;
 			};
 		};
+		C980A0362FD0D15500B0E66F /* XCRemoteSwiftPackageReference "swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swinject/swinject";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -674,6 +688,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C94DEC9B2FC31E0500154CB5 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		C980A0372FD0D16600B0E66F /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C980A0362FD0D15500B0E66F /* XCRemoteSwiftPackageReference "swinject" */;
+			productName = Swinject;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
