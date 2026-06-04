@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -15,12 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        // Build the dependency chain
-        let userDefaultService = UserDefaultService()
-        let userRepo = UserRepo(userDefaultService: userDefaultService)
-        let readFirstEntryUseCase = ReadFirstEntryUseCase(userRepo: userRepo)
-        let readThemeUseCase = ReadThemeUseCase(userRepo: userRepo)
-        let readLanguageUseCase = ReadLanguageUseCase(userRepo: userRepo)
+        // Resolve the dependencies using AppDIContainer
+        let container = AppDIContainer.shared.container
+        
+        let readFirstEntryUseCase = container.resolve(ReadFirstEntryUseCaseProtocol.self)!
+        let readThemeUseCase = container.resolve(ReadThemeUseCaseProtocol.self)!
+        let readLanguageUseCase = container.resolve(ReadLanguageUseCaseProtocol.self)!
         
         let isFirstEntry = readFirstEntryUseCase.execute()
         let isDarkMode = readThemeUseCase.execute()
@@ -43,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             // First time user → show onboarding
             let onboardingVC = storyboard.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
             
-            let saveFirstEntryUseCase = SaveFirstEntryUseCase(userRepo: userRepo)
+            let saveFirstEntryUseCase = container.resolve(SaveFirstEntryUseCaseProtocol.self)!
             let presenter = OnboardingPresenter(view: onboardingVC, saveFirstEntryUseCase: saveFirstEntryUseCase)
             onboardingVC.presenter = presenter
             

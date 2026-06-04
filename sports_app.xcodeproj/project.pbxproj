@@ -51,6 +51,7 @@
 		C92108242FBFAC8200682698 /* onboarding_lottie_1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = onboarding_lottie_1.json; sourceTree = "<group>"; };
 		C92108322FBFB4B900682698 /* onboarding_lottie_2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = onboarding_lottie_2.json; sourceTree = "<group>"; };
 		C92108332FBFB4B900682698 /* onboarding_lottie_3.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = onboarding_lottie_3.json; sourceTree = "<group>"; };
+		C98F5F1A2FD19CAD00077974 /* sports_app.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = sports_app.xctestplan; sourceTree = "<group>"; };
 		C9DBD1602FBCD4210095921B /* sports_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sports_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DBD1762FBCD4240095921B /* sports_appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sports_appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DBD1802FBCD4240095921B /* sports_appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sports_appUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +138,7 @@
 		C9DBD1572FBCD4210095921B = {
 			isa = PBXGroup;
 			children = (
+				C98F5F1A2FD19CAD00077974 /* sports_app.xctestplan */,
 				C9DBD1622FBCD4210095921B /* sports_app */,
 				C92108232FBFAC4800682698 /* animations */,
 				C9DBD1792FBCD4240095921B /* sports_appTests */,

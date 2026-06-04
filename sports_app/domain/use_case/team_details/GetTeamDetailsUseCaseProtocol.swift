@@ -3,6 +3,9 @@
 //  sports_app
 //
 
+import Foundation
+import Combine
+
 protocol GetTeamDetailsUseCaseProtocol {
-    func execute(sport: String, teamId: Int, completion: @escaping (Result<[Team], Error>) -> Void)
+    func execute(sport: String, teamId: Int) -> AnyPublisher<[Team], Error>
 }

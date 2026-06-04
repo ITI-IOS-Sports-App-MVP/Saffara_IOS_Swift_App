@@ -6,8 +6,7 @@
 //
 
 import Foundation
-
-
+import Combine
 
 class LeagueDetailsRepository: LeagueDetailsRepoProtocol {
 
@@ -26,23 +25,20 @@ class LeagueDetailsRepository: LeagueDetailsRepoProtocol {
     }
 
     func fetchUpcomingEvents(
-        leagueKey: Int,
-        completion: @escaping (Result<[Event], Error>) -> Void
-    ) {
-        leaguesNetworkService.fetchUpcomingEvents(sportName: sportName, leagueKey: leagueKey, completion: completion)
+        leagueKey: Int
+    ) -> AnyPublisher<[Event], Error> {
+        leaguesNetworkService.fetchUpcomingEvents(sportName: sportName, leagueKey: leagueKey)
     }
 
     func fetchLatestResults(
-        leagueKey: Int,
-        completion: @escaping (Result<[Event], Error>) -> Void
-    ) {
-        leaguesNetworkService.fetchLatestResults(sportName: sportName, leagueKey: leagueKey, completion: completion)
+        leagueKey: Int
+    ) -> AnyPublisher<[Event], Error> {
+        leaguesNetworkService.fetchLatestResults(sportName: sportName, leagueKey: leagueKey)
     }
 
     func fetchTeams(
-        leagueKey: Int,
-        completion: @escaping (Result<[Team], Error>) -> Void
-    ) {
-        teamsNetworkService.fetchTeams(sportName: sportName, leagueKey: leagueKey, completion: completion)
+        leagueKey: Int
+    ) -> AnyPublisher<[Team], Error> {
+        teamsNetworkService.fetchTeams(sportName: sportName, leagueKey: leagueKey)
     }
 }

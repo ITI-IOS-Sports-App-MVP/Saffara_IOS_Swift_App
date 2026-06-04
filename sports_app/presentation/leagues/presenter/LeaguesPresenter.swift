@@ -6,12 +6,14 @@
 //
 
 import Foundation
+import Combine
 
 class LeaguesPresenter: LeaguesPresenterProtocol {
     private weak var view: LeaguesViewProtocol?
     private let getLeaguesUseCase: GetLeaguesUseCaseProtocol
     private let sportName: String
     private var leaguesList: [League] = []
+    private var cancellables = Set<AnyCancellable>()
 
     init(
         view: LeaguesViewProtocol,
@@ -25,18 +27,21 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
 
     func viewDidLoad() {
         view?.showLoadingIndicator()
-        getLeaguesUseCase.execute(sportName: sportName) { [weak self] result in
-            guard let self = self else { return }
-            self.view?.hideLoadingIndicator()
-
-            switch result {
-            case .success(let leagues):
+        
+        getLeaguesUseCase.execute(sportName: sportName)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else { return }
+                self.view?.hideLoadingIndicator()
+                if case .failure(let error) = completion {
+                    self.view?.showError(message: error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] leagues in
+                guard let self = self else { return }
                 self.leaguesList = leagues
                 self.view?.reloadTableView()
-            case .failure(let error):
-                self.view?.showError(message: error.localizedDescription)
-            }
-        }
+            })
+            .store(in: &cancellables)
     }
 
     func getLeaguesCount() -> Int {

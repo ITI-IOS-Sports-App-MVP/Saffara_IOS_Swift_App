@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import Combine
 
 class TeamDetailsRepository: TeamDetailsRepoProtocol {
     
@@ -13,7 +14,7 @@ class TeamDetailsRepository: TeamDetailsRepoProtocol {
         self.networkService = networkService
     }
     
-    func fetchTeamDetails(sport: String, teamId: Int, completion: @escaping (Result<[Team], Error>) -> Void) {
-        networkService.fetchTeamDetails(sportName: sport, teamId: teamId, completion: completion)
+    func fetchTeamDetails(sport: String, teamId: Int) -> AnyPublisher<[Team], Error> {
+        networkService.fetchTeamDetails(sportName: sport, teamId: teamId)
     }
 }

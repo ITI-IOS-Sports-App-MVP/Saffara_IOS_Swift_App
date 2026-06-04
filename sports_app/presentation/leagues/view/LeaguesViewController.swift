@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Swinject
 
 class LeaguesViewController: UITableViewController, LeaguesViewProtocol {
 
@@ -92,13 +93,13 @@ class LeaguesViewController: UITableViewController, LeaguesViewProtocol {
             return
         }
 
-        let repository = LeagueDetailsRepository(sport: sportName)
+        let container = AppDIContainer.shared.container
+        let repository = container.resolve(LeagueDetailsRepoProtocol.self, argument: sportName)!
+        let favoriteRepository = container.resolve(FavoriteLeaguesRepoProtocol.self)!
 
-        let favoriteRepository = FavoriteLeaguesRepository()
-
-        let upcomingUseCase = GetUpcomingEventsUseCase(repository: repository)
-        let latestUseCase = GetLatestResultsUseCase(repository: repository)
-        let teamsUseCase = GetTeamsUseCase(repository: repository)
+        let upcomingUseCase = container.resolve(GetUpcomingEventsUseCaseProtocol.self, argument: repository)!
+        let latestUseCase = container.resolve(GetLatestResultsUseCaseProtocol.self, argument: repository)!
+        let teamsUseCase = container.resolve(GetTeamsUseCaseProtocol.self, argument: repository)!
 
         let detailsPresenter = LeagueDetailsPresenter(
             view: detailsVC,

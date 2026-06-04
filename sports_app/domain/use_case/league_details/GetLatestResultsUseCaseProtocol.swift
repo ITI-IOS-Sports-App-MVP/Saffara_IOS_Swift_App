@@ -1,12 +1,7 @@
-//
-//  GetLatestResultsUseCaseProtocol.swift
-//  sports_app
-//
-//  Created by Thaowpsta Saiid on 30/05/2026.
-//
-
+import Foundation
+import Combine
 
 protocol GetLatestResultsUseCaseProtocol {
-    func execute(leagueKey: Int, completion: @escaping (Result<[Event], Error>) -> Void)
+    func execute(leagueKey: Int) -> AnyPublisher<[Event], Error>
 }
 

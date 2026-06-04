@@ -5,6 +5,7 @@
 
 import Alamofire
 import Foundation
+import Combine
 
 class TeamsNetworkService: TeamsNetworkServiceProtocol {
     
@@ -16,45 +17,53 @@ class TeamsNetworkService: TeamsNetworkServiceProtocol {
         return decoder
     }
     
-    func fetchTeams(sportName: String, leagueKey: Int, completion: @escaping (Result<[Team], Error>) -> Void) {
-        let cleanSport = sportName.lowercased().trimmingCharacters(in: .whitespaces)
-        let url = "\(baseUrl)\(cleanSport)/"
-        
-        let parameters: [String: Any] = [
-            "met": "Teams",
-            "leagueId": leagueKey,
-            "APIkey": APIKeyProvider.getApiKey()
-        ]
-        
-        AF.request(url, parameters: parameters)
-            .responseDecodable(of: AllSportsResponse<Team>.self, decoder: decoder) { response in
-                switch response.result {
-                case .success(let teamsResponse):
-                    completion(.success(teamsResponse.result ?? []))
-                case .failure(let error):
-                    completion(.failure(error))
+    func fetchTeams(sportName: String, leagueKey: Int) -> AnyPublisher<[Team], Error> {
+        Future { [weak self] promise in
+            guard let self = self else { return }
+            let cleanSport = sportName.lowercased().trimmingCharacters(in: .whitespaces)
+            let url = "\(self.baseUrl)\(cleanSport)/"
+            
+            let parameters: [String: Any] = [
+                "met": "Teams",
+                "leagueId": leagueKey,
+                "APIkey": APIKeyProvider.getApiKey()
+            ]
+            
+            AF.request(url, parameters: parameters)
+                .responseDecodable(of: AllSportsResponse<Team>.self, decoder: self.decoder) { response in
+                    switch response.result {
+                    case .success(let teamsResponse):
+                        promise(.success(teamsResponse.result ?? []))
+                    case .failure(let error):
+                        promise(.failure(error))
+                    }
                 }
-            }
+        }
+        .eraseToAnyPublisher()
     }
     
-    func fetchTeamDetails(sportName: String, teamId: Int, completion: @escaping (Result<[Team], Error>) -> Void) {
-        let cleanSport = sportName.lowercased().trimmingCharacters(in: .whitespaces)
-        let url = "\(baseUrl)\(cleanSport)/"
-        
-        let parameters: [String: Any] = [
-            "met": "Teams",
-            "teamId": teamId,
-            "APIkey": APIKeyProvider.getApiKey()
-        ]
-        
-        AF.request(url, parameters: parameters)
-            .responseDecodable(of: AllSportsResponse<Team>.self, decoder: decoder) { response in
-                switch response.result {
-                case .success(let teamsResponse):
-                    completion(.success(teamsResponse.result ?? []))
-                case .failure(let error):
-                    completion(.failure(error))
+    func fetchTeamDetails(sportName: String, teamId: Int) -> AnyPublisher<[Team], Error> {
+        Future { [weak self] promise in
+            guard let self = self else { return }
+            let cleanSport = sportName.lowercased().trimmingCharacters(in: .whitespaces)
+            let url = "\(self.baseUrl)\(cleanSport)/"
+            
+            let parameters: [String: Any] = [
+                "met": "Teams",
+                "teamId": teamId,
+                "APIkey": APIKeyProvider.getApiKey()
+            ]
+            
+            AF.request(url, parameters: parameters)
+                .responseDecodable(of: AllSportsResponse<Team>.self, decoder: self.decoder) { response in
+                    switch response.result {
+                    case .success(let teamsResponse):
+                        promise(.success(teamsResponse.result ?? []))
+                    case .failure(let error):
+                        promise(.failure(error))
+                    }
                 }
-            }
+        }
+        .eraseToAnyPublisher()
     }
 }

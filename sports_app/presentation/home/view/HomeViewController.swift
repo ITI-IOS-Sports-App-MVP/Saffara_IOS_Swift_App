@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Swinject
 
 protocol HomeViewProtocol: AnyObject {
     func reloadCollectionView()
@@ -37,12 +38,11 @@ class HomeViewController: UIViewController, UISearchBarDelegate {
                 attributes: placeholderAttributes
             )
         
-        let userDefaultService = UserDefaultService()
-        let userRepo = UserRepo(userDefaultService: userDefaultService)
-        let readThemeUseCase = ReadThemeUseCase(userRepo: userRepo)
-        let saveThemeUseCase = SaveThemeUseCase(userRepo: userRepo)
-        let readLanguageUseCase = ReadLanguageUseCase(userRepo: userRepo)
-        let saveLanguageUseCase = SaveLanguageUseCase(userRepo: userRepo)
+        let container = AppDIContainer.shared.container
+        let readThemeUseCase = container.resolve(ReadThemeUseCaseProtocol.self)!
+        let saveThemeUseCase = container.resolve(SaveThemeUseCaseProtocol.self)!
+        let readLanguageUseCase = container.resolve(ReadLanguageUseCaseProtocol.self)!
+        let saveLanguageUseCase = container.resolve(SaveLanguageUseCaseProtocol.self)!
         
         presenter = HomePresenter(
             view: self,
@@ -174,8 +174,8 @@ extension HomeViewController: HomeViewProtocol {
         }
         
         // Clean Architecture Dependency Injection
-        let repository = LeaguesRepository()
-        let useCase = GetLeaguesUseCase(repository: repository)
+        let container = AppDIContainer.shared.container
+        let useCase = container.resolve(GetLeaguesUseCaseProtocol.self)!
         let leaguesPresenter = LeaguesPresenter(view: leaguesVC, getLeaguesUseCase: useCase, sportName: sportName)
         
         leaguesVC.presenter = leaguesPresenter

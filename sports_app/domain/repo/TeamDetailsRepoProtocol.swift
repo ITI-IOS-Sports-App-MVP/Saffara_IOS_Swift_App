@@ -3,6 +3,9 @@
 //  sports_app
 //
 
+import Foundation
+import Combine
+
 protocol TeamDetailsRepoProtocol {
-    func fetchTeamDetails(sport: String, teamId: Int, completion: @escaping (Result<[Team], Error>) -> Void)
+    func fetchTeamDetails(sport: String, teamId: Int) -> AnyPublisher<[Team], Error>
 }

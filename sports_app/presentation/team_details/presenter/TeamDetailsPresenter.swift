@@ -1,7 +1,5 @@
-//
-//  TeamDetailsPresenter.swift
-//  sports_app
-//
+import Foundation
+import Combine
 
 class TeamDetailsPresenter: TeamDetailsPresenterProtocol {
     
@@ -12,6 +10,7 @@ class TeamDetailsPresenter: TeamDetailsPresenterProtocol {
     private let sportAndLeague: String
     
     private var players: [Player] = []
+    private var cancellables = Set<AnyCancellable>()
     
     init(view: TeamDetailsViewProtocol,
          getTeamDetailsUseCase: GetTeamDetailsUseCaseProtocol,
@@ -28,12 +27,16 @@ class TeamDetailsPresenter: TeamDetailsPresenterProtocol {
     func viewDidLoad() {
         view?.showLoadingIndicator()
         
-        getTeamDetailsUseCase.execute(sport: sport, teamId: teamId) { [weak self] result in
-            guard let self = self else { return }
-            self.view?.hideLoadingIndicator()
-            
-            switch result {
-            case .success(let teams):
+        getTeamDetailsUseCase.execute(sport: sport, teamId: teamId)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                guard let self = self else { return }
+                self.view?.hideLoadingIndicator()
+                if case .failure(let error) = completion {
+                    self.view?.showError(message: error.localizedDescription)
+                }
+            }, receiveValue: { [weak self] teams in
+                guard let self = self else { return }
                 if let team = teams.first {
                     self.players = team.players ?? []
                     self.view?.displayTeamHeader(
@@ -45,10 +48,8 @@ class TeamDetailsPresenter: TeamDetailsPresenterProtocol {
                 } else {
                     self.view?.showError(message: "Team details not found.")
                 }
-            case .failure(let error):
-                self.view?.showError(message: error.localizedDescription)
-            }
-        }
+            })
+            .store(in: &cancellables)
     }
     
     func getPlayersCount() -> Int {
