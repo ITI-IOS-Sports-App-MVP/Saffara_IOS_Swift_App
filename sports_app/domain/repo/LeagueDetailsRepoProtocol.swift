@@ -1,13 +1,8 @@
-//
-//  LeagueDetailsRepoProtocol.swift
-//  sports_app
-//
-//  Created by Thaowpsta Saiid on 30/05/2026.
-//
-
+import Foundation
+import Combine
 
 protocol LeagueDetailsRepoProtocol {
-    func fetchUpcomingEvents(leagueKey: Int, completion: @escaping (Result<[Event], Error>) -> Void)
-    func fetchLatestResults(leagueKey: Int, completion: @escaping (Result<[Event], Error>) -> Void)
-    func fetchTeams(leagueKey: Int, completion: @escaping (Result<[Team], Error>) -> Void)
+    func fetchUpcomingEvents(leagueKey: Int) -> AnyPublisher<[Event], Error>
+    func fetchLatestResults(leagueKey: Int) -> AnyPublisher<[Event], Error>
+    func fetchTeams(leagueKey: Int) -> AnyPublisher<[Team], Error>
 }

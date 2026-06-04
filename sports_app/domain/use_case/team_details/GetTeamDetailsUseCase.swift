@@ -3,6 +3,9 @@
 //  sports_app
 //
 
+import Foundation
+import Combine
+
 class GetTeamDetailsUseCase: GetTeamDetailsUseCaseProtocol {
     private let repository: TeamDetailsRepoProtocol
     
@@ -10,7 +13,7 @@ class GetTeamDetailsUseCase: GetTeamDetailsUseCaseProtocol {
         self.repository = repository
     }
     
-    func execute(sport: String, teamId: Int, completion: @escaping (Result<[Team], Error>) -> Void) {
-        repository.fetchTeamDetails(sport: sport, teamId: teamId, completion: completion)
+    func execute(sport: String, teamId: Int) -> AnyPublisher<[Team], Error> {
+        repository.fetchTeamDetails(sport: sport, teamId: teamId)
     }
 }

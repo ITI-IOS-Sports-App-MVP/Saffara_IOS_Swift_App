@@ -7,6 +7,7 @@
 
 import Alamofire
 import Foundation
+import Combine
 
 class LeaguesRepository: LeaguesRepoProtocol {
 
@@ -17,9 +18,8 @@ class LeaguesRepository: LeaguesRepoProtocol {
     }
 
     func fetchLeagues(
-        sportName: String,
-        completion: @escaping (Result<[League], Error>) -> Void
-    ) {
-        networkService.fetchLeagues(sportName: sportName, completion: completion)
+        sportName: String
+    ) -> AnyPublisher<[League], Error> {
+        networkService.fetchLeagues(sportName: sportName)
     }
 }

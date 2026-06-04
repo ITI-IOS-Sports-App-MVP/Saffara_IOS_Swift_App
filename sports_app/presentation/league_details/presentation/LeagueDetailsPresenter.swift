@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class LeagueDetailsPresenter {
     private weak var view: LeagueDetailsViewProtocol?
@@ -13,6 +14,7 @@ class LeagueDetailsPresenter {
     private let getUpcomingUseCase: GetUpcomingEventsUseCaseProtocol
     private let getLatestUseCase: GetLatestResultsUseCaseProtocol
     private let getTeamsUseCase: GetTeamsUseCaseProtocol
+    private var cancellables = Set<AnyCancellable>()
     
     var league: League
     var isFavorite: Bool = false
@@ -43,32 +45,26 @@ class LeagueDetailsPresenter {
     func viewDidLoad() {
         view?.showLoadingIndicator()
         
-        let group = DispatchGroup()
-        
-        group.enter()
-        getUpcomingUseCase.execute(leagueKey: league.leagueKey ?? 0) { [weak self] result in
-            if case .success(let events) = result { self?.upcomingEvents = events }
-            group.leave()
-        }
-        
-        group.enter()
-        getLatestUseCase.execute(leagueKey: league.leagueKey ?? 0) { [weak self] result in
-            if case .success(let events) = result { self?.latestResults = events }
-            group.leave()
-        }
-        
-        group.enter()
-        getTeamsUseCase.execute(leagueKey: league.leagueKey ?? 0) { [weak self] result in
-            if case .success(let teams) = result { self?.teams = teams }
-            group.leave()
-        }
-        
-        group.notify(queue: .main) { [weak self] in
+        Publishers.Zip3(
+            getUpcomingUseCase.execute(leagueKey: league.leagueKey ?? 0)
+                .catch { _ in Just([]) },
+            getLatestUseCase.execute(leagueKey: league.leagueKey ?? 0)
+                .catch { _ in Just([]) },
+            getTeamsUseCase.execute(leagueKey: league.leagueKey ?? 0)
+                .catch { _ in Just([]) }
+        )
+        .receive(on: DispatchQueue.main)
+        .sink(receiveCompletion: { [weak self] _ in
             self?.view?.hideLoadingIndicator()
             self?.view?.displayUpcomingEvents()
             self?.view?.displayLatestResults()
             self?.view?.displayTeams()
-        }
+        }, receiveValue: { [weak self] upcoming, latest, teams in
+            self?.upcomingEvents = upcoming
+            self?.latestResults = latest
+            self?.teams = teams
+        })
+        .store(in: &cancellables)
         
         checkFavoriteStatus()
     }
