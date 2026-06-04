@@ -26,7 +26,7 @@ class LeagueDetailsPresenter {
     init(view: LeagueDetailsViewProtocol,
          league: League,
          sport: String,
-         favoriteRepository: FavoriteLeaguesRepository,
+         favoriteRepository: FavoriteLeaguesRepoProtocol,
          getUpcomingUseCase: GetUpcomingEventsUseCaseProtocol,
          getLatestUseCase: GetLatestResultsUseCaseProtocol,
          getTeamsUseCase: GetTeamsUseCaseProtocol) {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Swinject
 
 class LeagueDetailsViewController: UICollectionViewController,
     LeagueDetailsViewProtocol
@@ -459,8 +460,8 @@ class LeagueDetailsViewController: UICollectionViewController,
             guard let teamId = team.teamKey else { return }
             
             let teamDetailsVC = TeamDetailsViewController()
-            let repo = TeamDetailsRepository()
-            let useCase = GetTeamDetailsUseCase(repository: repo)
+            let container = AppDIContainer.shared.container
+            let useCase = container.resolve(GetTeamDetailsUseCaseProtocol.self)!
             let detailsPresenter = TeamDetailsPresenter(
                 view: teamDetailsVC,
                 getTeamDetailsUseCase: useCase,

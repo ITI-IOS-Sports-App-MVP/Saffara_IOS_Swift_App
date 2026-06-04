@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Swinject
 
 class SettingsViewController: UIViewController {
     
@@ -43,12 +44,11 @@ class SettingsViewController: UIViewController {
     // MARK: - Dependency Injection
     private func setupDependencies() {
         if presenter == nil {
-            let userDefaultService = UserDefaultService()
-            let userRepo = UserRepo(userDefaultService: userDefaultService)
-            let readThemeUseCase = ReadThemeUseCase(userRepo: userRepo)
-            let saveThemeUseCase = SaveThemeUseCase(userRepo: userRepo)
-            let readLanguageUseCase = ReadLanguageUseCase(userRepo: userRepo)
-            let saveLanguageUseCase = SaveLanguageUseCase(userRepo: userRepo)
+            let container = AppDIContainer.shared.container
+            let readThemeUseCase = container.resolve(ReadThemeUseCaseProtocol.self)!
+            let saveThemeUseCase = container.resolve(SaveThemeUseCaseProtocol.self)!
+            let readLanguageUseCase = container.resolve(ReadLanguageUseCaseProtocol.self)!
+            let saveLanguageUseCase = container.resolve(SaveLanguageUseCaseProtocol.self)!
             
             presenter = SettingsPresenter(
                 view: self,

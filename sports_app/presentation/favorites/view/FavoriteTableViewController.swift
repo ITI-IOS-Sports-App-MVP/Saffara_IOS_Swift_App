@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Swinject
 
 class FavoriteTableViewController: UITableViewController {
 
@@ -17,9 +18,9 @@ class FavoriteTableViewController: UITableViewController {
         super.viewDidLoad()
         self.title = "tab_favorites".localized
 
-        let repo = FavoriteLeaguesRepository()
-        let getUseCase = GetFavoritesUseCase(repository: repo)
-        let removeUseCase = RemoveFavoriteUseCase(repository: repo)
+        let container = AppDIContainer.shared.container
+        let getUseCase = container.resolve(GetFavoritesUseCaseProtocol.self)!
+        let removeUseCase = container.resolve(RemoveFavoriteUseCaseProtocol.self)!
 
         presenter = FavoritesPresenter(
             view: self,
@@ -226,12 +227,13 @@ extension FavoriteTableViewController: FavoritesViewProtocol {
                     return
                 }
 
-                let repository = LeagueDetailsRepository(sport: sportName)
-                let favoriteRepository = FavoriteLeaguesRepository()
+                let container = AppDIContainer.shared.container
+                let repository = container.resolve(LeagueDetailsRepoProtocol.self, argument: sportName)!
+                let favoriteRepository = container.resolve(FavoriteLeaguesRepoProtocol.self)!
 
-                let upcomingUseCase = GetUpcomingEventsUseCase(repository: repository)
-                let latestUseCase = GetLatestResultsUseCase(repository: repository)
-                let teamsUseCase = GetTeamsUseCase(repository: repository)
+                let upcomingUseCase = container.resolve(GetUpcomingEventsUseCaseProtocol.self, argument: repository)!
+                let latestUseCase = container.resolve(GetLatestResultsUseCaseProtocol.self, argument: repository)!
+                let teamsUseCase = container.resolve(GetTeamsUseCaseProtocol.self, argument: repository)!
 
                 let detailsPresenter = LeagueDetailsPresenter(
                     view: detailsVC,
