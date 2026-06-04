@@ -28,8 +28,17 @@ class FavoriteTableViewController: UITableViewController {
         )
 
         setupTableView()
+        setupSegmentedControl()
         
         presenter.viewDidLoad()
+    }
+
+    private func setupSegmentedControl() {
+        filterSegmentedControl.setTitle("filter_all".localized, forSegmentAt: 0)
+        filterSegmentedControl.setTitle("sport_soccer".localized, forSegmentAt: 1)
+        filterSegmentedControl.setTitle("sport_basketball".localized, forSegmentAt: 2)
+        filterSegmentedControl.setTitle("sport_tennis".localized, forSegmentAt: 3)
+        filterSegmentedControl.setTitle("cricket".localized, forSegmentAt: 4)
     }
 
     override func viewWillAppear(_ animated: Bool) {

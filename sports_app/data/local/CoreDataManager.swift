@@ -1,5 +1,5 @@
 //
-//  CoreDataManagerProtocol.swift
+//  CoreDataManager.swift
 //  sports_app
 //
 //  Created by Thaowpsta Saiid on 25/05/2026.
@@ -7,12 +7,6 @@
 
 import CoreData
 import UIKit
-
-protocol CoreDataManagerProtocol {
-    func fetchFavorites() throws -> [League]
-    func saveFavorite(league: League) throws
-    func deleteFavorite(leagueKey: Int) throws
-}
 
 class CoreDataManager: CoreDataManagerProtocol {
     static let shared = CoreDataManager()
