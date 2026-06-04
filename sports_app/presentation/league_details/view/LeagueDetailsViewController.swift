@@ -121,10 +121,10 @@ class LeagueDetailsViewController: UICollectionViewController,
         }
     }
 
-    func showError(message: String) {
+    func showError(title: String, message: String) {
         DispatchQueue.main.async {
             let alert = UIAlertController(
-                title: "Error",
+                title: title,
                 message: message,
                 preferredStyle: .alert
             )
@@ -456,6 +456,11 @@ class LeagueDetailsViewController: UICollectionViewController,
     ) {
         guard let sectionType = Section(rawValue: indexPath.section) else { return }
         if sectionType == .teams {
+            guard NetworkMonitor.shared.isConnected else {
+                showError(title: "error_title".localized, message: "error_no_internet_team_details".localized)
+                return
+            }
+            
             let team = presenter.getTeam(at: indexPath.item)
             guard let teamId = team.teamKey else { return }
             

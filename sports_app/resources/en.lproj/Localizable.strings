@@ -50,3 +50,15 @@
 "empty_favorites" = "No favorites saved yet. Go to league details to add favorites.";
 "error_title" = "Error";
 "ok_button" = "OK";
+
+/* alerts */
+"error_title" = "Error";
+"ok" = "OK";
+"cancel" = "Cancel";
+"delete" = "Delete";
+"remove_favorite_title" = "Remove Favorite";
+"remove_favorite_message" = "Are you sure you want to remove this league from your favorites?";
+"error_no_internet_favorite" = "No internet connection. Please connect to favorite this league.";
+"error_no_internet_team_details" = "The internet is disconnected. Cannot view team details.";
+"error_failed_update_favorites" = "Failed to update favorites";
+"error_no_internet_delete" = "No internet connection. You cannot delete favorites while offline.";

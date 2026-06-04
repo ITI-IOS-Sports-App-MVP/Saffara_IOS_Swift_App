@@ -82,6 +82,12 @@ class LeagueDetailsPresenter {
     func getLatestResult(at index: Int) -> Event { return latestResults[index] }
     func getTeam(at index: Int) -> Team { return teams[index] }
     func favoriteButtonTapped() {
+        
+        guard NetworkMonitor.shared.isConnected else {
+            view?.showError(title: "error_title".localized, message: "error_failed_update_favorites".localized)
+            return
+        }
+        
         do{
             if isFavorite {
                 try favoriteRepository.removeLeagueFromFavorites(leagueKey: league.leagueKey ?? 0)
@@ -93,7 +99,7 @@ class LeagueDetailsPresenter {
             isFavorite.toggle()
             view?.updateFavoriteIcon(isFavorite: isFavorite)
         }catch{
-            view?.showError(message: "Failed to update favorites: \(error.localizedDescription)")
+            view?.showError(title: "error_title".localized, message: "error_failed_update_favorites".localized + error.localizedDescription)
         }
     }
             

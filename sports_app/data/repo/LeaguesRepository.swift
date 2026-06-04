@@ -12,14 +12,41 @@ import Combine
 class LeaguesRepository: LeaguesRepoProtocol {
 
     private let networkService: LeaguesNetworkServiceProtocol
+    let localDataSource: CoreDataManagerProtocol
 
-    init(networkService: LeaguesNetworkServiceProtocol = LeaguesNetworkService()) {
+    init(networkService: LeaguesNetworkServiceProtocol = LeaguesNetworkService(), localDataSource: CoreDataManagerProtocol) {
         self.networkService = networkService
+        self.localDataSource = localDataSource
     }
 
     func fetchLeagues(
         sportName: String
     ) -> AnyPublisher<[League], Error> {
-        networkService.fetchLeagues(sportName: sportName)
+        if NetworkMonitor.shared.isConnected {
+            return networkService.fetchLeagues(sportName: sportName)
+                .map { Array($0.prefix(10)) }
+                .handleEvents(receiveOutput: { [weak self] leagues in
+                    self?.cacheLeagues(leagues, for: sportName)
+                })
+                .eraseToAnyPublisher()
+        } else {
+            do {
+                let cachedLeagues = try localDataSource.fetchCachedLeagues(for: sportName)
+                return Just(cachedLeagues)
+                    .setFailureType(to: Error.self)
+                    .eraseToAnyPublisher()
+            } catch {
+                return Fail(error: error).eraseToAnyPublisher()
+            }
+        }
+    }
+    
+    private func cacheLeagues(_ leagues: [League], for sportName: String) {
+        do {
+            try localDataSource.saveLeagues(leagues, for: sportName)
+            print("Successfully cached \(leagues.count) leagues for \(sportName)")
+        } catch {
+            print("Failed to cache leagues for \(sportName): \(error.localizedDescription)")
+        }
     }
 }

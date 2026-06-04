@@ -40,12 +40,17 @@ class AppDIContainer {
             UserRepo(userDefaultService: r.resolve(UserDefaultServiceProtocol.self)!)
         }.inObjectScope(.container)
         
-        container.register(LeaguesRepoProtocol.self) { _ in
-            LeaguesRepository()
+        container.register(LeaguesRepoProtocol.self) { r in
+            LeaguesRepository(
+                networkService: r.resolve(LeaguesNetworkServiceProtocol.self)!,
+                localDataSource: r.resolve(CoreDataManagerProtocol.self)!
+            )
         }
         
-        container.register(FavoriteLeaguesRepoProtocol.self) { _ in
-            FavoriteLeaguesRepository()
+        container.register(FavoriteLeaguesRepoProtocol.self) { r in
+            FavoriteLeaguesRepository(
+                localDataSource: r.resolve(CoreDataManagerProtocol.self)!
+            )
         }
         
         container.register(LeagueDetailsRepoProtocol.self) { (r, sport: String) in

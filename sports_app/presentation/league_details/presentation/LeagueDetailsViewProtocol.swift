@@ -12,6 +12,6 @@ protocol LeagueDetailsViewProtocol: AnyObject {
     func displayUpcomingEvents()
     func displayLatestResults()
     func displayTeams()
-    func showError(message: String)
+    func showError(title: String, message: String)
     func updateFavoriteIcon(isFavorite: Bool)
 }
