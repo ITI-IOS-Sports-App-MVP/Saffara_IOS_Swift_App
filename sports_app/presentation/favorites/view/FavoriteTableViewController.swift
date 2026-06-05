@@ -267,6 +267,8 @@ extension FavoriteTableViewController: FavoritesViewProtocol {
                 let latestUseCase = container.resolve(GetLatestResultsUseCaseProtocol.self, argument: repository)!
                 let teamsUseCase = container.resolve(GetTeamsUseCaseProtocol.self, argument: repository)!
 
+                let scheduleAlertUseCase = container.resolve(ScheduleAlertUseCaseProtocol.self)!
+                
                 let detailsPresenter = LeagueDetailsPresenter(
                     view: detailsVC,
                     league: league,
@@ -274,7 +276,8 @@ extension FavoriteTableViewController: FavoritesViewProtocol {
                     favoriteRepository: favoriteRepository,
                     getUpcomingUseCase: upcomingUseCase,
                     getLatestUseCase: latestUseCase,
-                    getTeamsUseCase: teamsUseCase
+                    getTeamsUseCase: teamsUseCase,
+                    scheduleAlertUseCase: scheduleAlertUseCase
                 )
 
                 detailsVC.presenter = detailsPresenter

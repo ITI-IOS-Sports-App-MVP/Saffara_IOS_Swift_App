@@ -62,3 +62,11 @@
 "error_no_internet_team_details" = "The internet is disconnected. Cannot view team details.";
 "error_failed_update_favorites" = "Failed to update favorites";
 "error_no_internet_delete" = "No internet connection. You cannot delete favorites while offline.";
+
+/* Alerts & Notifications */
+"set_alert_title" = "Set Alert";
+"set_reminder_button" = "Set Reminder";
+"success_title" = "Success";
+"alert_set_successfully" = "Alert set successfully!";
+"alert_reminder_title" = "%@ Reminder!";
+"alert_reminder_body" = "Your scheduled event '%@' is starting soon.";
