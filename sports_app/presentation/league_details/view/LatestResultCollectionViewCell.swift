@@ -23,22 +23,17 @@ class LatestResultCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         
         let backgroundTarget = containerView ?? contentView.subviews.first ?? contentView
-        backgroundTarget.backgroundColor = .secondarySystemGroupedBackground
+        backgroundTarget.backgroundColor = .clear
         backgroundTarget.layer.cornerRadius = 12
         backgroundTarget.clipsToBounds = true
         
-        homeTeamNameLabel.textColor = .label
-        homeScoreLabel.textColor = .label
-        awayTeamNameLabel.textColor = .label
-        awayScoreLabel.textColor = .label
-        matchStatusLabel.textColor = .secondaryLabel
+        // --- Programmatically restructure the views first ---
+        // Save reference to the score stack (superview of homeScoreLabel)
+        let scoreStack = homeScoreLabel.superview
         
-        // Programmatically restructure the views to achieve perfect horizontal alignment and center the score stack
-        let scoreStack = homeScoreLabel.superview 
-        
+        // Detach all IBOutlet views
         homeTeamImageView.removeFromSuperview()
         homeTeamNameLabel.removeFromSuperview()
         awayTeamImageView.removeFromSuperview()
@@ -46,10 +41,32 @@ class LatestResultCollectionViewCell: UICollectionViewCell {
         scoreStack?.removeFromSuperview()
         matchStatusLabel.removeFromSuperview()
         
-        // Remove the old layout stack views from the card view
+        // Remove ALL old layout stack views from the card view
         backgroundTarget.subviews.forEach { $0.removeFromSuperview() }
         
-        // Add elements back directly to the container card for custom constraint control
+        // --- Now add grass2 background + overlay FIRST (on clean container) ---
+        let bgImageView = UIImageView(image: UIImage(named: "grass2"))
+        bgImageView.contentMode = .scaleAspectFill
+        bgImageView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundTarget.addSubview(bgImageView)
+        
+        let overlay = UIView()
+        overlay.backgroundColor = UIColor.black.withAlphaComponent(0.45)
+        overlay.translatesAutoresizingMaskIntoConstraints = false
+        backgroundTarget.addSubview(overlay)
+        
+        NSLayoutConstraint.activate([
+            bgImageView.topAnchor.constraint(equalTo: backgroundTarget.topAnchor),
+            bgImageView.leadingAnchor.constraint(equalTo: backgroundTarget.leadingAnchor),
+            bgImageView.trailingAnchor.constraint(equalTo: backgroundTarget.trailingAnchor),
+            bgImageView.bottomAnchor.constraint(equalTo: backgroundTarget.bottomAnchor),
+            overlay.topAnchor.constraint(equalTo: backgroundTarget.topAnchor),
+            overlay.leadingAnchor.constraint(equalTo: backgroundTarget.leadingAnchor),
+            overlay.trailingAnchor.constraint(equalTo: backgroundTarget.trailingAnchor),
+            overlay.bottomAnchor.constraint(equalTo: backgroundTarget.bottomAnchor),
+        ])
+        
+        // --- Re-add content views on top of background ---
         backgroundTarget.addSubview(homeTeamImageView)
         backgroundTarget.addSubview(homeTeamNameLabel)
         backgroundTarget.addSubview(awayTeamImageView)
@@ -66,6 +83,13 @@ class LatestResultCollectionViewCell: UICollectionViewCell {
         awayTeamNameLabel.translatesAutoresizingMaskIntoConstraints = false
         scoreStack?.translatesAutoresizingMaskIntoConstraints = false
         matchStatusLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        // --- Text colors ---
+        homeTeamNameLabel.textColor = .white
+        homeScoreLabel.textColor = .white
+        awayTeamNameLabel.textColor = .white
+        awayScoreLabel.textColor = .white
+        matchStatusLabel.textColor = UIColor.white.withAlphaComponent(0.7)
         
         var constraints = [NSLayoutConstraint]()
         
@@ -133,24 +157,31 @@ class LatestResultCollectionViewCell: UICollectionViewCell {
     }
 
     func configure(homeImage: String?, homeName: String, homeScore: String, awayImage: String?, awayName: String, awayScore: String, status: String) {
-            homeTeamNameLabel.text = homeName
-            homeScoreLabel.text = homeScore
-            awayTeamNameLabel.text = awayName
-            awayScoreLabel.text = awayScore
-            matchStatusLabel.text = status
-            
-            let placeholder = UIImage(systemName: "photo.circle")
-            
-            if let homeStr = homeImage, let homeUrl = URL(string: homeStr) {
-                homeTeamImageView.kf.setImage(with: homeUrl, placeholder: placeholder)
-            } else {
-                homeTeamImageView.image = placeholder
-            }
-            
-            if let awayStr = awayImage, let awayUrl = URL(string: awayStr) {
-                awayTeamImageView.kf.setImage(with: awayUrl, placeholder: placeholder)
-            } else {
-                awayTeamImageView.image = placeholder
-            }
+        homeTeamNameLabel.text = homeName
+        homeScoreLabel.text = homeScore
+        awayTeamNameLabel.text = awayName
+        awayScoreLabel.text = awayScore
+        matchStatusLabel.text = status
+        
+        // Ensure text colors remain white (grass bg always visible)
+        homeTeamNameLabel.textColor = .white
+        homeScoreLabel.textColor = .white
+        awayTeamNameLabel.textColor = .white
+        awayScoreLabel.textColor = .white
+        matchStatusLabel.textColor = UIColor.white.withAlphaComponent(0.7)
+        
+        let placeholder = UIImage(systemName: "photo.circle")
+        
+        if let homeStr = homeImage, let homeUrl = URL(string: homeStr) {
+            homeTeamImageView.kf.setImage(with: homeUrl, placeholder: placeholder)
+        } else {
+            homeTeamImageView.image = placeholder
         }
+        
+        if let awayStr = awayImage, let awayUrl = URL(string: awayStr) {
+            awayTeamImageView.kf.setImage(with: awayUrl, placeholder: placeholder)
+        } else {
+            awayTeamImageView.image = placeholder
+        }
+    }
 }
