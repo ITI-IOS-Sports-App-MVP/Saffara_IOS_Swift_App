@@ -9,18 +9,35 @@ import UIKit
 import CoreData
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        // Initialize dependency container
+        _ = AppDIContainer.shared
+        
         UITabBar.appearance().unselectedItemTintColor = UIColor(red: 136.0/255.0, green: 136.0/255.0, blue: 136.0/255.0, alpha: 1.0)
 
         UITabBar.appearance().tintColor = UIColor(red: 255.0/255.0, green: 107.0/255.0, blue: 53.0/255.0, alpha: 1.0)
+                
+        UNUserNotificationCenter.current().delegate = self
+        OfflineSyncManager.shared.startBackgroundSync()
         
         return true
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+            
+            NotificationCenter.default.post(name: Notification.Name("ScheduledAlertFired"), object: nil)
+            
+            if #available(iOS 14.0, *) {
+                completionHandler([.banner, .sound, .badge])
+            } else {
+                completionHandler([.alert, .sound, .badge])
+            }
     }
 
     // MARK: UISceneSession Lifecycle

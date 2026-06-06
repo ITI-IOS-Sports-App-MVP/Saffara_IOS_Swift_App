@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="24512" systemVersion="24G720" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="awayTeamLogo" optional="YES" attributeType="String"/>
+        <attribute name="eventAwayTeam" optional="YES" attributeType="String"/>
+        <attribute name="eventDate" optional="YES" attributeType="String"/>
+        <attribute name="eventFinalResult" optional="YES" attributeType="String"/>
+        <attribute name="eventHomeTeam" optional="YES" attributeType="String"/>
+        <attribute name="eventKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="eventTime" optional="YES" attributeType="String"/>
+        <attribute name="eventType" optional="YES" attributeType="String"/>
+        <attribute name="homeTeamLogo" optional="YES" attributeType="String"/>
+        <attribute name="leagueKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <entity name="LeagueEntity" representedClassName="LeagueEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="leagueCountry" optional="YES" attributeType="String"/>
         <attribute name="leagueKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="leagueLogo" optional="YES" attributeType="String"/>
         <attribute name="leagueName" optional="YES" attributeType="String"/>
+        <attribute name="sportName" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TeamEntity" representedClassName="TeamEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="leagueKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="teamKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="teamLogo" optional="YES" attributeType="String"/>
+        <attribute name="teamName" optional="YES" attributeType="String"/>
     </entity>
 </model>

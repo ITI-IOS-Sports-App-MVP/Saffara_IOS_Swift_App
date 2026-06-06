@@ -1,146 +1,86 @@
 //
-//  AllSportsResponse.swift
+//  LeagueDetailsRepository.swift
 //  sports_app
 //
 //  Created by Thaowpsta Saiid on 30/05/2026.
 //
 
 import Foundation
-
-struct AllSportsResponse<T: Codable>: Codable {
-    let success: Int?
-    let result: [T]?
-}
+import Combine
 
 class LeagueDetailsRepository: LeagueDetailsRepoProtocol {
 
-    private let baseUrl: String
+    private let sportName: String
+    private let leaguesNetworkService: LeaguesNetworkServiceProtocol
+    private let teamsNetworkService: TeamsNetworkServiceProtocol
+    private let localDataSource: CoreDataManagerProtocol
 
-    init(sport: String) {
-        let sport = sport.lowercased().trimmingCharacters(
-            in: .whitespaces
-        )
-        self.baseUrl = "https://apiv2.allsportsapi.com/\(sport)/"
-    }
-
-    private func getApiKey() -> String {
-        guard
-            let key = Bundle.main.object(forInfoDictionaryKey: "API_KEY")
-                as? String
-        else {
-            print("⚠️ API_KEY not found in Info.plist")
-            return ""
-        }
-        return key
+    init(
+        sport: String,
+        leaguesNetworkService: LeaguesNetworkServiceProtocol = LeaguesNetworkService(),
+        teamsNetworkService: TeamsNetworkServiceProtocol = TeamsNetworkService(),
+        localDataSource: CoreDataManagerProtocol = CoreDataManager.shared // Injected local source
+    ) {
+        self.sportName = sport.lowercased().trimmingCharacters(in: .whitespaces)
+        self.leaguesNetworkService = leaguesNetworkService
+        self.teamsNetworkService = teamsNetworkService
+        self.localDataSource = localDataSource
     }
 
     func fetchUpcomingEvents(
-        leagueKey: Int,
-        completion: @escaping (Result<[Event], Error>) -> Void
-    ) {
-        let today = Date()
-        let nextYear = Calendar.current.date(
-            byAdding: .year,
-            value: 1,
-            to: today
-        )!
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let fromDate = formatter.string(from: today)
-        let toDate = formatter.string(from: nextYear)
-
-        let urlString =
-            "\(baseUrl)?met=Fixtures&leagueId=\(leagueKey)&from=\(fromDate)&to=\(toDate)&APIkey=\(getApiKey())"
-
-        fetchData(from: urlString, completion: completion)
+        leagueKey: Int
+    ) -> AnyPublisher<[Event], Error> {
+        if NetworkMonitor.shared.isConnected {
+            return leaguesNetworkService.fetchUpcomingEvents(sportName: sportName, leagueKey: leagueKey)
+                .handleEvents(receiveOutput: { [weak self] events in
+                    try? self?.localDataSource.saveEvents(events, for: leagueKey, type: "upcoming")
+                })
+                .eraseToAnyPublisher()
+        } else {
+            do {
+                let cachedEvents = try localDataSource.fetchCachedEvents(for: leagueKey, type: "upcoming")
+                return Just(cachedEvents).setFailureType(to: Error.self).eraseToAnyPublisher()
+            } catch {
+                return Fail(error: error).eraseToAnyPublisher()
+            }
+        }
     }
 
     func fetchLatestResults(
-        leagueKey: Int,
-        completion: @escaping (Result<[Event], Error>) -> Void
-    ) {
-        let today = Date()
-        let lastYear = Calendar.current.date(
-            byAdding: .year,
-            value: -1,
-            to: today
-        )!
-
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let fromDate = formatter.string(from: lastYear)
-        let toDate = formatter.string(from: today)
-
-        let urlString =
-            "\(baseUrl)?met=Fixtures&leagueId=\(leagueKey)&from=\(fromDate)&to=\(toDate)&APIkey=\(getApiKey())"
-
-        fetchData(from: urlString, completion: completion)
+        leagueKey: Int
+    ) -> AnyPublisher<[Event], Error> {
+        if NetworkMonitor.shared.isConnected {
+            return leaguesNetworkService.fetchLatestResults(sportName: sportName, leagueKey: leagueKey)
+                .handleEvents(receiveOutput: { [weak self] events in
+                    try? self?.localDataSource.saveEvents(events, for: leagueKey, type: "latest")
+                })
+                .eraseToAnyPublisher()
+        } else {
+            do {
+                let cachedEvents = try localDataSource.fetchCachedEvents(for: leagueKey, type: "latest")
+                return Just(cachedEvents).setFailureType(to: Error.self).eraseToAnyPublisher()
+            } catch {
+                return Fail(error: error).eraseToAnyPublisher()
+            }
+        }
     }
 
     func fetchTeams(
-        leagueKey: Int,
-        completion: @escaping (Result<[Team], Error>) -> Void
-    ) {
-        let urlString =
-            "\(baseUrl)?met=Teams&leagueId=\(leagueKey)&APIkey=\(getApiKey())"
-
-        fetchData(from: urlString, completion: completion)
-    }
-
-    private func fetchData<T: Codable>(
-        from urlString: String,
-        completion: @escaping (Result<[T], Error>) -> Void
-    ) {
-
-        guard let url = URL(string: urlString) else {
-            let error = NSError(
-                domain: "Invalid URL",
-                code: 400,
-                userInfo: [NSLocalizedDescriptionKey: "Failed to construct URL"]
-            )
-            completion(.failure(error))
-            return
-        }
-
-        URLSession.shared.dataTask(with: url) { data, response, error in
-
-            if let error = error {
-                DispatchQueue.main.async { completion(.failure(error)) }
-                return
-            }
-
-            guard let data = data else {
-                let error = NSError(
-                    domain: "No Data",
-                    code: 404,
-                    userInfo: [
-                        NSLocalizedDescriptionKey:
-                            "No data received from server."
-                    ]
-                )
-                DispatchQueue.main.async { completion(.failure(error)) }
-                return
-            }
-
+        leagueKey: Int
+    ) -> AnyPublisher<[Team], Error> {
+        if NetworkMonitor.shared.isConnected {
+            return teamsNetworkService.fetchTeams(sportName: sportName, leagueKey: leagueKey)
+                .handleEvents(receiveOutput: { [weak self] teams in
+                    try? self?.localDataSource.saveTeams(teams, for: leagueKey)
+                })
+                .eraseToAnyPublisher()
+        } else {
             do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-
-                let decodedResponse = try decoder.decode(
-                    AllSportsResponse<T>.self,
-                    from: data
-                )
-
-                DispatchQueue.main.async {
-                    completion(.success(decodedResponse.result ?? []))
-                }
+                let cachedTeams = try localDataSource.fetchCachedTeams(for: leagueKey)
+                return Just(cachedTeams).setFailureType(to: Error.self).eraseToAnyPublisher()
             } catch {
-                DispatchQueue.main.async {
-                    print("Decoding Error: \(error.localizedDescription)")
-                    completion(.failure(error))
-                }
+                return Fail(error: error).eraseToAnyPublisher()
             }
-        }.resume()
+        }
     }
 }

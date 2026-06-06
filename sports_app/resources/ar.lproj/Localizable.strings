@@ -6,6 +6,9 @@
 /* Home Screen */
 "search_sports_placeholder" = "ابحث عن رياضة...";
 
+/* Filters */
+"filter_all" = "الكل";
+
 /* Sport Names */
 "sport_soccer" = "كرة القدم";
 "sport_basketball" = "كرة السلة";
@@ -42,3 +45,28 @@
 "settings_light_mode" = "الوضع الفاتح";
 "settings_english" = "English";
 "settings_arabic" = "العربية";
+
+/* Favorites Screen */
+"empty_favorites" = "لا توجد مفضلات محفوظة بعد. اذهب إلى تفاصيل الدوري لإضافة مفضلات.";
+"error_title" = "خطأ";
+"ok_button" = "حسناً";
+
+/* alerts */
+"error_title" = "خطأ";
+"ok" = "موافق";
+"cancel" = "إلغاء";
+"delete" = "حذف";
+"remove_favorite_title" = "إزالة من المفضلة";
+"remove_favorite_message" = "هل أنت متأكد أنك تريد إزالة هذا الدوري من المفضلة؟";
+"error_no_internet_favorite" = "لا يوجد اتصال بالإنترنت. يرجى الاتصال لإضافة هذا الدوري للمفضلة.";
+"error_no_internet_team_details" = "الإنترنت غير متصل. لا يمكن عرض تفاصيل الفريق.";
+"error_failed_update_favorites" = "فشل تحديث المفضلة";
+"error_no_internet_delete" = "لا يوجد اتصال بالإنترنت. لا يمكنك حذف المفضلة أثناء عدم الاتصال.";
+
+/* Alerts & Notifications */
+"set_alert_title" = "ضبط تنبيه";
+"set_reminder_button" = "تعيين تذكير";
+"success_title" = "نجاح";
+"alert_set_successfully" = "تم تعيين التنبيه بنجاح!";
+"alert_reminder_title" = "تذكير بـ %@!";
+"alert_reminder_body" = "الحدث المجدول '%@' سيبدأ قريباً.";

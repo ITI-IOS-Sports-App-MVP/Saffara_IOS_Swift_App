@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Swinject
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -15,12 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        // Build the dependency chain
-        let userDefaultService = UserDefaultService()
-        let userRepo = UserRepo(userDefaultService: userDefaultService)
-        let readFirstEntryUseCase = ReadFirstEntryUseCase(userRepo: userRepo)
-        let readThemeUseCase = ReadThemeUseCase(userRepo: userRepo)
-        let readLanguageUseCase = ReadLanguageUseCase(userRepo: userRepo)
+        // Resolve the dependencies using AppDIContainer
+        let container = AppDIContainer.shared.container
+        
+        let readFirstEntryUseCase = container.resolve(ReadFirstEntryUseCaseProtocol.self)!
+        let readThemeUseCase = container.resolve(ReadThemeUseCaseProtocol.self)!
+        let readLanguageUseCase = container.resolve(ReadLanguageUseCaseProtocol.self)!
         
         let isFirstEntry = readFirstEntryUseCase.execute()
         let isDarkMode = readThemeUseCase.execute()
@@ -37,55 +38,44 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Apply saved theme to the window immediately
         window?.overrideUserInterfaceStyle = isDarkMode ? .dark : .light
         
+        let splashVC = SplashVideoViewController()
+        
+        splashVC.onVideoFinished = { [weak self] in
+            self?.navigateAfterSplash(isFirstEntry: isFirstEntry, container: container)
+        }
+        
+        window?.rootViewController = splashVC
+        window?.makeKeyAndVisible()
+    }
+
+    private func navigateAfterSplash(isFirstEntry: Bool, container: Container) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let rootVC: UIViewController
         
         if isFirstEntry {
             // First time user → show onboarding
             let onboardingVC = storyboard.instantiateViewController(withIdentifier: "OnboardingViewController") as! OnboardingViewController
             
-            let saveFirstEntryUseCase = SaveFirstEntryUseCase(userRepo: userRepo)
+            let saveFirstEntryUseCase = container.resolve(SaveFirstEntryUseCaseProtocol.self)!
             let presenter = OnboardingPresenter(view: onboardingVC, saveFirstEntryUseCase: saveFirstEntryUseCase)
             onboardingVC.presenter = presenter
-            
-            window?.rootViewController = onboardingVC
+            rootVC = onboardingVC
         } else {
             // Returning user → go straight to home
             let homeVC = storyboard.instantiateViewController(withIdentifier: "MainTabBarController") as! UITabBarController
-            window?.rootViewController = homeVC
+            rootVC = homeVC
         }
         
-        window?.makeKeyAndVisible()
+        guard let window = window else { return }
+        window.rootViewController = rootVC
+        UIView.transition(with: window, duration: 0.4, options: .transitionCrossDissolve, animations: nil, completion: nil)
     }
 
-    func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
-    }
-
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-    }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
-    }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
-    }
-
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-    }
-
-
+    func sceneDidDisconnect(_ scene: UIScene) {}
+    func sceneDidBecomeActive(_ scene: UIScene) {}
+    func sceneWillResignActive(_ scene: UIScene) {}
+    func sceneWillEnterForeground(_ scene: UIScene) {}
+    func sceneDidEnterBackground(_ scene: UIScene) {}
 }
 
 // MARK: - Dynamic Localization Helper
