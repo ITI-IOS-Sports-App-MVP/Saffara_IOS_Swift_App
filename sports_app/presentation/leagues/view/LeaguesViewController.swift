@@ -145,6 +145,14 @@ class LeaguesViewController: UITableViewController, LeaguesViewProtocol {
 
     override func tableView(
         _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        cell.animateCellDisplay(type: .slideUpWithFade)
+    }
+
+    override func tableView(
+        _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
         presenter.didSelectRow(at: indexPath.row)

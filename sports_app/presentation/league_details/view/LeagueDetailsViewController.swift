@@ -412,6 +412,24 @@ class LeagueDetailsViewController: UICollectionViewController,
         return header
     }
 
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        guard let sectionType = Section(rawValue: indexPath.section) else { return }
+        if cell is EmptyStateCollectionViewCell { return }
+        
+        switch sectionType {
+        case .upcomingEvents:
+            cell.animateCellDisplay(duration: 0.4, delay: Double(indexPath.item) * 0.05, type: .scaleIn)
+        case .latestResults:
+            cell.animateCellDisplay(duration: 0.45, delay: Double(indexPath.item % 3) * 0.06, type: .slideUpWithFade)
+        case .teams:
+            cell.animateCellDisplay(duration: 0.4, delay: Double(indexPath.item) * 0.04, type: .scaleIn)
+        }
+    }
+
     // MARK: - Compositional Layout
 
     private func createCompositionalLayout() -> UICollectionViewLayout {

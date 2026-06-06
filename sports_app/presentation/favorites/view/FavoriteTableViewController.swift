@@ -84,6 +84,14 @@ class FavoriteTableViewController: UITableViewController {
         return cell
     }
 
+    override func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        cell.animateCellDisplay(type: .slideUpWithFade)
+    }
+
     // Enable swipe to delete for favorites
     override func tableView(
         _ tableView: UITableView,
