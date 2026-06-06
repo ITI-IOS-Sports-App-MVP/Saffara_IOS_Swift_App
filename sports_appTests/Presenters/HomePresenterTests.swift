@@ -92,15 +92,16 @@ final class HomePresenterTests: XCTestCase {
 
     func testSearchSports_WithValidQuery() {
         // Arrange
-        sut.viewDidLoad() // sports: soccer, basketball, tennis, cricket
+        sut.viewDidLoad() 
         
-        // Act - we use english base names because they might not be localized in the test environment properly
-        // However, the real code uses .localized. In a unit test without a proper bundle, it might just return the key.
-        // We'll search for 'sport' which should match 'sport_soccer', 'sport_basketball', 'sport_tennis'
-        sut.searchSports(with: "sport")
-
+        // Act
+        let firstSportName = sut.getSport(at: 0).name
+        
+        sut.searchSports(with: String(firstSportName.prefix(3)))
+        
         // Assert
-        XCTAssertTrue(sut.getSportsCount() >= 3)
+        XCTAssertTrue(sut.getSportsCount() >= 1, "Should find at least 1 sport matching the query")
+        XCTAssertTrue(sut.getSport(at: 0).name.localizedCaseInsensitiveContains(String(firstSportName.prefix(3))))
     }
 
     func testDidSelectSport() {

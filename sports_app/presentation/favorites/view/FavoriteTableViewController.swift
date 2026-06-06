@@ -91,7 +91,39 @@ class FavoriteTableViewController: UITableViewController {
         forRowAt indexPath: IndexPath
     ) {
         if editingStyle == .delete {
-            presenter.removeFavorite(at: indexPath.row)
+            
+            guard NetworkMonitor.shared.isConnected else {
+                let offlineAlert = UIAlertController(
+                    title: "error_title".localized,
+                    message: "error_no_internet_delete".localized,
+                    preferredStyle: .alert
+                )
+                offlineAlert.addAction(UIAlertAction(title: "ok".localized, style: .default))
+                
+                self.present(offlineAlert, animated: true)
+                
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+                return
+            }
+            
+            let alert = UIAlertController(
+                title: "remove_favorite_title".localized,
+                message: "remove_favorite_message".localized,
+                preferredStyle: .alert
+            )
+            
+            let cancelAction = UIAlertAction(title: "cancel".localized, style: .cancel) { _ in
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+            
+            let deleteAction = UIAlertAction(title: "delete".localized, style: .destructive) { [weak self] _ in
+                self?.presenter.removeFavorite(at: indexPath.row)
+            }
+            
+            alert.addAction(cancelAction)
+            alert.addAction(deleteAction)
+            
+            self.present(alert, animated: true, completion: nil)
         }
     }
 
@@ -235,6 +267,8 @@ extension FavoriteTableViewController: FavoritesViewProtocol {
                 let latestUseCase = container.resolve(GetLatestResultsUseCaseProtocol.self, argument: repository)!
                 let teamsUseCase = container.resolve(GetTeamsUseCaseProtocol.self, argument: repository)!
 
+                let scheduleAlertUseCase = container.resolve(ScheduleAlertUseCaseProtocol.self)!
+                
                 let detailsPresenter = LeagueDetailsPresenter(
                     view: detailsVC,
                     league: league,
@@ -242,7 +276,8 @@ extension FavoriteTableViewController: FavoritesViewProtocol {
                     favoriteRepository: favoriteRepository,
                     getUpcomingUseCase: upcomingUseCase,
                     getLatestUseCase: latestUseCase,
-                    getTeamsUseCase: teamsUseCase
+                    getTeamsUseCase: teamsUseCase,
+                    scheduleAlertUseCase: scheduleAlertUseCase
                 )
 
                 detailsVC.presenter = detailsPresenter
