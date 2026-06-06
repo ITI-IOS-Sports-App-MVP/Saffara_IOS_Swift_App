@@ -13,7 +13,16 @@ final class NetworkMonitor {
     static let shared = NetworkMonitor()
     private let reachabilityManager = NetworkReachabilityManager()
     
+    #if DEBUG
+    var mockIsConnected: Bool?
+    #endif
+    
     var isConnected: Bool {
+        #if DEBUG
+        if let mock = mockIsConnected {
+            return mock
+        }
+        #endif
         return reachabilityManager?.isReachable ?? false
     }
     

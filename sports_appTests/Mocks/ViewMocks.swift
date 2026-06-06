@@ -106,6 +106,24 @@ class MockLeagueCellView: LeagueCellViewProtocol {
 }
 
 class MockLeagueDetailsView: LeagueDetailsViewProtocol {
+    var showErrorTitle: String?
+    var showErrorMessage: String?
+    var successMessageShown: String?
+    var notificationIconIsSet: Bool?
+
+    func showError(title: String, message: String) {
+        showErrorTitle = title
+        showErrorMessage = message
+    }
+    
+    func showSuccessMessage(_ message: String) {
+        successMessageShown = message
+    }
+    
+    func updateNotificationIcon(isSet: Bool) {
+        notificationIconIsSet = isSet
+    }
+    
     var showLoadingIndicatorCalled = false
     var hideLoadingIndicatorCalled = false
     var displayUpcomingEventsCalled = false
@@ -144,5 +162,35 @@ class MockLeagueDetailsView: LeagueDetailsViewProtocol {
     func updateFavoriteIcon(isFavorite: Bool) {
         updateFavoriteIconCalled = true
         isFavoriteSet = isFavorite
+    }
+}
+
+class MockSettingsView: SettingsViewProtocol {
+    var updatedThemeIsDark: Bool?
+    var updatedLanguageCode: String?
+    var appliedThemeIsDark: Bool?
+    var appliedLanguageCode: String?
+    
+    func updateThemeSelection(isDarkMode: Bool) {
+        updatedThemeIsDark = isDarkMode
+    }
+    
+    func updateLanguageSelection(languageCode: String) {
+        updatedLanguageCode = languageCode
+    }
+    
+    func applyTheme(isDarkMode: Bool) {
+        appliedThemeIsDark = isDarkMode
+    }
+    
+    func applyLanguage(languageCode: String) {
+        appliedLanguageCode = languageCode
+    }
+}
+
+class MockOnboardingView: OnboardingViewProtocol {
+    var navigateToHomeCalled = false
+    func navigateToHome() {
+        navigateToHomeCalled = true
     }
 }

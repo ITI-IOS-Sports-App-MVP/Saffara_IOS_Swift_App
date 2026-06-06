@@ -8,10 +8,21 @@
 import Foundation
 import UserNotifications
 
+protocol UserNotificationCenterProtocol {
+    func requestAuthorization(options: UNAuthorizationOptions, completionHandler: @escaping (Bool, Error?) -> Void)
+    func add(_ request: UNNotificationRequest, withCompletionHandler completionHandler: (((Error)?) -> Void)?)
+}
+extension UNUserNotificationCenter: UserNotificationCenterProtocol {}
+
 class NotificationService: NotificationServiceProtocol {
+    private let center: UserNotificationCenterProtocol
+    
+    init(center: UserNotificationCenterProtocol = UNUserNotificationCenter.current()) {
+        self.center = center
+    }
     
     func requestAuthorization(completion: @escaping (Bool, Error?) -> Void) {
-        UNUserNotificationCenter.current().requestAuthorization(
+        center.requestAuthorization(
             options: [.alert, .sound, .badge],
             completionHandler: completion
         )
@@ -31,7 +42,7 @@ class NotificationService: NotificationServiceProtocol {
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
         
-        UNUserNotificationCenter.current().add(request) { error in
+        center.add(request) { error in
             if let error = error {
                 print("Failed to schedule notification: \(error.localizedDescription)")
             } else {

@@ -2,7 +2,6 @@ import Foundation
 @testable import sports_app
 
 class MockCoreDataManager: CoreDataManagerProtocol {
-    
     var leagues: [League] = []
     var shouldThrowError = false
     
@@ -27,6 +26,40 @@ class MockCoreDataManager: CoreDataManagerProtocol {
             throw NSError(domain: "test", code: -1, userInfo: nil)
         }
         leagues.removeAll { $0.leagueKey == leagueKey }
+    }
+
+    var cachedLeagues: [String: [League]] = [:]
+    var cachedTeams: [Int: [Team]] = [:]
+    var cachedEvents: [String: [Event]] = [:] // key: "\(leagueKey)_\(type)"
+
+    func fetchCachedLeagues(for sportName: String) throws -> [League] {
+        if shouldThrowError { throw NSError(domain: "test", code: -1, userInfo: nil) }
+        return cachedLeagues[sportName] ?? []
+    }
+    
+    func saveLeagues(_ leagues: [League], for sportName: String) throws {
+        if shouldThrowError { throw NSError(domain: "test", code: -1, userInfo: nil) }
+        cachedLeagues[sportName] = leagues
+    }
+    
+    func saveTeams(_ teams: [Team], for leagueKey: Int) throws {
+        if shouldThrowError { throw NSError(domain: "test", code: -1, userInfo: nil) }
+        cachedTeams[leagueKey] = teams
+    }
+    
+    func fetchCachedTeams(for leagueKey: Int) throws -> [Team] {
+        if shouldThrowError { throw NSError(domain: "test", code: -1, userInfo: nil) }
+        return cachedTeams[leagueKey] ?? []
+    }
+
+    func saveEvents(_ events: [Event], for leagueKey: Int, type: String) throws {
+        if shouldThrowError { throw NSError(domain: "test", code: -1, userInfo: nil) }
+        cachedEvents["\(leagueKey)_\(type)"] = events
+    }
+    
+    func fetchCachedEvents(for leagueKey: Int, type: String) throws -> [Event] {
+        if shouldThrowError { throw NSError(domain: "test", code: -1, userInfo: nil) }
+        return cachedEvents["\(leagueKey)_\(type)"] ?? []
     }
 }
 
