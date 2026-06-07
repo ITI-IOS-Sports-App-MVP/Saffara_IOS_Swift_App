@@ -13,7 +13,7 @@
         <!--Sports-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Sports" id="BYZ-38-t0r" customClass="HomeViewController" customModule="sports_app" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" title="Sports" id="BYZ-38-t0r" customClass="HomeViewController" customModule="sports_app" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -248,7 +248,7 @@
         <!--Favorite Table View Controller-->
         <scene sceneID="RR9-JX-Yw5">
             <objects>
-                <viewController id="Xbh-PM-Wb3" customClass="FavoriteTableViewController" customModule="sports_app" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FavoriteTableViewController" id="Xbh-PM-Wb3" customClass="FavoriteTableViewController" customModule="sports_app" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="86I-y6-qPH">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

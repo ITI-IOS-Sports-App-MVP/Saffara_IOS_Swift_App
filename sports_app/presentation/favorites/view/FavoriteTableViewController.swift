@@ -18,15 +18,17 @@ class FavoriteTableViewController: UITableViewController {
         super.viewDidLoad()
         self.title = "tab_favorites".localized
 
-        let container = AppDIContainer.shared.container
-        let getUseCase = container.resolve(GetFavoritesUseCaseProtocol.self)!
-        let removeUseCase = container.resolve(RemoveFavoriteUseCaseProtocol.self)!
+        if presenter == nil {
+            let container = AppDIContainer.shared.container
+            let getUseCase = container.resolve(GetFavoritesUseCaseProtocol.self)!
+            let removeUseCase = container.resolve(RemoveFavoriteUseCaseProtocol.self)!
 
-        presenter = FavoritesPresenter(
-            view: self,
-            getFavoritesUseCase: getUseCase,
-            removeFavoriteUseCase: removeUseCase
-        )
+            presenter = FavoritesPresenter(
+                view: self,
+                getFavoritesUseCase: getUseCase,
+                removeFavoriteUseCase: removeUseCase
+            )
+        }
 
         setupTableView()
         setupSegmentedControl()
@@ -82,6 +84,14 @@ class FavoriteTableViewController: UITableViewController {
 
         presenter.configureCell(cell, at: indexPath.row)
         return cell
+    }
+
+    override func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        cell.animateCellDisplay(type: .slideUpWithFade)
     }
 
     // Enable swipe to delete for favorites

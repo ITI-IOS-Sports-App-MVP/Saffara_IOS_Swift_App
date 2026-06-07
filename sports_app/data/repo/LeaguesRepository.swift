@@ -24,7 +24,6 @@ class LeaguesRepository: LeaguesRepoProtocol {
     ) -> AnyPublisher<[League], Error> {
         if NetworkMonitor.shared.isConnected {
             return networkService.fetchLeagues(sportName: sportName)
-                .map { Array($0.prefix(10)) }
                 .handleEvents(receiveOutput: { [weak self] leagues in
                     self?.cacheLeagues(leagues, for: sportName)
                 })

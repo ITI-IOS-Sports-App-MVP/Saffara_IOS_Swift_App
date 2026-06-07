@@ -127,4 +127,74 @@ final class FavoritesPresenterTests: XCTestCase {
         // Assert
         XCTAssertEqual(mockView.navigatedToLeague?.leagueKey, 1)
     }
+
+    func testViewWillAppear() {
+        // Arrange
+        let league = League(leagueKey: 1, leagueName: "Test", leagueLogo: nil, leagueCountry: nil, sportName: "football")
+        mockGetFavoritesUseCase.result = [league]
+        
+        // Act
+        sut.viewWillAppear()
+        
+        // Assert
+        XCTAssertTrue(mockView.displayFavoritesCalled)
+        XCTAssertEqual(sut.getLeaguesCount(), 1)
+    }
+    
+    func testConfigureCell_WithValidIndex() {
+        // Arrange
+        let cell = MockLeagueCellView()
+        let league = League(leagueKey: 1, leagueName: "La Liga", leagueLogo: "logo_url", leagueCountry: "Spain", sportName: "football")
+        mockGetFavoritesUseCase.result = [league]
+        sut.viewDidLoad()
+        
+        // Act
+        sut.configureCell(cell, at: 0)
+        
+        // Assert
+        XCTAssertEqual(cell.displayedName, "La Liga")
+        XCTAssertEqual(cell.displayedCountry, "Spain")
+        XCTAssertEqual(cell.displayedBadge, "logo_url")
+    }
+    
+    func testConfigureCell_WithInvalidIndex_DoesNothing() {
+        // Arrange
+        let cell = MockLeagueCellView()
+        let league = League(leagueKey: 1, leagueName: "La Liga", leagueLogo: "logo_url", leagueCountry: "Spain", sportName: "football")
+        mockGetFavoritesUseCase.result = [league]
+        sut.viewDidLoad()
+        
+        // Act
+        sut.configureCell(cell, at: 99)
+        
+        // Assert
+        XCTAssertNil(cell.displayedName)
+    }
+    
+    func testRemoveFavorite_WithInvalidIndex_DoesNothing() {
+        // Arrange
+        let league = League(leagueKey: 1, leagueName: "Test", leagueLogo: nil, leagueCountry: nil, sportName: "football")
+        mockGetFavoritesUseCase.result = [league]
+        sut.viewDidLoad()
+        
+        // Act
+        sut.removeFavorite(at: 99)
+        
+        // Assert
+        XCTAssertNil(mockRemoveFavoriteUseCase.removedLeagueKey)
+    }
+    
+    func testRemoveFavorite_WithMissingLeagueKey_DisplaysError() {
+        // Arrange
+        let league = League(leagueKey: nil, leagueName: "Test", leagueLogo: nil, leagueCountry: nil, sportName: "football")
+        mockGetFavoritesUseCase.result = [league]
+        sut.viewDidLoad()
+        
+        // Act
+        sut.removeFavorite(at: 0)
+        
+        // Assert
+        XCTAssertTrue(mockView.displayErrorCalled)
+        XCTAssertEqual(mockView.errorMessage, "Unable to remove: Invalid League ID.")
+    }
 }

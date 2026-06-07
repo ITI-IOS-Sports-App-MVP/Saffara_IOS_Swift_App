@@ -81,7 +81,7 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
         return filteredFavorites.count
     }
 
-    func configureCell(_ cell: LeagueTableViewCell, at index: Int) {
+    func configureCell(_ cell: LeagueCellViewProtocol, at index: Int) {
         guard index >= 0 && index < filteredFavorites.count else { return }
         
         let league = filteredFavorites[index]

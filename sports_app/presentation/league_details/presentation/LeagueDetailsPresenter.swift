@@ -81,30 +81,6 @@ class LeagueDetailsPresenter {
         )
         .store(in: &cancellables)
 
-        Publishers.Zip3(
-            getUpcomingUseCase.execute(leagueKey: league.leagueKey ?? 0)
-                .catch { _ in Just([]) },
-            getLatestUseCase.execute(leagueKey: league.leagueKey ?? 0)
-                .catch { _ in Just([]) },
-            getTeamsUseCase.execute(leagueKey: league.leagueKey ?? 0)
-                .catch { _ in Just([]) }
-        )
-        .receive(on: DispatchQueue.main)
-        .sink(
-            receiveCompletion: { [weak self] _ in
-                self?.view?.hideLoadingIndicator()
-                self?.view?.displayUpcomingEvents()
-                self?.view?.displayLatestResults()
-                self?.view?.displayTeams()
-            },
-            receiveValue: { [weak self] upcoming, latest, teams in
-                self?.upcomingEvents = upcoming
-                self?.latestResults = latest
-                self?.teams = teams
-            }
-        )
-        .store(in: &cancellables)
-
         checkFavoriteStatus()
     }
 

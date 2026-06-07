@@ -279,8 +279,12 @@ class LeagueDetailsViewController: UICollectionViewController,
         case .upcomingEvents:
             return presenter.upcomingEvents.isEmpty
                 ? 1 : presenter.upcomingEvents.count
-        case .latestResults: return presenter.latestResults.count
-        case .teams: return presenter.teams.count
+        case .latestResults:
+            return presenter.latestResults.isEmpty
+                ? 1 : presenter.latestResults.count
+        case .teams:
+            return presenter.teams.isEmpty
+                ? 1 : presenter.teams.count
         }
     }
 
@@ -412,6 +416,24 @@ class LeagueDetailsViewController: UICollectionViewController,
         return header
     }
 
+    override func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        guard let sectionType = Section(rawValue: indexPath.section) else { return }
+        if cell is EmptyStateCollectionViewCell { return }
+        
+        switch sectionType {
+        case .upcomingEvents:
+            cell.animateCellDisplay(duration: 0.4, delay: Double(indexPath.item) * 0.05, type: .scaleIn)
+        case .latestResults:
+            cell.animateCellDisplay(duration: 0.45, delay: Double(indexPath.item % 3) * 0.06, type: .slideUpWithFade)
+        case .teams:
+            cell.animateCellDisplay(duration: 0.4, delay: Double(indexPath.item) * 0.04, type: .scaleIn)
+        }
+    }
+
     // MARK: - Compositional Layout
 
     private func createCompositionalLayout() -> UICollectionViewLayout {
@@ -429,10 +451,47 @@ class LeagueDetailsViewController: UICollectionViewController,
                 } else {
                     return self.createUpcomingEventsSection()
                 }
-            case .latestResults: return self.createLatestResultsSection()
-            case .teams: return self.createTeamsSection()
+            case .latestResults:
+                if self.presenter.latestResults.isEmpty {
+                    return self.createEmptySection()
+                } else {
+                    return self.createLatestResultsSection()
+                }
+            case .teams:
+                if self.presenter.teams.isEmpty {
+                    return self.createEmptySection()
+                } else {
+                    return self.createTeamsSection()
+                }
             }
         }
+    }
+
+    private func createEmptySection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(120)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 10,
+            leading: 16,
+            bottom: 20,
+            trailing: 16
+        )
+        section.boundarySupplementaryItems = [createHeader()]
+        return section
     }
 
     private func createEmptyUpcomingEventsSection() -> NSCollectionLayoutSection
@@ -493,16 +552,13 @@ class LeagueDetailsViewController: UICollectionViewController,
     }
 
     private func createLatestResultsSection() -> NSCollectionLayoutSection {
-        let isEmpty = presenter.latestResults.isEmpty
-
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: isEmpty
-                ? .fractionalHeight(1.0) : .fractionalHeight(0.33)
+            heightDimension: .fractionalHeight(0.33)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupHeight: CGFloat = isEmpty ? 140 : (140 * 3) + (16 * 2)
+        let groupHeight: CGFloat = (140 * 3) + (16 * 2)
 
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.9),
@@ -512,7 +568,7 @@ class LeagueDetailsViewController: UICollectionViewController,
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
             subitem: item,
-            count: isEmpty ? 1 : 3
+            count: 3
         )
         group.interItemSpacing = .fixed(16)
 

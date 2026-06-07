@@ -38,19 +38,21 @@ class HomeViewController: UIViewController, UISearchBarDelegate {
                 attributes: placeholderAttributes
             )
         
-        let container = AppDIContainer.shared.container
-        let readThemeUseCase = container.resolve(ReadThemeUseCaseProtocol.self)!
-        let saveThemeUseCase = container.resolve(SaveThemeUseCaseProtocol.self)!
-        let readLanguageUseCase = container.resolve(ReadLanguageUseCaseProtocol.self)!
-        let saveLanguageUseCase = container.resolve(SaveLanguageUseCaseProtocol.self)!
-        
-        presenter = HomePresenter(
-            view: self,
-            readThemeUseCase: readThemeUseCase,
-            saveThemeUseCase: saveThemeUseCase,
-            readLanguageUseCase: readLanguageUseCase,
-            saveLanguageUseCase: saveLanguageUseCase
-        )
+        if presenter == nil {
+            let container = AppDIContainer.shared.container
+            let readThemeUseCase = container.resolve(ReadThemeUseCaseProtocol.self)!
+            let saveThemeUseCase = container.resolve(SaveThemeUseCaseProtocol.self)!
+            let readLanguageUseCase = container.resolve(ReadLanguageUseCaseProtocol.self)!
+            let saveLanguageUseCase = container.resolve(SaveLanguageUseCaseProtocol.self)!
+            
+            presenter = HomePresenter(
+                view: self,
+                readThemeUseCase: readThemeUseCase,
+                saveThemeUseCase: saveThemeUseCase,
+                readLanguageUseCase: readLanguageUseCase,
+                saveLanguageUseCase: saveLanguageUseCase
+            )
+        }
         
         setupControls()
         setupCollectionView()

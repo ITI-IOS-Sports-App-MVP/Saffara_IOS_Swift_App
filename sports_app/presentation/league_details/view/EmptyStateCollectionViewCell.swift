@@ -9,9 +9,9 @@ import UIKit
 
 class EmptyStateCollectionViewCell: UICollectionViewCell {
     
-    let imageView = UIImageView()
+    let iconImageView = UIImageView()
     let messageLabel = UILabel()
-    let stackView = UIStackView()
+    let containerStack = UIStackView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,42 +24,60 @@ class EmptyStateCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI() {
+        // Card-style container that adapts to light/dark
         contentView.backgroundColor = .secondarySystemGroupedBackground
-        contentView.layer.cornerRadius = 12
+        contentView.layer.cornerRadius = 14
+        contentView.layer.masksToBounds = true
         
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .secondaryLabel
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        // Icon
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.tintColor = .tertiaryLabel
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: 40),
-            imageView.widthAnchor.constraint(equalToConstant: 40)
+            iconImageView.heightAnchor.constraint(equalToConstant: 36),
+            iconImageView.widthAnchor.constraint(equalToConstant: 36)
         ])
         
+        // Message
         messageLabel.textAlignment = .center
-        messageLabel.textColor = .label
+        messageLabel.textColor = .secondaryLabel
         messageLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         messageLabel.numberOfLines = 0
         
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.spacing = 12
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        // Stack
+        containerStack.axis = .vertical
+        containerStack.alignment = .center
+        containerStack.spacing = 10
+        containerStack.translatesAutoresizingMaskIntoConstraints = false
         
-        stackView.addArrangedSubview(imageView)
-        stackView.addArrangedSubview(messageLabel)
+        containerStack.addArrangedSubview(iconImageView)
+        containerStack.addArrangedSubview(messageLabel)
         
-        contentView.addSubview(stackView)
+        contentView.addSubview(containerStack)
         
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            stackView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -16)
+            containerStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            containerStack.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            containerStack.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 16),
+            containerStack.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -16)
         ])
     }
     
     func configure(message: String, systemImageName: String) {
         messageLabel.text = message
-        imageView.image = UIImage(systemName: systemImageName)
+        iconImageView.image = UIImage(systemName: systemImageName)
+        
+        // Re-apply adaptive colors so it works in both light and dark mode
+        contentView.backgroundColor = .secondarySystemGroupedBackground
+        iconImageView.tintColor = .tertiaryLabel
+        messageLabel.textColor = .secondaryLabel
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Update colors when switching between light/dark mode
+        contentView.backgroundColor = .secondarySystemGroupedBackground
+        iconImageView.tintColor = .tertiaryLabel
+        messageLabel.textColor = .secondaryLabel
     }
 }

@@ -185,6 +185,10 @@ extension TeamDetailsViewController: UITableViewDelegate, UITableViewDataSource 
         }
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.animateCellDisplay(type: .slideInFromLeft)
+    }
 }
 
 // MARK: - Skeleton View

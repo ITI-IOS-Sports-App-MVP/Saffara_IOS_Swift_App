@@ -34,3 +34,15 @@ class MockGetTeamsUseCase: GetTeamsUseCaseProtocol {
         return Fail(error: NSError(domain: "test", code: -1, userInfo: nil)).eraseToAnyPublisher()
     }
 }
+
+class MockScheduleAlertUseCase: ScheduleAlertUseCaseProtocol {
+    var executedSportName: String?
+    var executedEventName: String?
+    var executedDate: Date?
+    
+    func execute(sportName: String, eventName: String, date: Date) {
+        executedSportName = sportName
+        executedEventName = eventName
+        executedDate = date
+    }
+}
